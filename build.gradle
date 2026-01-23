@@ -1,5 +1,9 @@
 plugins {
     id 'java'
+    id 'jacoco'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '6.4.8'
+    id 'pmd'
 }
 
 group = 'org.example'
