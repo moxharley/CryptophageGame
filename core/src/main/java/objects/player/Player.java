@@ -22,13 +22,14 @@ public class Player extends GameEntity{
     @Override
     public void update() {
         // move x & y to the current body position
-        // x & y will be in the center of our body
+        // x & y will be in the centre of our body
         x = body.getPosition().x * PPM;
         y = body.getPosition().y * PPM;
 
         checkUserInput();
     }
 
+    // TODO this is incomplete
     @Override
     public void render(SpriteBatch batch) {
 

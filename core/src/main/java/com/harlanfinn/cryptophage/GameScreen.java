@@ -61,6 +61,7 @@ public class GameScreen extends ScreenAdapter {
 
         Vector3 position = camera.position; // get current camera position
 
+        //TODO how is ths vs vector 2
         // get player position and convert it to world position (PPM), then multiply by 10,
         // then round and then divide by 10. The camera movement is now smoother
         position.x = Math.round(player.getBody().getPosition().x * PPM * 10) / 10f;
