@@ -7,7 +7,7 @@ package objects.player;
  * @version 2026
  */
 
-public class TemplatePlayerEntityConstants {
+public class TechknightPlayerEntityConstants {
 
     // TODO: floats are bonus percents.
     // add all defaults as these aren't instance vars and need something to be reset to
@@ -15,7 +15,7 @@ public class TemplatePlayerEntityConstants {
 
 
 
-    private TemplatePlayerEntityConstants() { }
+    private TechknightPlayerEntityConstants() { }
 
 
 
@@ -33,6 +33,7 @@ public class TemplatePlayerEntityConstants {
 
     /**
      * Base movement speed of the player.
+     * The movement gained by pressing a directional key
      */
     public static final float BASE_MOVE_SPEED = 10f;
 

@@ -1,8 +1,8 @@
 package objects.enemy;
 
-public class TemplateEnemyConstants {
+public class RangedEnemy1Constants {
 
-    private TemplateEnemyConstants() { }
+    private RangedEnemy1Constants() { }
 
     protected float DEFAULT_WIDTH;
     protected float DEFAULT_HEIGHT;

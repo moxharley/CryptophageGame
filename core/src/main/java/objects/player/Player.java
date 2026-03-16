@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import static helper.GameConstants.*;
-import static objects.player.TemplatePlayerEntityConstants.BASE_JUMP_VELOCITY;
-import static objects.player.TemplatePlayerEntityConstants.BASE_MOVE_SPEED;
+import static objects.player.TechknightPlayerEntityConstants.BASE_JUMP_VELOCITY;
+import static objects.player.TechknightPlayerEntityConstants.BASE_MOVE_SPEED;
 
 public class Player extends PlayerEntity {
 
