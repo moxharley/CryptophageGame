@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import helper.TileMapHelper;
 import objects.player.Player;
 
-import static helper.Constants.*;
+import static helper.GameConstants.*;
 
 public class GameScreen extends ScreenAdapter {
 

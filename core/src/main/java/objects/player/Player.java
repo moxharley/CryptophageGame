@@ -6,15 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import static helper.Constants.*;
+import static helper.GameConstants.*;
+import static objects.player.TemplatePlayerEntityConstants.BASE_JUMP_VELOCITY;
+import static objects.player.TemplatePlayerEntityConstants.BASE_MOVE_SPEED;
 
-public class Player extends GameEntity{
+public class Player extends PlayerEntity {
 
     private int jumpCounter;
 
     public Player(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = PLAYER_SPEED;
+        this.speed = BASE_MOVE_SPEED;
 
         this.jumpCounter = 0;
     }
@@ -45,7 +47,7 @@ public class Player extends GameEntity{
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jumpCounter < 2) {
-            float force = body.getMass() * JUMP_VELOCITY;
+            float force = body.getMass() * BASE_JUMP_VELOCITY;
 
             body.setLinearVelocity(body.getLinearVelocity().x, 0); // set the fall speed to 0 so we can jump again
 

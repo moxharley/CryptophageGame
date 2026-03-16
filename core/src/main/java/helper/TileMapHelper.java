@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.harlanfinn.cryptophage.GameScreen;
 import objects.player.Player;
 
-import static helper.Constants.PPM;
+import static helper.GameConstants.PPM;
 
 public class TileMapHelper {
     private TiledMap tiledMap;
@@ -48,7 +48,7 @@ public class TileMapHelper {
                     Body body = BodyHelperService.createBody(
                                     rectangle.getX() + rectangle.getWidth() / 2, // we want the center of the rectangle
                                     rectangle.getY() + rectangle.getHeight() / 2,
-                                    rectangle.getWidth(), rectangle.getHeight(), false, // non static object (can move)
+                                    rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
                                     gameScreen.getWorld()
                     );
 

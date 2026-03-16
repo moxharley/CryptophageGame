@@ -2,7 +2,7 @@ package helper;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-import static helper.Constants.PPM;
+import static helper.GameConstants.PPM;
 
 public class BodyHelperService {
 
