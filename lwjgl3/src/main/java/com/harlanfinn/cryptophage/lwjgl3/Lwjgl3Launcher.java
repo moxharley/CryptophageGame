@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.harlanfinn.cryptophage.MyGame;
 
-import static helper.Constants.FPS;
+import static helper.GameConstants.FPS;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
