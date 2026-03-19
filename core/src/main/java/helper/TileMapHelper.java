@@ -13,21 +13,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.harlanfinn.cryptophage.GameScreen;
+import com.harlanfinn.cryptophage.GameScene;
 import objects.player.Player;
 
 import static helper.GameConstants.PPM;
 
 public class TileMapHelper {
     private TiledMap tiledMap;
-    private GameScreen gameScreen;
+    private GameScene gameScreen;
 
-    public TileMapHelper(GameScreen gameScreen) {
+    public TileMapHelper(GameScene gameScreen) {
         this.gameScreen = gameScreen;
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/map0.tmx");
+        tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/map1.tmx");
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects()); // "objects" is the name of the objects layer in the map in tiled
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -45,7 +45,7 @@ public class TileMapHelper {
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName.equals("player")) {
-                    Body body = BodyHelperService.createBody(
+                    Body body = CharacterBodyHelperService.createBody(
                                     rectangle.getX() + rectangle.getWidth() / 2, // we want the center of the rectangle
                                     rectangle.getY() + rectangle.getHeight() / 2,
                                     rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)

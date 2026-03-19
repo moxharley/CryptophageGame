@@ -1,5 +1,12 @@
 package objects.player;
 
+import objects.projectile.ProjectileColour;
+import objects.projectile.ProjectileShape;
+import objects.projectile.ProjectileTeam;
+
+import java.sql.Time;
+import java.util.Timer;
+
 /**
  * Represents the constants used by the PlayerEntity Class.
  *
@@ -40,7 +47,7 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base movement speed modifier of the player.
      */
-    public static final float BASE_MOVE_SPEED_MODIFIER = 0f;
+    public static final float BASE_MOVE_SPEED_MODIFIER = 1f;
 
     /**
      * Base jump velocity of the player.
@@ -50,19 +57,19 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base jump velocity modifier of the player.
      */
-    public static final float BASE_JUMP_VELOCITY_MODIFIER = 0f;
+    public static final float BASE_JUMP_VELOCITY_MODIFIER = 1f;
 
     //----------------------------------------------------------------------------------------------
 
     /**
-     * Base attack speed of the player.
+     * Base attack speed of the player in frames.
      */
-    public static final float BASE_ATTACK_SPEED = 5f;
+    public static final int BASE_ATTACK_SPEED = 30;
 
     /**
      * Base attack speed modifier of the player.
      */
-    public static final float BASE_ATTACK_SPEED_MODIFIER = 0f;
+    public static final float BASE_ATTACK_SPEED_MODIFIER = 1f;
 
     /**
      * Base damage done by the player.
@@ -77,12 +84,17 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base speed of the bullets shot by the player.
      */
-    public static final float BASE_BULLET_SPEED = 10f;
+    public static final float BASE_BULLET_SPEED = 20f;
 
     /**
      * Base modifier of the speed of the bullets shot by the player.
      */
-    public static final float BASE_BULLET_SPEED_MODIFIER = 0f;
+    public static final float BASE_BULLET_SPEED_MODIFIER = 1f;
+
+    /**
+     * Base lifespan of the bullets shot by the player in frames.
+     */
+    public static final int BASE_BULLET_LIFESPAN = 120;
 
     //----------------------------------------------------------------------------------------------
 
@@ -96,6 +108,16 @@ public class TechknightPlayerEntityConstants {
      */
     public static final float BASE_CRIT_DAMAGE = 0f;
 
+    //----------------------------------------------------------------------------------------------
 
+    /**
+     * Size of the projectile, determined by the longest in the length or width in pixels.
+     */
+    public static final int DEFAULT_PROJECTILE_SIZE = 16;
 
+    //----------------------------------------------------------------------------------------------
+
+    public final static ProjectileShape DEFAULT_PROJECTILE_SHAPE = ProjectileShape.CIRCLE;
+    public static final ProjectileColour DEFAULT_PROJECTILE_COLOUR = ProjectileColour.BLUE;
+    public static final ProjectileTeam DEFAULT_PROJECTILE_TEAM = ProjectileTeam.PLAYER;
 }

@@ -2,7 +2,7 @@ package com.harlanfinn.cryptophage.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.harlanfinn.cryptophage.MyGame;
+import com.harlanfinn.cryptophage.MyGameRoot;
 
 import static helper.GameConstants.FPS;
 
@@ -15,7 +15,7 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new MyGame(), getDefaultConfiguration());
+        return new Lwjgl3Application(new MyGameRoot(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

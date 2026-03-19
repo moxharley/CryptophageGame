@@ -1,9 +1,10 @@
 package objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public abstract class GameEntity {
+public class GameEntity {
 
     protected float x;
     protected float y;
@@ -30,9 +31,25 @@ public abstract class GameEntity {
         this.speed = 0;
     }
 
-    public abstract void update();
+    public void update() { }
 
-    public abstract void render(SpriteBatch batch);
+    public void render(SpriteBatch batch) { }
+
+    public float getX() {
+        return x;
+    }
+
+//    public void setX(float x) {
+//        this.x = x;
+//    }
+
+    public float getY() {
+        return y;
+    }
+
+//    public void setY(float y) {
+//        this.y = y;
+//    }
 
     public Body getBody() {
         return body;

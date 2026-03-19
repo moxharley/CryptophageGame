@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import static helper.GameConstants.PPM;
 
-public class BodyHelperService {
+public class CharacterBodyHelperService {
 
     public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
         BodyDef bodyDef = new BodyDef();

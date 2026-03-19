@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="6">
- <tileset firstgid="1" source="test_boxes.tsx"/>
+ <tileset firstgid="1" name="test_boxes" tilewidth="64" tileheight="64" tilecount="100" columns="10">
+  <image source="test_boxes.png" width="640" height="640"/>
+ </tileset>
  <layer id="1" name="background" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYBgF1ADMaJhUeWoCRiRMLfOYoJja5jFSCTPRCAMASgQAZA==
