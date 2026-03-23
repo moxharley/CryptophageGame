@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="47">
+ <tileset firstgid="1" source="test_boxes.tsx"/>
+ <layer id="1" name="background" width="100" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztl0EOhCAQBHH5/583Zi8ecDLKyEy7VUlfjIkNBaitAQD86M5rV+6duQbvoDddv6q9QR/lfQOwsxlRxxpb1TFndFt1jqn4OM5HtW6RqPg4YnXrgyiBjzxGXe/4WDnW0XOqrJXZHnfXjtL++Ice+KjVw/usyE7W/l0xD6OzpOq5eYanU0R/RR8Z3xj4yPdhfat9EjLT/+o8qZ1X+MhF0ccM+KjlzPLx9LvC8y+Jj3V75W0+ItZtpg8PSj6eGC8+CCGEkJh8Adg2B4k=
+  </data>
+ </layer>
+ <objectgroup id="2" name="objects">
+  <object id="1" x="0" y="1408">
+   <polygon points="0,0 0,512 576,512 576,0"/>
+  </object>
+  <object id="2" x="576" y="1664">
+   <polygon points="0,0 3968,0 3968,256 0,256"/>
+  </object>
+  <object id="3" x="4544" y="1152">
+   <polygon points="0,0 0,768 1856,768 1856,0"/>
+  </object>
+  <object id="4" x="1728" y="832">
+   <polygon points="0,0 448,0 448,832 0,832"/>
+  </object>
+  <object id="5" x="2176" y="1472">
+   <polygon points="0,0 192,0 192,192 0,192"/>
+  </object>
+  <object id="6" x="4288" y="960">
+   <polygon points="0,0 256,0 256,704 0,704"/>
+  </object>
+  <object id="7" x="3904" y="1024">
+   <polygon points="0,0 0,-512 -256,-512 -256,0"/>
+  </object>
+  <object id="8" x="3648" y="832">
+   <polygon points="0,0 0,-320 -576,-320 -576,0 -64,0"/>
+  </object>
+  <object id="9" x="5952" y="448">
+   <polygon points="0,0 0,704 448,704 448,0"/>
+  </object>
+  <object id="10" x="4864" y="1024">
+   <polygon points="0,0 0,128 384,128 384,0"/>
+  </object>
+  <object id="11" x="3712" y="1408">
+   <polygon points="0,0 0,128 320,128 320,0"/>
+  </object>
+  <object id="12" x="4096" y="1152">
+   <polygon points="0,0 0,64 192,64 192,0"/>
+  </object>
+  <object id="13" x="3904" y="768">
+   <polygon points="0,0 0,64 192,64 192,0"/>
+  </object>
+  <object id="14" x="3648" y="256">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="15" x="3840" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="16" x="4160" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="17" x="4544" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="18" x="4864" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="20" x="5184" y="128">
+   <polygon points="0,0 64,0 64,64 0,64"/>
+  </object>
+  <object id="21" x="5504" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="22" x="5824" y="128">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="24" x="5760" y="576">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="25" x="5632" y="768">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="26" x="5504" y="960">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="28" x="2752" y="768">
+   <polygon points="0,0 320,0 320,128 0,128"/>
+  </object>
+  <object id="29" x="2432" y="1088">
+   <polygon points="0,0 0,128 256,128 256,0"/>
+  </object>
+  <object id="30" x="2176" y="1408">
+   <polygon points="0,0 0,64 192,64 192,0"/>
+  </object>
+  <object id="31" x="1152" y="1024">
+   <polygon points="0,0 0,192 384,192 384,0"/>
+  </object>
+  <object id="32" x="768" y="1216">
+   <polygon points="0,0 0,128 256,128 256,0"/>
+  </object>
+  <object id="33" x="0" y="704">
+   <polygon points="0,0 0,128 320,128 320,0"/>
+  </object>
+  <object id="34" x="640" y="256">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="35" x="1024" y="384">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="36" x="1408" y="576">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="37" x="640" y="1600">
+   <polygon points="0,0 0,-64 64,-64 64,0"/>
+  </object>
+  <object id="42" name="player" x="64" y="1280" width="64" height="128"/>
+  <object id="45" name="aEnemy1" x="832" y="576" width="64" height="64"/>
+  <object id="46" name="gEnemy1" x="1216" y="896" width="64" height="128"/>
+ </objectgroup>
+</map>
