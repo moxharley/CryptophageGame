@@ -3,7 +3,7 @@
 //import com.badlogic.gdx.Gdx;
 //import com.badlogic.gdx.Input;
 //import com.badlogic.gdx.physics.box2d.Body;
-//import objects.GameEntity;
+//import objects.entitiy.GameEntity;
 //import objects.projectile.Projectile;
 //
 //import static objects.player.TechknightPlayerEntityConstants.*;

@@ -1,4 +1,4 @@
-package objects.player;
+package objects.entitiy.player;
 
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;

@@ -1,4 +1,4 @@
-package objects.enemy;
+package objects.entitiy.enemy;
 
 public class RangedEnemy1Constants {
 

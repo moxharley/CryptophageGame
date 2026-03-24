@@ -1,6 +1,7 @@
 package objects.projectile;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,10 +25,12 @@ public class Projectile {
 
     private final Texture texture;
 
+    private final Sprite sprite;
+
     private final float damage;
     private final float speed;
 
-    private final float radians;
+    private final float angleRadians;
 
     private float positionX;
     private float positionY;
@@ -44,31 +47,73 @@ public class Projectile {
 
     public Projectile(ProjectileShape projectileShape, ProjectileColour projectileColour,
                       ProjectileTeam projectileTeam, float damage, float speed,
-                      int lifespan, float positionX, float positionY, float radians, final World world, final int size) {
+                      int lifespan, float positionX, float positionY, float angleRadians,
+                      final World world, final int size) {
 
+        // deletion flag
+        remove = false;
+
+        // shape
         //TODO: check direction and position, once projectile direction system is figured out
-        this.radians = radians;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.speed = speed;
-
-        this.world = world;
-
-        body = ProjectileBodyHelperService.createBody(positionX, positionY, size, world, projectileShape);
-        setStartingVelocity(getBody(), getSpeed(), getRadians());
-        body.setBullet(true);
-
         if (projectileShape == null) {
             throw new IllegalArgumentException("projectileShape must be a valid ProjectileShape");
         } else {
             this.projectileShape = projectileShape;
         }
+
+        // colour
+        if (projectileColour == null) {
+            throw new IllegalArgumentException("projectileColour must be a valid ProjectileColour");
+        } else {
+            this.projectileColour = projectileColour;
+        }
+
+        // team
+        if (projectileTeam == null) {
+            throw new IllegalArgumentException("projectileTeam must be a valid ProjectileTeam");
+        } else {
+            this.projectileTeam = projectileTeam;
+        }
+
+        // damage
+        if (damage < 0) {
+            throw new IllegalArgumentException("damage must not be negative");
+        } else {
+            this.damage = damage;
+        }
+
+        // speed
+        this.speed = speed;
+
+        // lifespan
+        if (lifespan < 0) {
+            throw new IllegalArgumentException("lifespan must not be negative");
+        } else {
+            this.lifespan = lifespan;
+        }
+
+        // position X & Y
+        this.positionX = positionX;
+        this.positionY = positionY;
+//        this.positionX = 260;
+//        this.positionY = 260;
+
+        // angle
+        this.angleRadians = angleRadians;
+
+        // world
+        this.world = world;
+
+        // size
+        this.size = size;
+
+        // texture
         switch (projectileShape) {
             case CIRCLE:
                 this.texture = new Texture("../assets/projectiles/circle_bullet.png");
                 break;
             default:
-                this.texture = new Texture("../assets/projectiles/rectradians_bullet.png");
+                this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
 //            case LINE:
 //                texture = b;
 //                break;
@@ -86,41 +131,25 @@ public class Projectile {
 //                break;
         }
 
-        if (projectileColour == null) {
-            throw new IllegalArgumentException("projectileColour must be a valid ProjectileColour");
-        } else {
-            this.projectileColour = projectileColour;
-        }
-        if (projectileTeam == null) {
-            throw new IllegalArgumentException("projectileTeam must be a valid ProjectileTeam");
-        } else {
-            this.projectileTeam = projectileTeam;
-        }
+        this.sprite = new Sprite(texture);
+        sprite.setPosition(getPositionX(), getPositionY());
 
-        if (damage < 0) {
-            throw new IllegalArgumentException("damage must not be negative");
-        } else {
-            this.damage = damage;
-        }
 
-        if (lifespan < 0) {
-            throw new IllegalArgumentException("lifespan must not be negative");
-        } else {
-            this.lifespan = lifespan;
-        }
+
+        body = ProjectileBodyHelperService.createBody(positionX, positionY, size, world, projectileShape);
+        setStartingVelocity(getBody(), getSpeed(), getRadians());
+        body.setBullet(true);
 
 //        Entity entity = engine.createEntity();
-
-        remove = false;
     }
 
     private Body getBody() {
         return body;
     }
 
-    private void setStartingVelocity(final Body body, final float speed, final float radians) {
+    private void setStartingVelocity(final Body body, final float speed, final float angleRadians) {
         Vector2 startingVelocity = new Vector2(speed, speed);
-        startingVelocity.rotateRad(radians + 180); // TODO: why 45?
+        startingVelocity.rotateRad(angleRadians + 180); // TODO: why 45?
         body.setLinearVelocity(startingVelocity);
     }
 
@@ -129,14 +158,13 @@ public class Projectile {
     public void update() {
 //        // move x & y to the current body position
 //        // x & y will be in the centre of our body
-        setPositionX(body.getPosition().x + (PPM * (getSpeed() + 0.1f)));
-        setPositionY(body.getPosition().y + (PPM * (getSpeed() + 0.1f)));
+//        setPositionX(body.getPosition().x + (PPM * (getSpeed() + 0.1f)));
+//        setPositionY(body.getPosition().y + (PPM * (getSpeed() + 0.1f)));
 //        setPosition(getPosition() + (getSpeed() * getAngle()) * deltaTime);
 //        setPositionX(getPositionX() + (getSpeed() * getAngle().x) * deltaTime);
 //        setPositionY(getPositionY() + (getSpeed() * getAngle().y) * deltaTime);
-//        if (getPositionY() > Gdx.graphics.getHeight()) {
-//            remove = true;
-//        }
+
+        sprite.setPosition(getPositionX(), getPositionY());
     }
 
     public void render(final SpriteBatch batch) {
@@ -164,6 +192,14 @@ public class Projectile {
     }
 
     public float getRadians() {
-        return radians;
+        return angleRadians;
+    }
+
+    public boolean getRemove() {
+        return remove;
+    }
+
+    public void setRemove(boolean remove) {
+        this.remove = remove;
     }
 }

@@ -1,7 +1,6 @@
-package objects;
+package objects.entitiy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class GameEntity {
@@ -47,9 +46,9 @@ public class GameEntity {
         return y;
     }
 
-//    public void setY(float y) {
-//        this.y = y;
-//    }
+    public void setY(float y) {
+        this.y = y;
+    }
 
     public Body getBody() {
         return body;
