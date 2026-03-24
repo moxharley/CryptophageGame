@@ -40,7 +40,7 @@ public class GameScene extends ScreenAdapter {
     // game objects
     private Player player;
 
-    private NewProjectileManager projectileManager;
+    private ProjectileManager projectileManager;
     private EnemyManager enemyManager;
 
     private InputController inputController;
@@ -56,7 +56,7 @@ public class GameScene extends ScreenAdapter {
         this.world = new World(new Vector2(0.0f, -GRAVITY), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
-        projectileManager = new NewProjectileManager(world, batch);
+        projectileManager = new ProjectileManager(world, batch);
         enemyManager = new EnemyManager(world, batch);
 
         this.tileMapHelper = new TileMapHelper(this);
@@ -84,9 +84,9 @@ public class GameScene extends ScreenAdapter {
         }
     }
 
-    private void updateCollisions(NewProjectileManager projectileManager, EnemyManager enemyManager,
+    private void updateCollisions(ProjectileManager projectileManager, EnemyManager enemyManager,
                                   Player player) {
-        ArrayList<NewProjectile> projectiles = projectileManager.getProjectileList();
+        ArrayList<Projectile> projectiles = projectileManager.getProjectileList();
         ArrayList<Enemy> enemies = enemyManager.getEnemyList();
         CollisionManager collisionManager = new CollisionManager(projectiles, enemies, player);
 
@@ -113,10 +113,9 @@ public class GameScene extends ScreenAdapter {
         this.update();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);  // clears all colour making a black screen
-        // TODO understand what this does (from tutorial)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // want to render map before rendering batch (game objects)
+        // we want to render map before rendering batch (game objects)
         orthogonalTiledMapRenderer.render();
 
 
@@ -161,12 +160,6 @@ public class GameScene extends ScreenAdapter {
         player.moveHorizontal(inputController.getHorizontalMovement());
 
         player.update();
-
-//        // TODO FIX, this is really really bad and doesn't follow any good practices
-//        Projectile projectile = player.updateProjectiles();
-//        if(projectile != null) {
-//            projectileArrayList.add(projectile);
-//        }
     }
 
     private void createProjectile(final boolean playerAttack) {
@@ -226,7 +219,7 @@ public class GameScene extends ScreenAdapter {
         return enemyManager;
     }
 
-    public NewProjectileManager getProjectileManager() {
+    public ProjectileManager getProjectileManager() {
         return projectileManager;
     }
 }

@@ -3,8 +3,7 @@ package objects.entitiy.enemy;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import helper.Hitbox;
-import objects.entitiy.NewGameEntity;
+import objects.entitiy.GameEntity;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
@@ -13,7 +12,7 @@ import static helper.GameConstants.GRAVITY;
 import static helper.GameConstants.PPM;
 import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
 
-public class Enemy extends NewGameEntity {
+public class Enemy extends GameEntity {
 
     protected int maxHealthPoints;
     protected int currentHealthPoints;

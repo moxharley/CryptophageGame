@@ -2,18 +2,18 @@ package helper;
 
 import objects.entitiy.enemy.Enemy;
 import objects.entitiy.player.Player;
-import objects.projectile.NewProjectile;
+import objects.projectile.Projectile;
 import objects.projectile.ProjectileTeam;
 
 import java.util.ArrayList;
 
 public class CollisionManager {
 
-    private ArrayList<NewProjectile> projectileArrayList;
+    private ArrayList<Projectile> projectileArrayList;
     private ArrayList<Enemy> enemyArrayList;
     private Player player;
 
-    public CollisionManager(final ArrayList<NewProjectile> projectileArrayList,
+    public CollisionManager(final ArrayList<Projectile> projectileArrayList,
                             final ArrayList<Enemy> enemyArrayList, final Player player) {
 
         this.projectileArrayList = projectileArrayList;
@@ -22,7 +22,7 @@ public class CollisionManager {
     }
 
     public void checkForCollisions() {
-        for (NewProjectile projectile : projectileArrayList) {
+        for (Projectile projectile : projectileArrayList) {
             ProjectileTeam projectileTeam = projectile.getProjectileTeam();
             if (projectileTeam == ProjectileTeam.PLAYER) {
                 for (Enemy enemy : enemyArrayList) {

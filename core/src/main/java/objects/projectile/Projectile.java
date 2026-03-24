@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import helper.ProjectileBodyHelperService;
-
-import static helper.GameConstants.PPM;
+import helper.Hitbox;
 
 /**
  * Represents a projectile created by a player or enemy.
@@ -30,10 +28,9 @@ public class Projectile {
     private final float damage;
     private final float speed;
 
-    private final float angleRadians;
+    private final Vector2 bulletDirection;
 
-    private float positionX;
-    private float positionY;
+    private final Vector2 bulletPosition;
 
     private int lifespan;
 
@@ -45,10 +42,13 @@ public class Projectile {
 
     private int size;
 
+    private Hitbox hitbox;
+
     public Projectile(ProjectileShape projectileShape, ProjectileColour projectileColour,
                       ProjectileTeam projectileTeam, float damage, float speed,
-                      int lifespan, float positionX, float positionY, float angleRadians,
+                      int lifespan, Vector2 bulletPosition, Vector2 bulletDirection,
                       final World world, final int size) {
+
 
         // deletion flag
         remove = false;
@@ -92,14 +92,11 @@ public class Projectile {
             this.lifespan = lifespan;
         }
 
-        // position X & Y
-        this.positionX = positionX;
-        this.positionY = positionY;
-//        this.positionX = 260;
-//        this.positionY = 260;
+        // position Vector2
+        this.bulletPosition = bulletPosition;
 
-        // angle
-        this.angleRadians = angleRadians;
+        // direction
+        this.bulletDirection = bulletDirection;
 
         // world
         this.world = world;
@@ -132,71 +129,47 @@ public class Projectile {
         }
 
         this.sprite = new Sprite(texture);
-        sprite.setPosition(getPositionX(), getPositionY());
+        sprite.setPosition(getBulletPosition().x, getBulletPosition().y);
 
-
-
-        body = ProjectileBodyHelperService.createBody(positionX, positionY, size, world, projectileShape);
-        setStartingVelocity(getBody(), getSpeed(), getRadians());
-        body.setBullet(true);
-
-//        Entity entity = engine.createEntity();
+        this.hitbox = new Hitbox(getBulletPosition().x,
+            getBulletPosition().y, getSize(), getSize());
     }
 
-    private Body getBody() {
-        return body;
+    public boolean checkForCollision(final Hitbox otherHitbox) {
+        return hitbox.checkForCollision(otherHitbox);
     }
 
-    private void setStartingVelocity(final Body body, final float speed, final float angleRadians) {
-        Vector2 startingVelocity = new Vector2(speed, speed);
-        startingVelocity.rotateRad(angleRadians + 180); // TODO: why 45?
-        body.setLinearVelocity(startingVelocity);
-    }
-
-    // TODO: does this need the param: final float deltaTime
-    // TODO: add collision checks here (for walls) and if it should be destroyed
     public void update() {
-//        // move x & y to the current body position
-//        // x & y will be in the centre of our body
-//        setPositionX(body.getPosition().x + (PPM * (getSpeed() + 0.1f)));
-//        setPositionY(body.getPosition().y + (PPM * (getSpeed() + 0.1f)));
-//        setPosition(getPosition() + (getSpeed() * getAngle()) * deltaTime);
-//        setPositionX(getPositionX() + (getSpeed() * getAngle().x) * deltaTime);
-//        setPositionY(getPositionY() + (getSpeed() * getAngle().y) * deltaTime);
-
-        sprite.setPosition(getPositionX(), getPositionY());
+        bulletPosition.add(bulletDirection);
+        hitbox.move(getBulletPosition().x, getBulletPosition().y);
     }
 
     public void render(final SpriteBatch batch) {
-        batch.draw(texture, getPositionX(), getPositionY());
+        batch.draw(texture, getBulletPosition().x, getBulletPosition().y, getSize(), getSize());
     }
 
-    public float getSpeed() {
-        return speed;
+    public Vector2 getBulletPosition() {
+        return bulletPosition;
     }
 
-    public float getPositionX() {
-        return positionX;
+    public Vector2 getBulletDirection() {
+        return bulletDirection;
     }
 
-    public void setPositionX(float positionX) {
-        this.positionX = positionX;
+    public int getSize() {
+        return size;
     }
 
-    public float getPositionY() {
-        return positionY;
+    public Hitbox getHitbox() {
+        return hitbox;
     }
 
-    public void setPositionY(float positionY) {
-        this.positionY = positionY;
+    public ProjectileTeam getProjectileTeam() {
+        return projectileTeam;
     }
 
-    public float getRadians() {
-        return angleRadians;
-    }
-
-    public boolean getRemove() {
-        return remove;
+    public float getDamage() {
+        return damage;
     }
 
     public void setRemove(boolean remove) {

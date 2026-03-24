@@ -3,7 +3,7 @@ package objects.entitiy.player;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import objects.entitiy.NewGameEntity;
+import objects.entitiy.GameEntity;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
@@ -23,7 +23,7 @@ import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_MOVE_S
 import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_RESISTANCE;
 import static objects.entitiy.player.TechknightPlayerEntityConstants.DEFAULT_MAX_HEALTH_POINTS;
 
-public class Player extends NewGameEntity {
+public class Player extends GameEntity {
 
     protected int maxHealthPoints;
     protected int currentHealthPoints;

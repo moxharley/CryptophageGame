@@ -5,7 +5,9 @@ import objects.projectile.ProjectileShape;
 
 import static helper.GameConstants.PPM;
 
-public class NewProjectileHelperService {
+public class ProjectileHelperService {
+
+    // TODO: do i need this????
 
     public static Body createBullet(final float x, final float y, final int size, final World world,
                                   final ProjectileShape projectileShape) {
