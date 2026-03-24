@@ -64,7 +64,7 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base attack speed of the player in frames.
      */
-    public static final int BASE_ATTACK_SPEED = 30;
+    public static final int BASE_ATTACK_SPEED = 10;
 
     /**
      * Base attack speed modifier of the player.
@@ -84,7 +84,7 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base speed of the bullets shot by the player.
      */
-    public static final float BASE_BULLET_SPEED = 20f;
+    public static final float BASE_BULLET_SPEED = 3f;
 
     /**
      * Base modifier of the speed of the bullets shot by the player.
