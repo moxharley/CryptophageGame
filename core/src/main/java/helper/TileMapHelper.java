@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.harlanfinn.cryptophage.GameScene;
-import objects.player.Player;
+import objects.entitiy.player.Player;
 
 import static helper.GameConstants.PPM;
 
@@ -27,7 +27,7 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/map1.tmx");
+        tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/map0.tmx");
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects()); // "objects" is the name of the objects layer in the map in tiled
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -45,11 +45,11 @@ public class TileMapHelper {
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName.equals("player")) {
-                    Body body = CharacterBodyHelperService.createBody(
-                                    rectangle.getX() + rectangle.getWidth() / 2, // we want the center of the rectangle
-                                    rectangle.getY() + rectangle.getHeight() / 2,
-                                    rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
-                                    gameScreen.getWorld()
+                    Body body = MapBodyHelperService.createBody(
+                        rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
+                        rectangle.getY() + rectangle.getHeight() / 2f,
+                        rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
+                        gameScreen.getWorld()
                     );
 
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
@@ -72,9 +72,11 @@ public class TileMapHelper {
         Vector2[] worldVertices = new Vector2[vertices.length / 2]; // each V2 obj has 1 point which is 2 vertices in above array
 
         for (int i = 0; i < vertices.length / 2; ++i) { // always take pairs of vertices as a tuple so only iterate over half
-
             // do this PPM transformation so it matches our Box2D world
-            Vector2 current = new Vector2(vertices[i * 2] / PPM, vertices[i * 2 + 1] / PPM);  // i*2 & i*2+1 so we are coosing each pair
+            Vector2 current = new Vector2(
+                vertices[i * 2] / PPM,
+                vertices[i * 2 + 1] / PPM);  // invert Y axis
+//                (getMapHeightPixels() - vertices[i * 2 + 1]) / PPM);  // invert Y axis
             worldVertices[i] = current;
         }
 
