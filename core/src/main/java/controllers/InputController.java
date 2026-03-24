@@ -38,6 +38,28 @@ public class InputController {
         pressedSkill = checkPressedSkill();
     }
 
+
+    /**
+     * Returns a normalized Vector2 of the angle from the player to the cursor.
+     * When it is implemented such that the player moves around on the screen relative to the
+     * centre, we can rewrite this code to actually use the player location,
+     * instead of the fixed 0, 0.
+     *
+     * @return the direction of the cursor from the player as a Vector2
+     */
+    public Vector2 getCursorVectorFromPlayer() {
+        /*
+         get cursor location, modify the location as if the input origin was in the centre of
+         the screen (this is where the player is located). then scale it by PPM (same as our
+          character). Then the Y is inverted as the input Y axis direction is the opposite of
+          the game coordinate Y axis direction.
+         */
+        Vector2 relativeCursorLocation = new Vector2(
+            (Gdx.input.getX() - ((float) Gdx.graphics.getWidth() / 2)) / PPM,
+            -((Gdx.input.getY() - ((float) Gdx.graphics.getHeight() / 2)) / PPM));
+        return relativeCursorLocation.sub(0, 0).nor();
+    }
+
     private int checkHorizontalMovement() {
         if (Gdx.input.isKeyPressed(LEFT) && !Gdx.input.isKeyPressed(RIGHT)) {
             return -1;
@@ -83,27 +105,5 @@ public class InputController {
 
     public boolean getPressedSkill() {
         return pressedSkill;
-    }
-
-
-    /**
-     * Returns a normalized Vector2 of the angle from the player to the cursor.
-     * When it is implemented such that the player moves around on the screen relative to the
-     * centre, we can rewrite this code to actually use the player location,
-     * instead of the fixed 0, 0.
-     *
-     * @return the direction of the cursor from the player as a Vector2
-     */
-    public Vector2 getCursorVectorFromPlayer() {
-        /*
-         get cursor location, modify the location as if the input origin was in the centre of
-         the screen (this is where the player is located). then scale it by PPM (same as our
-          character). Then the Y is inverted as the input Y axis direction is the opposite of
-          the game coordinate Y axis direction.
-         */
-        Vector2 relativeCursorLocation = new Vector2(
-            (Gdx.input.getX() - ((float) Gdx.graphics.getWidth() / 2)) / PPM,
-            -((Gdx.input.getY() - ((float) Gdx.graphics.getHeight() / 2)) / PPM));
-        return relativeCursorLocation.sub(0, 0).nor();
     }
 }
