@@ -2,45 +2,53 @@ package helper;
 
 public class Hitbox {
 
-    private float x;
-    private float y;
+    private float originX;
+    private float originY;
 
     private float width;
     private float height;
 
-    public Hitbox(final float x, final float y, final float width, final float height) {
-        this.x = x;
-        this.y = y;
+    /**
+     * Creates a new rectangular hitbox with the origin in the bottom left corner.
+     *
+     * @param originX origin point of the hitbox in the X axis as a float
+     * @param originY origin point of the hitbox in the Y axis as a float
+     * @param width width of the hitbox (in the X axis) as a float
+     * @param height height of the hitbox (in the Y axis) as a float
+     */
+    public Hitbox(final float originX, final float originY, final float width, final float height) {
+        this.originX = originX;
+        this.originY = originY;
         this.width = width;
         this.height = height;
     }
 
     public void move(final float x, final float y) {
-        setX(x);
-        setY(y);
+        setOriginX(x);
+        setOriginY(y);
     }
 
     public boolean checkForCollision (Hitbox other) {
-        return getX() < other.getX() + other.getWidth()
-            && getY() < other.getY() + other.getHeight()
-            && getX() + getWidth() > other.getX()
-            && getY() + getHeight() > other.getY();
+        return getOriginX() < other.getOriginX() + other.getWidth()
+            && getOriginY() < other.getOriginY() + other.getHeight()
+            && getOriginX() + getWidth() > other.getOriginX()
+            && getOriginY() + getHeight() > other.getOriginY();
     }
 
-    public float getX() {
-        return x;
+    public float getOriginX() {
+        return originX;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setOriginX(float originX) {
+        this.originX = originX;
     }
 
-    public float getY() {
-        return y;
+    public float getOriginY() {
+        return originY;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setOriginY(float originY) {
+        this.originY = originY;
     }
 
     public float getWidth() {

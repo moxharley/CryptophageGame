@@ -68,15 +68,14 @@ public class TileMapHelper {
     }
 
     private Shape createPolygonShape(PolygonMapObject polygonMapObject) {
-        float[] vertices = polygonMapObject.getPolygon().getTransformedVertices(); // each point has 2 vertices
-        Vector2[] worldVertices = new Vector2[vertices.length / 2]; // each V2 obj has 1 point which is 2 vertices in above array
+        float[] vertices = polygonMapObject.getPolygon().getTransformedVertices(); // each point has 2 vertex coordinates
+        Vector2[] worldVertices = new Vector2[vertices.length / 2]; // each V2 obj has 1 point which is 2 vertex coordinates in above array
 
-        for (int i = 0; i < vertices.length / 2; ++i) { // always take pairs of vertices as a tuple so only iterate over half
+        for (int i = 0; i < vertices.length / 2; ++i) { // always take pairs of vertex coordinate as a tuple so only iterate over half
             // do this PPM transformation so it matches our Box2D world
             Vector2 current = new Vector2(
                 vertices[i * 2] / PPM,
-                vertices[i * 2 + 1] / PPM);  // invert Y axis
-//                (getMapHeightPixels() - vertices[i * 2 + 1]) / PPM);  // invert Y axis
+                vertices[i * 2 + 1] / PPM);
             worldVertices[i] = current;
         }
 
