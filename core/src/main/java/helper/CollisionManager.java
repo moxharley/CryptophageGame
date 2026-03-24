@@ -13,6 +13,8 @@ public class CollisionManager {
     private ArrayList<Enemy> enemyArrayList;
     private Player player;
 
+    //TODO: get polygons from map and add to collision list
+
     public CollisionManager(final ArrayList<Projectile> projectileArrayList,
                             final ArrayList<Enemy> enemyArrayList, final Player player) {
 
