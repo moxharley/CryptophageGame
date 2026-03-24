@@ -8,6 +8,8 @@ import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
+import java.util.Random;
+
 import static helper.GameConstants.*;
 import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
 import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_ATTACK_SPEED;
@@ -45,7 +47,7 @@ public class Player extends GameEntity {
     protected int bulletLifespan;
     protected float critChance;
     protected float critDamage;
-    private int projectileSize;
+    protected int projectileSize;
 
     protected ProjectileShape projectileShape;
     protected ProjectileColour projectileColour;
@@ -126,6 +128,10 @@ public class Player extends GameEntity {
         }
     }
 
+    public boolean isCrit() {
+        Random random = new Random();
+        return random.nextFloat(0f, 100f) >= getCritChance();
+    }
 
 
     /**
@@ -378,23 +384,4 @@ public class Player extends GameEntity {
     public Vector2 getPosition() {
         return body.getPosition();
     }
-
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile updateProjectiles() {
-//        //Checks if player attacks.
-//        if (Gdx.input.isKeyPressed(Input.Buttons.LEFT)) {
-//            return attack(Gdx.input.getX(), Gdx.input.getY());
-//
-//        }
-//        return null;
-//    }
-
-
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile attack(final int mouseX, final int mouseY) {
-//        return new Projectile(DEFAULT_PROJECTILE_SHAPE, DEFAULT_PROJECTILE_COLOUR,
-//            DEFAULT_PROJECTILE_TEAM, getDamage(),
-//            getBulletSpeed(), mouseX, mouseY, getX(), getY(), getBulletLifespan());
-//    }
-
 }
