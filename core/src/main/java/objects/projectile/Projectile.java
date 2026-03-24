@@ -20,34 +20,21 @@ public class Projectile {
     private final ProjectileShape projectileShape;
     private final ProjectileColour projectileColour;
     private final ProjectileTeam projectileTeam;
-
     private final Texture texture;
-
     private final Sprite sprite;
-
     private final float damage;
     private final float speed;
-
     private final Vector2 bulletDirection;
-
     private final Vector2 bulletPosition;
-
     private int lifespan;
-
     private boolean remove;
-
-    protected Body body;
-
-    private World world;
-
     private int size;
-
     private Hitbox hitbox;
 
     public Projectile(ProjectileShape projectileShape, ProjectileColour projectileColour,
                       ProjectileTeam projectileTeam, float damage, float speed,
                       int lifespan, Vector2 bulletPosition, Vector2 bulletDirection,
-                      final World world, final int size) {
+                      final int size) {
 
 
         // deletion flag
@@ -98,9 +85,6 @@ public class Projectile {
         // direction
         this.bulletDirection = bulletDirection;
 
-        // world
-        this.world = world;
-
         // size
         this.size = size;
 
@@ -140,7 +124,8 @@ public class Projectile {
     }
 
     public void update() {
-        bulletPosition.add(bulletDirection);
+        bulletPosition.add(new Vector2(getBulletDirection().x * speed,
+                                       getBulletDirection().y * speed));
         hitbox.move(getBulletPosition().x, getBulletPosition().y);
     }
 
@@ -174,5 +159,9 @@ public class Projectile {
 
     public void setRemove(boolean remove) {
         this.remove = remove;
+    }
+
+    public boolean isRemove() {
+        return remove;
     }
 }

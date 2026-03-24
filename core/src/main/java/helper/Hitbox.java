@@ -27,14 +27,6 @@ public class Hitbox {
             && getY() + getHeight() > other.getY();
     }
 
-
-
-
-
-
-
-
-
     public float getX() {
         return x;
     }

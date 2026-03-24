@@ -364,23 +364,4 @@ public class Enemy extends GameEntity {
     private void setHealth(final float valueToChangeHealthBy) {
         currentHealthPoints += Math.round(valueToChangeHealthBy);
     }
-
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile updateProjectiles() {
-//        //Checks if player attacks.
-//        if (Gdx.input.isKeyPressed(Input.Buttons.LEFT)) {
-//            return attack(Gdx.input.getX(), Gdx.input.getY());
-//
-//        }
-//        return null;
-//    }
-
-
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile attack(final int mouseX, final int mouseY) {
-//        return new Projectile(DEFAULT_PROJECTILE_SHAPE, DEFAULT_PROJECTILE_COLOUR,
-//            DEFAULT_PROJECTILE_TEAM, getDamage(),
-//            getBulletSpeed(), mouseX, mouseY, getX(), getY(), getBulletLifespan());
-//    }
-
 }

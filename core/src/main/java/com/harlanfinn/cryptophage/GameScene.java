@@ -56,7 +56,7 @@ public class GameScene extends ScreenAdapter {
         this.world = new World(new Vector2(0.0f, -GRAVITY), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
-        projectileManager = new ProjectileManager(world, batch);
+        projectileManager = new ProjectileManager(batch);
         enemyManager = new EnemyManager(world, batch);
 
         this.tileMapHelper = new TileMapHelper(this);
@@ -99,7 +99,6 @@ public class GameScene extends ScreenAdapter {
 
         Vector3 position = camera.position; // get current camera position
 
-        //TODO how is ths vs vector 2
         // get player position and convert it to world position (PPM), then multiply by 10,
         // then round and then divide by 10. The camera movement is now smoother
         position.x = Math.round(player.getBody().getPosition().x * PPM * 10) / 10f;
