@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Represents a single node in a BSP dungeon tree.
  * A rectangular section of dungeon space and is
- * split into two child leaves.
+ * split into two child branches.
  *
  * @author Harlan Bullock
  * @version 2026

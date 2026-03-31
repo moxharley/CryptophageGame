@@ -160,7 +160,6 @@ public class DungeonGenerator {
         createEmptyMap();
         createRootLeaf();
         splitLeaves();
-        debugDrawLeaves();
 
         return dungeonMap;
     }
@@ -254,7 +253,7 @@ public class DungeonGenerator {
         // Fill everything with empty space
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
-                grid[y][x] = '.';
+                grid[y][x] = ' ';
             }
         }
 
