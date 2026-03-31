@@ -1,27 +1,29 @@
-package objects.player;
+package objects.entitiy.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import objects.GameEntity;
+import objects.entitiy.GameEntity;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
+import java.util.Random;
+
 import static helper.GameConstants.*;
-import static objects.player.TechknightPlayerEntityConstants.*;
-import static objects.player.TechknightPlayerEntityConstants.BASE_ATTACK_SPEED;
-import static objects.player.TechknightPlayerEntityConstants.BASE_ATTACK_SPEED_MODIFIER;
-import static objects.player.TechknightPlayerEntityConstants.BASE_BULLET_SPEED;
-import static objects.player.TechknightPlayerEntityConstants.BASE_BULLET_SPEED_MODIFIER;
-import static objects.player.TechknightPlayerEntityConstants.BASE_CRIT_CHANCE;
-import static objects.player.TechknightPlayerEntityConstants.BASE_CRIT_DAMAGE;
-import static objects.player.TechknightPlayerEntityConstants.BASE_DAMAGE;
-import static objects.player.TechknightPlayerEntityConstants.BASE_DAMAGE_MODIFIER;
-import static objects.player.TechknightPlayerEntityConstants.BASE_JUMP_VELOCITY_MODIFIER;
-import static objects.player.TechknightPlayerEntityConstants.BASE_MOVE_SPEED_MODIFIER;
-import static objects.player.TechknightPlayerEntityConstants.BASE_RESISTANCE;
-import static objects.player.TechknightPlayerEntityConstants.DEFAULT_MAX_HEALTH_POINTS;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_ATTACK_SPEED;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_ATTACK_SPEED_MODIFIER;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_BULLET_SPEED;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_BULLET_SPEED_MODIFIER;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_CRIT_CHANCE;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_CRIT_DAMAGE;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_DAMAGE;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_DAMAGE_MODIFIER;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_JUMP_VELOCITY_MODIFIER;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_MOVE_SPEED_MODIFIER;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.BASE_RESISTANCE;
+import static objects.entitiy.player.TechknightPlayerEntityConstants.DEFAULT_MAX_HEALTH_POINTS;
 
 public class Player extends GameEntity {
 
@@ -45,7 +47,7 @@ public class Player extends GameEntity {
     protected int bulletLifespan;
     protected float critChance;
     protected float critDamage;
-    private int projectileSize;
+    protected int projectileSize;
 
     protected ProjectileShape projectileShape;
     protected ProjectileColour projectileColour;
@@ -117,28 +119,103 @@ public class Player extends GameEntity {
         body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
     }
 
-//    private void checkUserInput() {
-//        velX = 0; // always reset to zero else we cannot stop the movement
-//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//            velX = 1;
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//            velX = -1;
-//        }
-//
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jumpCounter < 2) {
-//            float force = body.getMass() * BASE_JUMP_VELOCITY;
-//
-//            body.setLinearVelocity(body.getLinearVelocity().x, 0); // set the fall speed to 0 so we can jump again
-//
-//            // apply force to body in y direction (0 in x)
-//            body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
-//            jumpCounter++;
-//        }
-//
-//        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 25 ? body.getLinearVelocity().y : GRAVITY);
-//    }
+    public boolean attackIfAllowed() {
+        if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
+            timeSinceLastShot = 0;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public boolean isCrit() {
+        Random random = new Random();
+        return random.nextFloat(0f, 100f) >= getCritChance();
+    }
+
+
+    /**
+     * Resets all stats of this PlayerEntity to their defaults.
+     * Keeps the player's health as is, capping it to the new max health.
+     */
+    public void resetAllStats() {
+        this.maxHealthPoints = DEFAULT_MAX_HEALTH_POINTS;
+        this.currentHealthPoints = Math.min(currentHealthPoints, DEFAULT_MAX_HEALTH_POINTS);
+        this.resistance = BASE_RESISTANCE;
+
+        this.moveSpeed = BASE_MOVE_SPEED;
+        this.moveSpeedModifier = BASE_MOVE_SPEED_MODIFIER;
+        this.jumpVelocity = BASE_JUMP_VELOCITY;
+        this.jumpVelocityModifier = BASE_JUMP_VELOCITY_MODIFIER;
+
+        this.attackSpeed = BASE_ATTACK_SPEED;
+        this.attackSpeedModifier = BASE_ATTACK_SPEED_MODIFIER;
+        this.damage = BASE_DAMAGE;
+        this.damageModifier = BASE_DAMAGE_MODIFIER;
+        this.bulletSpeed = BASE_BULLET_SPEED;
+        this.bulletSpeedModifier = BASE_BULLET_SPEED_MODIFIER;
+
+        this.critChance = BASE_CRIT_CHANCE;
+        this.critDamage = BASE_CRIT_DAMAGE;
+    }
+
+    /**
+     * Multiplies all stats by a value.
+     *
+     * @param statMultiplier the amount to multiply all stats by as a float
+     */
+    public void changeAllStatsMultiplicative(final float statMultiplier) {
+        setMaxHealthPoints((int) (getMaxHealthPoints() * statMultiplier));
+        setCurrentHealthPoints((int) (getCurrentHealthPoints() * statMultiplier));
+        setResistance(getResistance() * statMultiplier);
+
+        setMoveSpeed(getMoveSpeed() * statMultiplier);
+        setMoveSpeedModifier(getMoveSpeedModifier() * statMultiplier);
+        setJumpVelocity(getJumpVelocity() * statMultiplier);
+        setJumpVelocityModifier(getJumpVelocityModifier() * statMultiplier);
+
+        setAttackSpeed((int) (getAttackSpeed() * statMultiplier));
+        setAttackSpeedModifier(getAttackSpeedModifier() * statMultiplier);
+        setDamage(getDamage() * statMultiplier);
+        setDamageModifier(getDamageModifier() * statMultiplier);
+        setBulletSpeed(getBulletSpeed() * statMultiplier);
+        setBulletSpeedModifier(getBulletSpeedModifier() * statMultiplier);
+
+        setCritChance(getCritChance() * statMultiplier);
+        setCritDamage(getCritDamage() * statMultiplier);
+    }
+
+    /**
+     * Adds a bonus to all stats.
+     *
+     * @param statBonus the flat bonus to add to all stats as an int
+     */
+    public void changeAllStatsAdditive(final int statBonus) {
+        setMaxHealthPoints(getMaxHealthPoints() + statBonus);
+        setCurrentHealthPoints(getCurrentHealthPoints() + statBonus);
+        setResistance(getResistance() + statBonus);
+
+        setMoveSpeed(getMoveSpeed() + statBonus);
+        setMoveSpeedModifier(getMoveSpeedModifier() + statBonus);
+        setJumpVelocity(getJumpVelocity() + statBonus);
+        setJumpVelocityModifier(getJumpVelocityModifier() + statBonus);
+
+        setAttackSpeed(getAttackSpeed() + statBonus);
+        setAttackSpeedModifier(getAttackSpeedModifier() + statBonus);
+        setDamage(getDamage() + statBonus);
+        setDamageModifier(getDamageModifier() + statBonus);
+        setBulletSpeed(getBulletSpeed() + statBonus);
+        setBulletSpeedModifier(getBulletSpeedModifier() + statBonus);
+
+        setCritChance(getCritChance() + statBonus);
+        setCritDamage(getCritDamage() + statBonus);
+    }
+
+
+
+    public int getProjectileSize() {
+        return projectileSize;
+    }
 
     public ProjectileShape getProjectileShape() {
         return projectileShape;
@@ -292,112 +369,19 @@ public class Player extends GameEntity {
         this.critDamage = critDamage;
     }
 
-    /**
-     * Resets all stats of this PlayerEntity to their defaults.
-     * Keeps the player's health as is, capping it to the new max health.
-     */
-    public void resetAllStats() {
-        this.maxHealthPoints = DEFAULT_MAX_HEALTH_POINTS;
-        this.currentHealthPoints = Math.min(currentHealthPoints, DEFAULT_MAX_HEALTH_POINTS);
-        this.resistance = BASE_RESISTANCE;
-
-        this.moveSpeed = BASE_MOVE_SPEED;
-        this.moveSpeedModifier = BASE_MOVE_SPEED_MODIFIER;
-        this.jumpVelocity = BASE_JUMP_VELOCITY;
-        this.jumpVelocityModifier = BASE_JUMP_VELOCITY_MODIFIER;
-
-        this.attackSpeed = BASE_ATTACK_SPEED;
-        this.attackSpeedModifier = BASE_ATTACK_SPEED_MODIFIER;
-        this.damage = BASE_DAMAGE;
-        this.damageModifier = BASE_DAMAGE_MODIFIER;
-        this.bulletSpeed = BASE_BULLET_SPEED;
-        this.bulletSpeedModifier = BASE_BULLET_SPEED_MODIFIER;
-
-        this.critChance = BASE_CRIT_CHANCE;
-        this.critDamage = BASE_CRIT_DAMAGE;
-    }
-
-    /**
-     * Multiplies all stats by a value.
-     *
-     * @param statMultiplier the amount to multiply all stats by as a float
-     */
-    public void changeAllStatsMultiplicative(final float statMultiplier) {
-        setMaxHealthPoints((int) (getMaxHealthPoints() * statMultiplier));
-        setCurrentHealthPoints((int) (getCurrentHealthPoints() * statMultiplier));
-        setResistance(getResistance() * statMultiplier);
-
-        setMoveSpeed(getMoveSpeed() * statMultiplier);
-        setMoveSpeedModifier(getMoveSpeedModifier() * statMultiplier);
-        setJumpVelocity(getJumpVelocity() * statMultiplier);
-        setJumpVelocityModifier(getJumpVelocityModifier() * statMultiplier);
-
-        setAttackSpeed((int) (getAttackSpeed() * statMultiplier));
-        setAttackSpeedModifier(getAttackSpeedModifier() * statMultiplier);
-        setDamage(getDamage() * statMultiplier);
-        setDamageModifier(getDamageModifier() * statMultiplier);
-        setBulletSpeed(getBulletSpeed() * statMultiplier);
-        setBulletSpeedModifier(getBulletSpeedModifier() * statMultiplier);
-
-        setCritChance(getCritChance() * statMultiplier);
-        setCritDamage(getCritDamage() * statMultiplier);
-    }
-
-    /**
-     * Adds a bonus to all stats.
-     *
-     * @param statBonus the flat bonus to add to all stats as an int
-     */
-    public void changeAllStatsAdditive(final int statBonus) {
-        setMaxHealthPoints(getMaxHealthPoints() + statBonus);
-        setCurrentHealthPoints(getCurrentHealthPoints() + statBonus);
-        setResistance(getResistance() + statBonus);
-
-        setMoveSpeed(getMoveSpeed() + statBonus);
-        setMoveSpeedModifier(getMoveSpeedModifier() + statBonus);
-        setJumpVelocity(getJumpVelocity() + statBonus);
-        setJumpVelocityModifier(getJumpVelocityModifier() + statBonus);
-
-        setAttackSpeed(getAttackSpeed() + statBonus);
-        setAttackSpeedModifier(getAttackSpeedModifier() + statBonus);
-        setDamage(getDamage() + statBonus);
-        setDamageModifier(getDamageModifier() + statBonus);
-        setBulletSpeed(getBulletSpeed() + statBonus);
-        setBulletSpeedModifier(getBulletSpeedModifier() + statBonus);
-
-        setCritChance(getCritChance() + statBonus);
-        setCritDamage(getCritDamage() + statBonus);
-    }
-
-    public int getProjectileSize() {
-        return projectileSize;
-    }
-
-    public boolean attackIfAllowed() {
-        if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
-            timeSinceLastShot = 0;
-            return true;
+    public void takeDamage(final float damage) {
+        if (damage >= 0) {
+            setHealth(-damage); // ensure damage will reduce health
         } else {
-            return false;
+            setHealth(damage);
         }
     }
 
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile updateProjectiles() {
-//        //Checks if player attacks.
-//        if (Gdx.input.isKeyPressed(Input.Buttons.LEFT)) {
-//            return attack(Gdx.input.getX(), Gdx.input.getY());
-//
-//        }
-//        return null;
-//    }
+    private void setHealth(final float valueToChangeHealthBy) {
+        currentHealthPoints += Math.round(valueToChangeHealthBy);
+    }
 
-
-//    // TODO FIX, this is really really bad and doesn't follow any good practices
-//    public Projectile attack(final int mouseX, final int mouseY) {
-//        return new Projectile(DEFAULT_PROJECTILE_SHAPE, DEFAULT_PROJECTILE_COLOUR,
-//            DEFAULT_PROJECTILE_TEAM, getDamage(),
-//            getBulletSpeed(), mouseX, mouseY, getX(), getY(), getBulletLifespan());
-//    }
-
+    public Vector2 getPosition() {
+        return body.getPosition();
+    }
 }

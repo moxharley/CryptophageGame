@@ -1,13 +1,12 @@
 package objects.projectile;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import helper.ProjectileBodyHelperService;
-
-import static helper.GameConstants.PPM;
+import helper.Hitbox;
 
 /**
  * Represents a projectile created by a player or enemy.
@@ -21,54 +20,81 @@ public class Projectile {
     private final ProjectileShape projectileShape;
     private final ProjectileColour projectileColour;
     private final ProjectileTeam projectileTeam;
-
     private final Texture texture;
-
+    private final Sprite sprite;
     private final float damage;
     private final float speed;
-
-    private final float radians;
-
-    private float positionX;
-    private float positionY;
-
+    private final Vector2 bulletDirection;
+    private final Vector2 bulletPosition;
     private int lifespan;
-
     private boolean remove;
-
-    protected Body body;
-
-    private World world;
-
     private int size;
+    private Hitbox hitbox;
 
     public Projectile(ProjectileShape projectileShape, ProjectileColour projectileColour,
                       ProjectileTeam projectileTeam, float damage, float speed,
-                      int lifespan, float positionX, float positionY, float radians, final World world, final int size) {
+                      int lifespan, Vector2 bulletPosition, Vector2 bulletDirection,
+                      final int size) {
 
+
+        // deletion flag
+        remove = false;
+
+        // shape
         //TODO: check direction and position, once projectile direction system is figured out
-        this.radians = radians;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.speed = speed;
-
-        this.world = world;
-
-        body = ProjectileBodyHelperService.createBody(positionX, positionY, size, world, projectileShape);
-        setStartingVelocity(getBody(), getSpeed(), getRadians());
-        body.setBullet(true);
-
         if (projectileShape == null) {
             throw new IllegalArgumentException("projectileShape must be a valid ProjectileShape");
         } else {
             this.projectileShape = projectileShape;
         }
+
+        // colour
+        if (projectileColour == null) {
+            throw new IllegalArgumentException("projectileColour must be a valid ProjectileColour");
+        } else {
+            this.projectileColour = projectileColour;
+        }
+
+        // team
+        if (projectileTeam == null) {
+            throw new IllegalArgumentException("projectileTeam must be a valid ProjectileTeam");
+        } else {
+            this.projectileTeam = projectileTeam;
+        }
+
+        // damage
+        if (damage < 0) {
+            throw new IllegalArgumentException("damage must not be negative");
+        } else {
+            this.damage = damage;
+        }
+
+        // speed
+        this.speed = speed;
+
+        // lifespan
+        if (lifespan < 0) {
+            throw new IllegalArgumentException("lifespan must not be negative");
+        } else {
+            this.lifespan = lifespan;
+        }
+
+        // position Vector2
+        this.bulletPosition = bulletPosition;
+
+        // direction
+        this.bulletDirection = bulletDirection;
+
+        // size
+        this.size = size;
+
+        // texture
         switch (projectileShape) {
             case CIRCLE:
                 this.texture = new Texture("../assets/projectiles/circle_bullet.png");
                 break;
             default:
-                this.texture = new Texture("../assets/projectiles/rectradians_bullet.png");
+                this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
 //            case LINE:
 //                texture = b;
 //                break;
@@ -86,84 +112,56 @@ public class Projectile {
 //                break;
         }
 
-        if (projectileColour == null) {
-            throw new IllegalArgumentException("projectileColour must be a valid ProjectileColour");
-        } else {
-            this.projectileColour = projectileColour;
-        }
-        if (projectileTeam == null) {
-            throw new IllegalArgumentException("projectileTeam must be a valid ProjectileTeam");
-        } else {
-            this.projectileTeam = projectileTeam;
-        }
+        this.sprite = new Sprite(texture);
+        sprite.setPosition(getBulletPosition().x, getBulletPosition().y);
 
-        if (damage < 0) {
-            throw new IllegalArgumentException("damage must not be negative");
-        } else {
-            this.damage = damage;
-        }
-
-        if (lifespan < 0) {
-            throw new IllegalArgumentException("lifespan must not be negative");
-        } else {
-            this.lifespan = lifespan;
-        }
-
-//        Entity entity = engine.createEntity();
-
-        remove = false;
+        this.hitbox = new Hitbox(getBulletPosition().x,
+            getBulletPosition().y, getSize(), getSize());
     }
 
-    private Body getBody() {
-        return body;
+    public boolean checkForCollision(final Hitbox otherHitbox) {
+        return hitbox.checkForCollision(otherHitbox);
     }
 
-    private void setStartingVelocity(final Body body, final float speed, final float radians) {
-        Vector2 startingVelocity = new Vector2(speed, speed);
-        startingVelocity.rotateRad(radians + 180); // TODO: why 45?
-        body.setLinearVelocity(startingVelocity);
-    }
-
-    // TODO: does this need the param: final float deltaTime
-    // TODO: add collision checks here (for walls) and if it should be destroyed
     public void update() {
-//        // move x & y to the current body position
-//        // x & y will be in the centre of our body
-        setPositionX(body.getPosition().x + (PPM * (getSpeed() + 0.1f)));
-        setPositionY(body.getPosition().y + (PPM * (getSpeed() + 0.1f)));
-//        setPosition(getPosition() + (getSpeed() * getAngle()) * deltaTime);
-//        setPositionX(getPositionX() + (getSpeed() * getAngle().x) * deltaTime);
-//        setPositionY(getPositionY() + (getSpeed() * getAngle().y) * deltaTime);
-//        if (getPositionY() > Gdx.graphics.getHeight()) {
-//            remove = true;
-//        }
+        bulletPosition.add(new Vector2(getBulletDirection().x * speed,
+                                       getBulletDirection().y * speed));
+        hitbox.move(getBulletPosition().x, getBulletPosition().y);
     }
 
     public void render(final SpriteBatch batch) {
-        batch.draw(texture, getPositionX(), getPositionY());
+        batch.draw(texture, getBulletPosition().x, getBulletPosition().y, getSize(), getSize());
     }
 
-    public float getSpeed() {
-        return speed;
+    public Vector2 getBulletPosition() {
+        return bulletPosition;
     }
 
-    public float getPositionX() {
-        return positionX;
+    public Vector2 getBulletDirection() {
+        return bulletDirection;
     }
 
-    public void setPositionX(float positionX) {
-        this.positionX = positionX;
+    public int getSize() {
+        return size;
     }
 
-    public float getPositionY() {
-        return positionY;
+    public Hitbox getHitbox() {
+        return hitbox;
     }
 
-    public void setPositionY(float positionY) {
-        this.positionY = positionY;
+    public ProjectileTeam getProjectileTeam() {
+        return projectileTeam;
     }
 
-    public float getRadians() {
-        return radians;
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setRemove(boolean remove) {
+        this.remove = remove;
+    }
+
+    public boolean isRemove() {
+        return remove;
     }
 }

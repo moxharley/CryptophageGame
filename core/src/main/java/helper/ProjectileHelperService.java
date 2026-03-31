@@ -5,9 +5,11 @@ import objects.projectile.ProjectileShape;
 
 import static helper.GameConstants.PPM;
 
-public class ProjectileBodyHelperService {
+public class ProjectileHelperService {
 
-    public static Body createBody(final float x, final float y, final int size, final World world,
+    // TODO: do i need this????
+
+    public static Body createBullet(final float x, final float y, final int size, final World world,
                                   final ProjectileShape projectileShape) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

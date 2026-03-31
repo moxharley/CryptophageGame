@@ -12,8 +12,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import controllers.InputController;
+import helper.CollisionManager;
 import helper.TileMapHelper;
-import objects.player.Player;
+import objects.entitiy.enemy.Enemy;
+import objects.entitiy.enemy.EnemyManager;
+import objects.entitiy.player.Player;
 import objects.projectile.*;
 
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class GameScene extends ScreenAdapter {
     private Player player;
 
     private ProjectileManager projectileManager;
+    private EnemyManager enemyManager;
 
     private InputController inputController;
 
@@ -52,7 +56,8 @@ public class GameScene extends ScreenAdapter {
         this.world = new World(new Vector2(0.0f, -GRAVITY), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
-        projectileManager = new ProjectileManager(world, batch);
+        projectileManager = new ProjectileManager(batch);
+        enemyManager = new EnemyManager(world, batch);
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
@@ -68,12 +73,24 @@ public class GameScene extends ScreenAdapter {
 
         // update the player
         updatePlayer();
+        enemyManager.update();
         projectileManager.update();
+
+        updateCollisions(getProjectileManager(), getEnemyManager(), getPlayer());
 
         // Closes game if ESC is pressed
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+    }
+
+    private void updateCollisions(ProjectileManager projectileManager, EnemyManager enemyManager,
+                                  Player player) {
+        ArrayList<Projectile> projectiles = projectileManager.getProjectileList();
+        ArrayList<Enemy> enemies = enemyManager.getEnemyList();
+        CollisionManager collisionManager = new CollisionManager(projectiles, enemies, player);
+
+        collisionManager.checkForCollisions();
     }
 
 
@@ -82,7 +99,6 @@ public class GameScene extends ScreenAdapter {
 
         Vector3 position = camera.position; // get current camera position
 
-        //TODO how is ths vs vector 2
         // get player position and convert it to world position (PPM), then multiply by 10,
         // then round and then divide by 10. The camera movement is now smoother
         position.x = Math.round(player.getBody().getPosition().x * PPM * 10) / 10f;
@@ -96,17 +112,16 @@ public class GameScene extends ScreenAdapter {
         this.update();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);  // clears all colour making a black screen
-        // TODO understand what this does (from tutorial)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // want to render map before rendering batch (game objects)
+        // we want to render map before rendering batch (game objects)
         orthogonalTiledMapRenderer.render();
 
 
         batch.begin();
         // render objects
 
-        // TODO: render bullet here
+//        batch.draw(img, 0, y, img.getWidth(), img.getHeight(), 0, 0, img.getWidth(), img.getHeight(), false, true);
 
         projectileManager.render();
 
@@ -144,12 +159,6 @@ public class GameScene extends ScreenAdapter {
         player.moveHorizontal(inputController.getHorizontalMovement());
 
         player.update();
-
-//        // TODO FIX, this is really really bad and doesn't follow any good practices
-//        Projectile projectile = player.updateProjectiles();
-//        if(projectile != null) {
-//            projectileArrayList.add(projectile);
-//        }
     }
 
     private void createProjectile(final boolean playerAttack) {
@@ -160,9 +169,8 @@ public class GameScene extends ScreenAdapter {
         float damage;
         float speed;
         int lifespan;
-        float positionX;
-        float positionY;
-        float angle;
+        Vector2 bulletPosition;
+        Vector2 bulletDirection;
         int size;
 
         if (playerAttack) {
@@ -173,14 +181,13 @@ public class GameScene extends ScreenAdapter {
             damage = player.getDamage() * player.getDamageModifier();
             speed = player.getBulletSpeed() * player.getBulletSpeedModifier();
             lifespan = player.getBulletLifespan();
-            positionX = player.getX() + 40; // TODO: Modify by some offset
-            positionY = player.getY() + 3500; // TODO: Modify by some offset
-            angle = inputController.getCursorRadians(player.getX(), player.getY());
+            bulletPosition = new Vector2(player.getX(), player.getY());
+            bulletDirection = inputController.getCursorVectorFromPlayer();
             size = player.getProjectileSize();
 
             projectileManager.addProjectile(projectileShape, projectileColour,
                                             projectileTeam, damage, speed, lifespan,
-                                            positionX, positionY, angle, size);
+                                            bulletPosition, bulletDirection, size);
         } else {
             // enemy attack
         }
@@ -201,5 +208,17 @@ public class GameScene extends ScreenAdapter {
         } else {
             camera.setToOrtho(false, width, height);
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public ProjectileManager getProjectileManager() {
+        return projectileManager;
     }
 }
