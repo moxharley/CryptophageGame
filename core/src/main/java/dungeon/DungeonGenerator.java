@@ -6,7 +6,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -17,12 +19,10 @@ import com.badlogic.gdx.utils.Array;
  */
 public class DungeonGenerator {
     // The following are initialized in create() within MyGameRoot
-    public static Array<TiledMap> ROOMS_START; // A list of all the room templates (start)
-    public static Array<TiledMap> ROOMS_NORMAL; // A list of all the room templates (normal)
-    public static Array<TiledMap> ROOMS_PUZZLE; // A list of all the room templates (puzzle)
-    public static Array<TiledMap> ROOMS_TREASURE; // A list of all the room templates (treasure)
-    public static Array<TiledMap> ROOMS_SHOP; // A list of all the room templates (shop)
-    public static Array<TiledMap> ROOMS_BOSS; // A list of all the room templates (boss)
+    public static Array<DungeonRoomTemplate> ROOMS_S; // A list of all the room templates (16x16)
+    public static Array<DungeonRoomTemplate> ROOMS_MV; // A list of all the room templates (16x24)
+    public static Array<DungeonRoomTemplate> ROOMS_MH; // A list of all the room templates (24x16)
+    public static Array<DungeonRoomTemplate> ROOMS_L; // A list of all the room templates (24x24)
 
     public static final int STANDARD_WIDTH = 96; // Tiles
     public static final int STANDARD_HEIGHT = 96; // Tiles
@@ -34,14 +34,15 @@ public class DungeonGenerator {
     private final int mapHeight;
     private final int roomCount;
 
-    // Dungeon Randomzier
+    // Dungeon Randomizer
     private final Random randomizer;
 
     // Dungeon State
     private TiledMap dungeonMap;
     private DungeonLeaf rootLeaf;
-    private ArrayList<DungeonLeaf> allLeaves;
-    private ArrayList<DungeonLeaf> finalLeaves;
+    private final ArrayList<DungeonLeaf> allLeaves;
+    private final ArrayList<DungeonLeaf> finalLeaves;
+    private ArrayList<PlacedRoom> placedRooms;
 
     /**
      * Constructs a new dungeon generator with standard configuration.
@@ -53,6 +54,7 @@ public class DungeonGenerator {
         this.randomizer = new Random();
         this.allLeaves = new ArrayList<>();
         this.finalLeaves = new ArrayList<>();
+        this.placedRooms = new ArrayList<>();
     }
 
     /**
@@ -69,6 +71,7 @@ public class DungeonGenerator {
         this.randomizer = new Random();
         this.allLeaves = new ArrayList<>();
         this.finalLeaves = new ArrayList<>();
+        this.placedRooms = new ArrayList<>();
     }
 
     /**
@@ -145,7 +148,7 @@ public class DungeonGenerator {
     /**
      * Returns all final leaves in the dungeon.
      *
-     * @return the array of all final dungeon leaves
+     * @return the array list of all final dungeon leaves
      */
     public ArrayList<DungeonLeaf> getFinalLeaves() {
         return finalLeaves;
@@ -153,15 +156,16 @@ public class DungeonGenerator {
 
     // -- THE JUICY STUFF --
 
-    public TiledMap generate(final long seed) {
+    public void generate(final long seed) {
         randomizer.setSeed(seed);
 
         clearState();
         createEmptyMap();
         createRootLeaf();
         splitLeaves();
+        placeRoomsInLeaves();
+        bakeRoomsToMap();
 
-        return dungeonMap;
     }
 
     /**
@@ -175,6 +179,7 @@ public class DungeonGenerator {
         rootLeaf = null;
         allLeaves.clear();
         finalLeaves.clear();
+        placedRooms.clear();
     }
 
     /**
@@ -184,13 +189,100 @@ public class DungeonGenerator {
         dungeonMap = new TiledMap();
         MapLayers layers = dungeonMap.getLayers();
 
-        TiledMapTileLayer walls = new TiledMapTileLayer(mapWidth, mapHeight, TILE_SIZE, TILE_SIZE);
-        walls.setName("walls");
-        layers.add(walls);
+        TiledMapTileLayer base = new TiledMapTileLayer(mapWidth, mapHeight, TILE_SIZE, TILE_SIZE);
+        base.setName("base");
+        layers.add(base);
 
-        TiledMapTileLayer debug = new TiledMapTileLayer(mapWidth, mapHeight, TILE_SIZE, TILE_SIZE);
-        debug.setName("debug");
-        layers.add(debug);
+        TiledMapTileLayer accessories = new TiledMapTileLayer(mapWidth, mapHeight, TILE_SIZE, TILE_SIZE);
+        accessories.setName("accessories");
+        layers.add(accessories);
+
+        TiledMapTileLayer foreground = new TiledMapTileLayer(mapWidth, mapHeight, TILE_SIZE, TILE_SIZE);
+        foreground.setName("foreground");
+        layers.add(foreground);
+
+        copyTileSetsFromTemplate();
+    }
+
+    private void bakeRoomsToMap() {
+        final TiledMapTileLayer baseLayer = (TiledMapTileLayer) dungeonMap.getLayers().get("base");
+        final TiledMapTileLayer accessoriesLayer = (TiledMapTileLayer) dungeonMap.getLayers().get("accessories");
+        final TiledMapTileLayer foregroundLayer = (TiledMapTileLayer) dungeonMap.getLayers().get("foreground");
+
+        fillLayerWithTile(baseLayer, 231);
+
+        for (PlacedRoom placedRoom : placedRooms) {
+            stampLayer(placedRoom, "base", baseLayer);
+            stampLayer(placedRoom, "accessories", accessoriesLayer);
+            stampLayer(placedRoom, "foreground", foregroundLayer);
+        }
+    }
+
+    private void fillLayerWithTile(final TiledMapTileLayer layer, final int tileId) {
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                cell.setTile(findTileById(tileId));
+                layer.setCell(x, y, cell);
+            }
+        }
+    }
+
+    private TiledMapTile findTileById(final int tileId) {
+        for (TiledMapTileSet tileSet : dungeonMap.getTileSets()) {
+            TiledMapTile tile = tileSet.getTile(tileId);
+            if (tile != null) {
+                return tile;
+            }
+        }
+        throw new IllegalArgumentException("Tile id not found: " + tileId);
+    }
+
+    private void stampLayer(final PlacedRoom placedRoom, final String layerName, final TiledMapTileLayer targetLayer) {
+        final TiledMap roomMap = placedRoom.getTemplate().getRoom();
+        final TiledMapTileLayer sourceLayer = (TiledMapTileLayer) roomMap.getLayers().get(layerName);
+        if (sourceLayer == null) {
+            throw new IllegalArgumentException("Placed room not found:" + placedRoom);
+        }
+        final int offsetX = placedRoom.getX();
+        final int offsetY = placedRoom.getY();
+
+        for (int y = 0; y < sourceLayer.getHeight(); y++) {
+            for (int x = 0; x < sourceLayer.getWidth(); x++) {
+                final TiledMapTileLayer.Cell sourceCell = sourceLayer.getCell(x, y);
+                if (sourceCell == null || sourceCell.getTile() == null) {
+                    continue;
+                }
+                final TiledMapTileLayer.Cell copiedCell = new TiledMapTileLayer.Cell();
+                copiedCell.setTile(sourceCell.getTile());
+                copiedCell.setFlipHorizontally(sourceCell.getFlipHorizontally());
+                copiedCell.setFlipVertically(sourceCell.getFlipVertically());
+                copiedCell.setRotation(sourceCell.getRotation());
+                targetLayer.setCell(offsetX + x, offsetY + y, copiedCell);
+            }
+        }
+    }
+
+    private void copyTileSetsFromTemplate() {
+        DungeonRoomTemplate sourceTemplate = null;
+
+        if (ROOMS_S != null && ROOMS_S.size > 0) {
+            sourceTemplate = ROOMS_S.first();
+        } else if (ROOMS_MV != null && ROOMS_MV.size > 0) {
+            sourceTemplate = ROOMS_MV.first();
+        } else if (ROOMS_MH != null && ROOMS_MH.size > 0) {
+            sourceTemplate = ROOMS_MH.first();
+        } else if (ROOMS_L != null && ROOMS_L.size > 0) {
+            sourceTemplate = ROOMS_L.first();
+        }
+
+        if (sourceTemplate == null) {
+            throw new IllegalStateException("No room templates loaded");
+        }
+
+        dungeonMap.getTileSets().addTileSet(
+            sourceTemplate.getRoom().getTileSets().getTileSet(0)
+        );
     }
 
     /**
@@ -320,10 +412,109 @@ public class DungeonGenerator {
      * Places actual rooms inside the final BSP leaves.
      */
     private void placeRoomsInLeaves() {
-        // TODO:
-        // Later:
-        // 1. Pick a room rectangle inside each final leaf.
-        // 2. Either draw placeholder rooms or copy TMX templates.
+        placedRooms.clear();
+
+        for (DungeonLeaf leaf : finalLeaves) {
+            DungeonRoomTemplate template = chooseTemplateForLeaf(leaf);
+
+            if (template == null) {
+                System.out.println("No template fits this leaf:" + leaf);
+                continue;
+            }
+
+            int roomX = randomPlacementX(leaf, template);
+            int roomY = randomPlacementY(leaf, template);
+
+            PlacedRoom placedRoom = new PlacedRoom(template, leaf, roomX, roomY);
+            placedRooms.add(placedRoom);
+
+            System.out.println("Placed room: " + placedRoom);
+        }
+    }
+
+    /**
+     * Chooses a random template based on leaf size.
+     *
+     * @param leaf the leaf container
+     * @return the room template chosen or null
+     */
+    private DungeonRoomTemplate chooseTemplateForLeaf(DungeonLeaf leaf) {
+        if (canFitAny(ROOMS_L, leaf)) {
+            return randomTemplateFrom(ROOMS_L);
+        }
+        if (canFitAny(ROOMS_MV, leaf)) {
+            return randomTemplateFrom(ROOMS_MV);
+        }
+        if (canFitAny(ROOMS_MH, leaf)) {
+            return randomTemplateFrom(ROOMS_MH);
+        }
+        if (canFitAny(ROOMS_S, leaf)) {
+            return randomTemplateFrom(ROOMS_S);
+        }
+        return null;
+    }
+
+    private boolean canFitAny(final Array<DungeonRoomTemplate> templates,
+                              final DungeonLeaf leaf) {
+        if (templates == null || templates.size == 0) {
+            return false;
+        }
+
+        for (DungeonRoomTemplate template : templates) {
+            if (template.fitsIn(leaf)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Randomly selects a template from a list of templates.
+     *
+     * @param templates list of templates
+     * @return the randomly selected template, or null
+     */
+    private DungeonRoomTemplate randomTemplateFrom(final Array<DungeonRoomTemplate> templates) {
+        if (templates == null || templates.size == 0) {
+            return null;
+        }
+        return templates.get(randomizer.nextInt(templates.size));
+    }
+
+    /**
+     * Randomly chooses room x placement within the leaf.
+     *
+     * @param leaf the leaf container
+     * @param template the room template
+     * @return the x placement
+     */
+    private int randomPlacementX(final DungeonLeaf leaf, final DungeonRoomTemplate template) {
+        int minX = leaf.getX();
+        int maxX = leaf.getX() + leaf.getWidth() - template.getWidth();
+
+        if (minX == maxX) {
+            return minX;
+        }
+
+        return randomizer.nextInt(minX, maxX + 1);
+    }
+
+    /**
+     * Randomly chooses room y placement within the leaf.
+     *
+     * @param leaf the leaf container
+     * @param template the room template
+     * @return the y placement
+     */
+    private int randomPlacementY(final DungeonLeaf leaf, final DungeonRoomTemplate template) {
+        int minY = leaf.getY();
+        int maxY = leaf.getY() + leaf.getHeight() - template.getHeight();
+
+        if (minY == maxY) {
+            return minY;
+        }
+
+        return randomizer.nextInt(minY, maxY + 1);
     }
 
     /**
