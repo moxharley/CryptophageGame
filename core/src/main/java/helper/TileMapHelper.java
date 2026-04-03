@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.harlanfinn.cryptophage.GameScene;
+import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 
 import static helper.GameConstants.PPM;
@@ -53,6 +54,19 @@ public class TileMapHelper {
                     );
 
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                }
+
+                if (rectangleName.equals("flyingEnemy1")) {
+                    Body body = MapBodyHelperService.createBody(
+                        rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
+                        rectangle.getY() + rectangle.getHeight() / 2f,
+                        rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
+                        gameScreen.getWorld()
+                    );
+
+                    body.setGravityScale(0.0f); // make fly
+
+                    gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body, EnemyType.FLYING_1);
                 }
             }
         }

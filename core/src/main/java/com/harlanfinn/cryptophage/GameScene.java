@@ -12,12 +12,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import controllers.InputController;
 import helper.CollisionManager;
 import helper.TileMapHelper;
 import objects.entitiy.enemy.Enemy;
 import objects.entitiy.enemy.EnemyManager;
+import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 import objects.projectile.*;
 
@@ -66,6 +66,11 @@ public class GameScene extends ScreenAdapter {
     }
 
     private void update() {
+        int a;
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            a = 0; // used to trigger breakpoint on key press
+        };
+
         // TODO understand why 6 and 2 are used by tutorial
         world.step((float) 1 / FPS, 6, 2);
         cameraUpdate();
@@ -139,6 +144,9 @@ public class GameScene extends ScreenAdapter {
         this.player = player;
     }
 
+    private void updateEnemies() {
+        enemyManager.update();
+    }
 
     private void updatePlayer() {
         inputController.sync();
@@ -150,7 +158,7 @@ public class GameScene extends ScreenAdapter {
         if (inputController.getPressedShoot()) {
             // trigger shot
             if (player.attackIfAllowed()) {
-                createProjectile(true);
+                createPlayerProjectile();
             }
         }
         // Check for jump
@@ -163,36 +171,37 @@ public class GameScene extends ScreenAdapter {
         player.update();
     }
 
-    private void createProjectile(final boolean playerAttack) {
+    private void createPlayerProjectile() {
+        ProjectileShape projectileShape = player.getProjectileShape();
+        ProjectileColour projectileColour = player.getProjectileColour();
+        ProjectileTeam projectileTeam = player.getProjectileTeam();
+        float damage = player.getDamage() * player.getDamageModifier();
+        float speed = player.getBulletSpeed() * player.getBulletSpeedModifier();
+        int lifespan = player.getBulletLifespan();
+        Vector2 bulletPosition = new Vector2(player.getX(), player.getY());
+        Vector2 bulletDirection = inputController.getCursorVectorFromPlayer();
+        int size = player.getProjectileSize();
 
-        ProjectileShape projectileShape;
-        ProjectileColour projectileColour;
-        ProjectileTeam projectileTeam;
-        float damage;
-        float speed;
-        int lifespan;
-        Vector2 bulletPosition;
-        Vector2 bulletDirection;
-        int size;
+        projectileManager.addProjectile(projectileShape, projectileColour,
+                                        projectileTeam, damage, speed, lifespan,
+                                        bulletPosition, bulletDirection, size);
+    }
 
-        if (playerAttack) {
 
-            projectileShape = player.getProjectileShape();
-            projectileColour = player.getProjectileColour();
-            projectileTeam = player.getProjectileTeam();
-            damage = player.getDamage() * player.getDamageModifier();
-            speed = player.getBulletSpeed() * player.getBulletSpeedModifier();
-            lifespan = player.getBulletLifespan();
-            bulletPosition = new Vector2(player.getX(), player.getY());
-            bulletDirection = inputController.getCursorVectorFromPlayer();
-            size = player.getProjectileSize();
+    private void createEnemyProjectile(final Enemy enemy, final Vector2 bulletDirection) {
+        ProjectileShape projectileShape = enemy.getProjectileShape();
+        ProjectileColour projectileColour = enemy.getProjectileColour();
+        ProjectileTeam projectileTeam = enemy.getProjectileTeam();
+        float damage = enemy.getDamage() * enemy.getDamageModifier();
+        float speed = enemy.getBulletSpeed() * enemy.getBulletSpeedModifier();
+        int lifespan = enemy.getBulletLifespan();
+        Vector2 bulletPosition = new Vector2(enemy.getX(), enemy.getY());
+        int size = enemy.getProjectileSize();
 
-            projectileManager.addProjectile(projectileShape, projectileColour,
-                                            projectileTeam, damage, speed, lifespan,
-                                            bulletPosition, bulletDirection, size);
-        } else {
-            // enemy attack
-        }
+        projectileManager.addProjectile(projectileShape, projectileColour,
+            projectileTeam, damage, speed, lifespan,
+            bulletPosition, bulletDirection, size);
+
     }
 
     @Override
@@ -222,5 +231,9 @@ public class GameScene extends ScreenAdapter {
 
     public ProjectileManager getProjectileManager() {
         return projectileManager;
+    }
+
+    public void addEnemy(final float width, final float height, final Body body, final EnemyType enemyType) {
+        getEnemyManager().addEnemy(width, height, body, enemyType);
     }
 }
