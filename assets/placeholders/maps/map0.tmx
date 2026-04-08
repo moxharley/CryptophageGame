@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="6">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="8">
  <tileset firstgid="1" name="test_boxes" tilewidth="64" tileheight="64" tilecount="100" columns="10">
   <image source="test_boxes.png" width="640" height="640"/>
  </tileset>
  <layer id="1" name="background" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1ADMaJhUeWoCRiRMLfOYoJja5jFSCTPRCAMASgQAZA==
+   eJxjYBgF1ADMaHggASMSppZ5TFBMbfMYqYSZaIQBNawAWA==
   </data>
  </layer>
  <objectgroup id="2" name="objects">
   <object id="1" x="128" y="320">
    <polygon points="0,0 256,0 256,-64 0,-64 0,0"/>
-  </object>
-  <object id="2" x="640" y="320">
-   <polygon points="0,0 256,0 256,-64 0,-64"/>
   </object>
   <object id="3" x="0" y="640">
    <polygon points="0,0 1088,0 1088,-128 0,-128"/>
@@ -22,5 +19,6 @@
    <polygon points="0,0 0,-320 192,-320 192,0"/>
   </object>
   <object id="5" name="player" x="192" y="384" width="64" height="64"/>
+  <object id="6" name="flyingEnemy1" x="704" y="256" width="64" height="64"/>
  </objectgroup>
 </map>
