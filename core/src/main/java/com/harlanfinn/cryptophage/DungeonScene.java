@@ -72,9 +72,9 @@ public class DungeonScene extends ScreenAdapter {
 
         table.top().left();
 
-        table.add(genButton).width(90).height(25).pad(10);
-        table.row();
         table.add(backButton).width(90).height(25).pad(10);
+        table.row();
+        table.add(genButton).width(90).height(25).pad(10);
 
         stage.addActor(table);
 
