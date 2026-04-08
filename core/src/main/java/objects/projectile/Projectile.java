@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Hitbox;
 
+import static helper.GameConstants.PPM;
+
 /**
  * Represents a projectile created by a player or enemy.
  *
@@ -91,7 +93,13 @@ public class Projectile {
         // texture
         switch (projectileShape) {
             case CIRCLE:
-                this.texture = new Texture("../assets/projectiles/circle_bullet.png");
+                if (projectileColour == ProjectileColour.RED) {
+                    this.texture = new Texture("../assets/projectiles/circle_bullet_red.png");
+                } else if (projectileColour == ProjectileColour.BLUE) {
+                    this.texture = new Texture("../assets/projectiles/circle_bullet_blue.png");
+                } else {
+                    this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
+                }
                 break;
             default:
                 this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
@@ -115,8 +123,8 @@ public class Projectile {
         this.sprite = new Sprite(texture);
         sprite.setPosition(getBulletPosition().x, getBulletPosition().y);
 
-        this.hitbox = new Hitbox(getBulletPosition().x,
-            getBulletPosition().y, getSize(), getSize());
+        this.hitbox = new Hitbox(getBulletPosition().x, getBulletPosition().y,
+            getSize() / PPM, getSize() / PPM);
     }
 
     public boolean checkForCollision(final Hitbox otherHitbox) {

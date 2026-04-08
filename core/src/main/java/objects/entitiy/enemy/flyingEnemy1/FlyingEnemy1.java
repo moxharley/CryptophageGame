@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import objects.entitiy.enemy.Enemy;
+import objects.entitiy.player.Player;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
+import java.util.Random;
+
 import static helper.GameConstants.PPM;
-import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
+import static objects.entitiy.enemy.flyingEnemy1.FlyingEnemy1Constants.*;
 
 public class FlyingEnemy1 extends Enemy {
 
@@ -40,6 +43,9 @@ public class FlyingEnemy1 extends Enemy {
     protected ProjectileTeam projectileTeam;
 
     private int timeSinceLastShot;
+    private int timeSinceLastMove;
+    private int timeBetweenMoves;
+    private float timeBetweenMovesModifier;
 
     public FlyingEnemy1(float width, float height, Body body) {
         super(width, height, body);
@@ -74,7 +80,11 @@ public class FlyingEnemy1 extends Enemy {
         this.projectileShape = DEFAULT_PROJECTILE_SHAPE;
         this.projectileTeam = DEFAULT_PROJECTILE_TEAM;
 
-        timeSinceLastShot = 0;
+        this.timeBetweenMoves = 200;
+        this.timeBetweenMovesModifier = 1.0f;
+
+        timeSinceLastShot = 9;
+        timeSinceLastMove = 199;
     }
 
     @Override
@@ -88,22 +98,32 @@ public class FlyingEnemy1 extends Enemy {
         y = (body.getPosition().y * PPM) / 2;
 
         timeSinceLastShot += 1;
+        timeSinceLastMove += 1;
     }
 
     // TODO this is incomplete
     public void render(SpriteBatch batch) { }
 
 
-
-    public void move(final Vector2 movement) {
-        getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
+    @Override
+    public void move(final Vector2 playerPosition) {
+        if (checkAllowedToMove()) {
+            Vector2 movement = getVectorFromEnemyToPlayer(playerPosition);
+            getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
+            timeSinceLastMove = 0;
+        }
     }
 
-    private Vector2 scaleMovement(final Vector2 unscaledMovement) {
-        return new Vector2(unscaledMovement.x * getMoveSpeed() * getMoveSpeedModifier(),
-                           unscaledMovement.y * getMoveSpeed() * getMoveSpeedModifier());
+    private Vector2 getVectorFromEnemyToPlayer(final Vector2 player) {
+        Random random = new Random();
+        Vector2 enemyToPlayerVector = new Vector2(
+            random.nextFloat(-1, 1),
+            random.nextFloat(-1, 1));
+        return enemyToPlayerVector.sub(0, 0).nor();
     }
 
+
+    @Override
     public boolean attackIfAllowed() {
         if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
             timeSinceLastShot = 0;
@@ -113,7 +133,21 @@ public class FlyingEnemy1 extends Enemy {
         }
     }
 
+    private boolean checkAllowedToMove() {
+        return getTimeSinceLastMove() >= getTimeBetweenMoves() * getTimeBetweenMovesModifier();
+    }
 
+    public int getTimeSinceLastMove() {
+        return timeSinceLastMove;
+    }
+
+    public int getTimeBetweenMoves() {
+        return timeBetweenMoves;
+    }
+
+    public float getTimeBetweenMovesModifier() {
+        return timeBetweenMovesModifier;
+    }
 
     /**
      * Resets all stats of this PlayerEntity to their defaults.

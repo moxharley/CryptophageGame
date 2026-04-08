@@ -18,7 +18,7 @@
   <object id="4" x="1088" y="640">
    <polygon points="0,0 0,-320 192,-320 192,0"/>
   </object>
-  <object id="5" name="player" x="192" y="384" width="64" height="64"/>
-  <object id="6" name="flyingEnemy1" x="704" y="256" width="64" height="64"/>
+  <object id="5" name="player" x="192" y="448" width="32" height="64"/>
+  <object id="6" name="flyingEnemy1" x="576" y="256" width="64" height="64"/>
  </objectgroup>
 </map>

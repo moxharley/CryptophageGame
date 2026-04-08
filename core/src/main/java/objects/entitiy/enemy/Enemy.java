@@ -60,9 +60,19 @@ public class Enemy extends GameEntity {
         timeSinceLastShot += 1;
     }
 
-    public void moveHorizontal(final int horizontalMovement) {
-        velX = 0;
-        velX = horizontalMovement;
+    public void move(final Vector2 playerPosition) {
+//        velX = 0;
+//        velX = horizontalMovement;
+//        getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
+    }
+
+    protected Vector2 scaleMovement(final Vector2 unscaledMovement) {
+        return new Vector2(unscaledMovement.x * getMoveSpeed() * getMoveSpeedModifier(),
+                           unscaledMovement.y * getMoveSpeed() * getMoveSpeedModifier());
+    }
+
+    public boolean attackIfAllowed() {
+        return false;
     }
 
     public void jump() {
@@ -241,5 +251,9 @@ public class Enemy extends GameEntity {
 
     private void setHealth(final float valueToChangeHealthBy) {
         currentHealthPoints += Math.round(valueToChangeHealthBy);
+    }
+
+    public Vector2 getVectorFromOrigin() {
+        return new Vector2(getX(), getY());
     }
 }
