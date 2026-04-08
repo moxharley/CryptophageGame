@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import dungeon.Debug;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -32,6 +33,7 @@ public class MainMenuScreen extends ScreenAdapter {
         final Label title = new Label("Cryptophage", skin);
         final TextButton playButton = new TextButton("Play", skin);
         final TextButton quitButton = new TextButton("Quit", skin);
+        final TextButton dungeonButton = new TextButton("Dungeon", skin);
 
         playButton.addListener(new ChangeListener() {
             @Override
@@ -47,6 +49,13 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
+        dungeonButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(final ChangeEvent event, final Actor actor) {
+                game.setScreen(new DungeonScene(game));
+            }
+        });
+
         final Table table = new Table();
         table.setFillParent(true);
 
@@ -55,6 +64,8 @@ public class MainMenuScreen extends ScreenAdapter {
         table.add(playButton).width(200).pad(10);
         table.row();
         table.add(quitButton).width(200).pad(10);
+        table.row();
+        table.add(dungeonButton).width(200).pad(10);
 
         stage.addActor(table);
     }
