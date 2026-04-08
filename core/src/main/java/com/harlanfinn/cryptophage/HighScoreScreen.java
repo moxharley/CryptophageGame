@@ -3,6 +3,7 @@ package com.harlanfinn.cryptophage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,14 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dungeon.Debug;
+import dungeon.DungeonGenerator;
 
-public class MainMenuScreen extends ScreenAdapter {
+public class HighScoreScreen extends ScreenAdapter {
 
     private final MyGameRoot game;
     private Stage stage;
     private Skin skin;
 
-    public MainMenuScreen(final MyGameRoot game) {
+    public HighScoreScreen(final MyGameRoot game) {
         this.game = game;
     }
 
@@ -30,54 +32,27 @@ public class MainMenuScreen extends ScreenAdapter {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        final Label title = new Label("Cryptophage", skin);
-        final TextButton playButton = new TextButton("Play", skin);
-        final TextButton scoresButton = new TextButton("Scores", skin);
-        final TextButton quitButton = new TextButton("Quit", skin);
-        final TextButton dungeonButton = new TextButton("Dungeon", skin);
+        final Label title = new Label("Player Scores", skin);
+        final TextButton backButton = new TextButton("Back", skin);
 
-        scoresButton.addListener(new ChangeListener() {
+        backButton.addListener(new ChangeListener() {
             @Override
             public void changed(final ChangeEvent event, final Actor actor) {
-                game.setScreen(new HighScoreScreen(game));
-            }
-        });
-
-        playButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(final ChangeEvent event, final Actor actor) {
-                game.setScreen(new GameScene());
-            }
-        });
-
-        quitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(final ChangeEvent event, final Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-
-        dungeonButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(final ChangeEvent event, final Actor actor) {
-                game.setScreen(new DungeonScene(game));
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
         final Table table = new Table();
         table.setFillParent(true);
+        table.top().left();
+        table.add(backButton).width(90).height(25).pad(10);
 
-        table.add(title).padBottom(30);
-        table.row();
-        table.add(playButton).width(200).pad(10);
-        table.row();
-        table.add(scoresButton).width(200).pad(10);
-        table.row();
-        table.add(dungeonButton).width(200).pad(10);
-        table.row();
-        table.add(quitButton).width(200).pad(10);
+        final Table table2 = new Table();
+        table2.setFillParent(true);
+        table2.add(title).padBottom(30);
 
         stage.addActor(table);
+        stage.addActor(table2);
     }
 
     @Override
