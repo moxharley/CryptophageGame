@@ -80,7 +80,7 @@ public class GameScene extends ScreenAdapter {
 
         // update the player
         updatePlayer();
-        enemyManager.update();
+        updateEnemies();
         projectileManager.update();
 
         updateCollisions(getProjectileManager(), getEnemyManager(), getPlayer());
@@ -145,7 +145,12 @@ public class GameScene extends ScreenAdapter {
     }
 
     private void updateEnemies() {
-        enemyManager.update();
+        for (Enemy enemy : enemyManager.getEnemyList()) {
+            if (enemy.attackIfAllowed()) {
+                createEnemyProjectile(enemy);
+            }
+        }
+        enemyManager.update(getPlayer().getPosition());
     }
 
     private void updatePlayer() {
@@ -188,20 +193,30 @@ public class GameScene extends ScreenAdapter {
     }
 
 
-    private void createEnemyProjectile(final Enemy enemy, final Vector2 bulletDirection) {
+    private void createEnemyProjectile(final Enemy enemy) {
         ProjectileShape projectileShape = enemy.getProjectileShape();
         ProjectileColour projectileColour = enemy.getProjectileColour();
         ProjectileTeam projectileTeam = enemy.getProjectileTeam();
         float damage = enemy.getDamage() * enemy.getDamageModifier();
         float speed = enemy.getBulletSpeed() * enemy.getBulletSpeedModifier();
         int lifespan = enemy.getBulletLifespan();
-        Vector2 bulletPosition = new Vector2(enemy.getX(), enemy.getY());
+        Vector2 bulletPosition = new Vector2(enemy.getX() * 2, enemy.getY() * 2);
         int size = enemy.getProjectileSize();
+
+        Vector2 bulletDirection = getVectorFromEnemyToPlayer(enemy, getPlayer());
 
         projectileManager.addProjectile(projectileShape, projectileColour,
             projectileTeam, damage, speed, lifespan,
             bulletPosition, bulletDirection, size);
 
+    }
+
+
+    private Vector2 getVectorFromEnemyToPlayer(final Enemy enemy, final Player player) {
+        Vector2 enemyToPlayerVector = new Vector2(
+            -((enemy.getVectorFromOrigin().x * 2) - player.getX()),
+            -(((enemy.getVectorFromOrigin().y * 2) - player.getY())));
+        return enemyToPlayerVector.sub(0, 0).nor();
     }
 
     @Override

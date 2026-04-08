@@ -1,10 +1,12 @@
 package objects.entitiy.enemy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import objects.entitiy.enemy.flyingEnemy1.FlyingEnemy1;
 import objects.entitiy.enemy.groundedEnemy1.GroundedEnemy1;
+import objects.entitiy.player.Player;
 
 import java.util.ArrayList;
 
@@ -41,8 +43,9 @@ public class EnemyManager {
         return world;
     }
 
-    public void update() {
+    public void update(final Vector2 playerPosition) {
         for (Enemy enemy : enemyList) {
+            enemy.move(playerPosition);
             enemy.update();
         }
     }

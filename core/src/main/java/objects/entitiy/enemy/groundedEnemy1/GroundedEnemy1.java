@@ -91,20 +91,22 @@ public class GroundedEnemy1 extends Enemy {
         timeSinceLastShot += 1;
     }
 
+    @Override
     // TODO this is incomplete
     public void render(SpriteBatch batch) { }
 
 
-
+    @Override
     public void move(final Vector2 movement) {
         getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
     }
 
-    private Vector2 scaleMovement(final Vector2 unscaledMovement) {
+    @Override
+    public Vector2 scaleMovement(final Vector2 unscaledMovement) {
         return new Vector2(unscaledMovement.x * getMoveSpeed() * getMoveSpeedModifier(),
                            unscaledMovement.y * getMoveSpeed() * getMoveSpeedModifier());
     }
-
+    @Override
     public boolean attackIfAllowed() {
         if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
             timeSinceLastShot = 0;

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import helper.Hitbox;
 
+import static helper.GameConstants.PPM;
+
 public class GameEntity {
 
     protected float x;
@@ -31,7 +33,7 @@ public class GameEntity {
         this.velY = 0;
         this.speed = 0;
 
-        this.hitbox = new Hitbox(getX(), getY(), getWidth(), getHeight());
+        this.hitbox = new Hitbox(getX(), getY(), getWidth() / PPM, getHeight() / PPM);
     }
 
     public void update() { }
