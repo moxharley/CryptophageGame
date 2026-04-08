@@ -63,9 +63,9 @@ public class MainMenuScreen extends ScreenAdapter {
         table.row();
         table.add(playButton).width(200).pad(10);
         table.row();
-        table.add(quitButton).width(200).pad(10);
-        table.row();
         table.add(dungeonButton).width(200).pad(10);
+        table.row();
+        table.add(quitButton).width(200).pad(10);
 
         stage.addActor(table);
     }
