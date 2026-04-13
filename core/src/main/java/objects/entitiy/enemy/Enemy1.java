@@ -1,18 +1,18 @@
-package objects.entitiy.enemy.groundedEnemy1;
+package objects.entitiy.enemy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import objects.entitiy.enemy.Enemy;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
-import static helper.GameConstants.GRAVITY;
-import static helper.GameConstants.PPM;
-import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
+import java.util.Random;
 
-public class GroundedEnemy1 extends Enemy {
+import static helper.GameConstants.PPM;
+import static objects.entitiy.enemy.Enemy1Constants.*;
+
+public class Enemy1 extends Enemy {
 
     protected int maxHealthPoints;
     protected int currentHealthPoints;
@@ -41,8 +41,11 @@ public class GroundedEnemy1 extends Enemy {
     protected ProjectileTeam projectileTeam;
 
     private int timeSinceLastShot;
+    private int timeSinceLastMove;
+    private int timeBetweenMoves;
+    private float timeBetweenMovesModifier;
 
-    public GroundedEnemy1(float width, float height, Body body) {
+    public Enemy1(float width, float height, Body body) {
         super(width, height, body);
 
         // TODO: all constants are currently player constants, change to enemy ones
@@ -75,37 +78,49 @@ public class GroundedEnemy1 extends Enemy {
         this.projectileShape = DEFAULT_PROJECTILE_SHAPE;
         this.projectileTeam = DEFAULT_PROJECTILE_TEAM;
 
-        timeSinceLastShot = 0;
+        this.timeBetweenMoves = 200;
+        this.timeBetweenMovesModifier = 1.0f;
+
+        timeSinceLastShot = 9;
+        timeSinceLastMove = 199;
     }
 
     @Override
     public void update() {
-        // makes the body fall
-        body.setLinearVelocity(velX * speed, Math.min(body.getLinearVelocity().y, GRAVITY));
+        //
+        body.setLinearVelocity(body.getLinearVelocity().x / 1.03f, body.getLinearVelocity().y / 1.03f);
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
-        x = body.getPosition().x * PPM;
-        y = body.getPosition().y * PPM;
+        x = (body.getPosition().x * PPM) / 2;
+        y = (body.getPosition().y * PPM) / 2;
 
         timeSinceLastShot += 1;
+        timeSinceLastMove += 1;
     }
 
-    @Override
     // TODO this is incomplete
     public void render(SpriteBatch batch) { }
 
 
     @Override
-    public void move(final Vector2 movement) {
-        getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
+    public void move(final Vector2 playerPosition) {
+        if (checkAllowedToMove()) {
+            Vector2 movement = getVectorFromEnemyToPlayer(playerPosition);
+            getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
+            timeSinceLastMove = 0;
+        }
     }
 
-    @Override
-    public Vector2 scaleMovement(final Vector2 unscaledMovement) {
-        return new Vector2(unscaledMovement.x * getMoveSpeed() * getMoveSpeedModifier(),
-                           unscaledMovement.y * getMoveSpeed() * getMoveSpeedModifier());
+    private Vector2 getVectorFromEnemyToPlayer(final Vector2 player) {
+        Random random = new Random();
+        Vector2 enemyToPlayerVector = new Vector2(
+            random.nextFloat(-1, 1),
+            random.nextFloat(-1, 1));
+        return enemyToPlayerVector.sub(0, 0).nor();
     }
+
+
     @Override
     public boolean attackIfAllowed() {
         if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
@@ -116,7 +131,21 @@ public class GroundedEnemy1 extends Enemy {
         }
     }
 
+    private boolean checkAllowedToMove() {
+        return getTimeSinceLastMove() >= getTimeBetweenMoves() * getTimeBetweenMovesModifier();
+    }
 
+    public int getTimeSinceLastMove() {
+        return timeSinceLastMove;
+    }
+
+    public int getTimeBetweenMoves() {
+        return timeBetweenMoves;
+    }
+
+    public float getTimeBetweenMovesModifier() {
+        return timeBetweenMovesModifier;
+    }
 
     /**
      * Resets all stats of this PlayerEntity to their defaults.

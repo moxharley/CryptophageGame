@@ -1,12 +1,12 @@
-package objects.entitiy.enemy.groundedEnemy1;
+package objects.entitiy.enemy;
 
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
-public class GroundedEnemy1Constants {
+public class Enemy1Constants {
 
-    private GroundedEnemy1Constants() { }
+    private Enemy1Constants() { }
 
 
 /**
@@ -25,7 +25,7 @@ public static final float BASE_RESISTANCE = 0f;
  * Base movement speed of rangedEnemy1.
  * The movement gained by pressing a directional key
  */
-public static final float BASE_MOVE_SPEED = 5f;
+public static final float BASE_MOVE_SPEED = 6f;
 
 /**
  * Base movement speed modifier of rangedEnemy1.
@@ -47,7 +47,7 @@ public static final float BASE_JUMP_VELOCITY_MODIFIER = 1f;
 /**
  * Base attack speed of rangedEnemy1 in frames.
  */
-public static final int BASE_ATTACK_SPEED = 60;
+public static final int BASE_ATTACK_SPEED = 120;
 
 /**
  * Base attack speed modifier of rangedEnemy1.
@@ -67,7 +67,7 @@ public static final int BASE_DAMAGE_MODIFIER = 8;
 /**
  * Base speed of the bullets shot by rangedEnemy1.
  */
-public static final float BASE_BULLET_SPEED = 2f;
+public static final float BASE_BULLET_SPEED = 1f;
 
 /**
  * Base modifier of the speed of the bullets shot by rangedEnemy1.
