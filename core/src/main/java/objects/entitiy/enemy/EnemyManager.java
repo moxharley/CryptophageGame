@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import objects.entitiy.enemy.groundedEnemy1.GroundedEnemy1;
 
 import java.util.ArrayList;
 
@@ -26,9 +25,6 @@ public class EnemyManager {
         switch (enemyType) {
             case FLYING_1:
                 enemyList.add(new Enemy1(width, height, body));
-                break;
-            case GROUNDED_1:
-                enemyList.add(new GroundedEnemy1(width, height, body));
                 break;
             default:
                 enemyList.add(new Enemy(width, height, body));
