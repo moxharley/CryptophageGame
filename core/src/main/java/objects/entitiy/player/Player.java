@@ -36,6 +36,7 @@ public class Player extends GameEntity {
 
     protected float jumpVelocity;
     protected float jumpVelocityModifier;
+    public int kills;
 
     // TODO: ATTACK speed modifier is better low as opposed to others, fix logic
     protected int attackSpeed;
@@ -87,11 +88,12 @@ public class Player extends GameEntity {
         this.projectileTeam = DEFAULT_PROJECTILE_TEAM;
 
         timeSinceLastShot = 0;
+        this.kills = 0;
     }
 
     public void update() {
-        // makes the body fall
-        body.setLinearVelocity(velX * speed, Math.min(body.getLinearVelocity().y, GRAVITY));
+        // makes the body move based on velocity and speed
+        body.setLinearVelocity(velX * speed, velY * speed);
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
@@ -104,19 +106,9 @@ public class Player extends GameEntity {
     // TODO this is incomplete
     public void render(SpriteBatch batch) { }
 
-    public void moveHorizontal(final int horizontalMovement) {
-        velX = 0;
+    public void move(final int horizontalMovement, final int verticalMovement) {
         velX = horizontalMovement;
-    }
-
-    public void jump() {
-        float force = body.getMass()  * BASE_JUMP_VELOCITY * BASE_JUMP_VELOCITY_MODIFIER;
-
-        // for double jump
-        body.setLinearVelocity(body.getLinearVelocity().x, 0); // set the fall speed to 0 so we can jump again
-
-        // apply force to body in y direction (0 in x)
-        body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
+        velY = verticalMovement;
     }
 
     public boolean attackIfAllowed() {

@@ -63,6 +63,9 @@ public class GameScene extends ScreenAdapter {
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+
+        this.camera = new OrthographicCamera();
+        camera.zoom -= 0.6f;
     }
 
     private void update() {
@@ -106,10 +109,13 @@ public class GameScene extends ScreenAdapter {
 
         Vector3 position = camera.position; // get current camera position
 
-        // get player position and convert it to world position (PPM), then multiply by 10,
-        // then round and then divide by 10. The camera movement is now smoother
+//        // get player position and convert it to world position (PPM), then multiply by 10,
+//        // then round and then divide by 10. The camera movement is now smoother
         position.x = Math.round(player.getBody().getPosition().x * PPM * 10) / 10f;
         position.y = Math.round(player.getBody().getPosition().y * PPM * 10) / 10f;
+
+//        position.x = 0f;
+//        position.y = 0f;
         camera.position.set(position);
         camera.update();
     }
@@ -118,7 +124,7 @@ public class GameScene extends ScreenAdapter {
     public void render(float delta) {
         this.update();
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);  // clears all colour making a black screen
+        Gdx.gl.glClearColor(0.094f, 0.078f, 0.145f, 1);  // clears all colour making a screen the colour of the tiles BG
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // we want to render map before rendering batch (game objects)
@@ -166,12 +172,8 @@ public class GameScene extends ScreenAdapter {
                 createPlayerProjectile();
             }
         }
-        // Check for jump
-        if (inputController.getPressedJump()) {
-            player.jump();
-        }
         //Movement stuff
-        player.moveHorizontal(inputController.getHorizontalMovement());
+        player.move(inputController.getHorizontalMovement(), inputController.getVerticalMovement());
 
         player.update();
     }

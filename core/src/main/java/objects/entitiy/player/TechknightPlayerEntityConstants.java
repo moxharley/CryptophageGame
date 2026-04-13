@@ -42,7 +42,7 @@ public class TechknightPlayerEntityConstants {
      * Base movement speed of the player.
      * The movement gained by pressing a directional key
      */
-    public static final float BASE_MOVE_SPEED = 10f;
+    public static final float BASE_MOVE_SPEED = 8f;
 
     /**
      * Base movement speed modifier of the player.
@@ -64,7 +64,7 @@ public class TechknightPlayerEntityConstants {
     /**
      * Base attack speed of the player in frames.
      */
-    public static final int BASE_ATTACK_SPEED = 10;
+    public static final int BASE_ATTACK_SPEED = 20;
 
     /**
      * Base attack speed modifier of the player.

@@ -8,32 +8,33 @@ import static helper.GameConstants.PPM;
 
 public class InputController {
     private int horizontalMovement;
-    private boolean pressedJump;
+    private int verticalMovement;
     private boolean pressedShoot;
     private boolean pressedSkill;
 
 
     private static final int LEFT = Input.Keys.A;
     private static final int RIGHT = Input.Keys.D;
-    private static final int JUMP = Input.Keys.SPACE;
+    private static final int UP = Input.Keys.W;
+    private static final int DOWN = Input.Keys.S;
     private static final int SHOOT = Input.Buttons.LEFT;
     private static final int SKILL = Input.Buttons.RIGHT;
 
     public InputController() {
         this.horizontalMovement = 0;
-        this.pressedJump = false;
+        this.verticalMovement = 0;
         this.pressedShoot = false;
         this.pressedSkill = false;
     }
 
     public void sync() {
         horizontalMovement = 0;
-        pressedJump = false;
+        verticalMovement = 0;
         pressedShoot = false;
         pressedSkill = false;
 
         horizontalMovement = checkHorizontalMovement();
-        pressedJump = checkPressedJump();
+        verticalMovement = checkVerticalMovement();
         pressedShoot = checkPressedShoot();
         pressedSkill = checkPressedSkill();
     }
@@ -70,11 +71,14 @@ public class InputController {
         }
     }
 
-    /*
-    Used by sync to check for specified input.
-     */
-    private boolean checkPressedJump() {
-        return Gdx.input.isKeyJustPressed(JUMP);
+    private int checkVerticalMovement() {
+        if (Gdx.input.isKeyPressed(UP) && !Gdx.input.isKeyPressed(DOWN)) {
+            return 1;
+        } else if (Gdx.input.isKeyPressed(DOWN) && !Gdx.input.isKeyPressed(UP)) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     /*
@@ -94,9 +98,8 @@ public class InputController {
     public int getHorizontalMovement() {
         return horizontalMovement;
     }
-
-    public boolean getPressedJump() {
-        return pressedJump;
+    public int getVerticalMovement() {
+        return verticalMovement;
     }
 
     public boolean getPressedShoot() {
