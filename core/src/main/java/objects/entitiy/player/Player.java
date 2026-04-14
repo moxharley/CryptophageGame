@@ -1,5 +1,6 @@
 package objects.entitiy.player;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -56,8 +57,8 @@ public class Player extends GameEntity {
 
     private int timeSinceLastShot;
 
-    public Player(float width, float height, Body body) {
-        super(width, height, body);
+    public Player(final float width, final float height, final Body body) {
+        super(width, height, body, PLAYER_TEXTURE);
 
         this.speed = BASE_MOVE_SPEED;
 
@@ -101,6 +102,7 @@ public class Player extends GameEntity {
         y = body.getPosition().y;
 
         moveHitbox();
+        moveSprite();
 
         timeSinceLastShot += 1;
     }

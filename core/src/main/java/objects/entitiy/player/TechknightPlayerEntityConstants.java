@@ -1,5 +1,7 @@
 package objects.entitiy.player;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
@@ -25,6 +27,10 @@ public class TechknightPlayerEntityConstants {
     private TechknightPlayerEntityConstants() { }
 
 
+    /**
+     * The techknight player texture.
+     */
+    public static final Texture PLAYER_TEXTURE = new Texture("../assets/entities/techknight.png");
 
     /**
      * Default max health of the player.
