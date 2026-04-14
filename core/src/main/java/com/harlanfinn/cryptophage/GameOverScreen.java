@@ -41,15 +41,10 @@ public class GameOverScreen extends ScreenAdapter {
 
         final Table table = new Table();
         table.setFillParent(true);
-        table.top().left();
-        table.add(backButton).width(90).height(25).pad(10);
-
-        final Table table2 = new Table();
-        table2.setFillParent(true);
-        table2.add(title).padBottom(30);
+        table.add(title).padBottom(30);
+        table.add(backButton).width(200).pad(10);
 
         stage.addActor(table);
-        stage.addActor(table2);
     }
 
     @Override
