@@ -94,6 +94,8 @@ public class Enemy1 extends Enemy {
         x = (body.getPosition().x) / 2;
         y = (body.getPosition().y) / 2;
 
+        moveHitbox();
+
         timeSinceLastShot += 1;
         timeSinceLastMove += 1;
     }
