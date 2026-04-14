@@ -11,12 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import save.HighScoreManager;
+
+import java.util.ArrayList;
 
 public class HighScoreScreen extends ScreenAdapter {
 
     private final MyGameRoot game;
     private Stage stage;
     private Skin skin;
+    private ArrayList<Integer> scores;
 
     public HighScoreScreen(final MyGameRoot game) {
         this.game = game;
@@ -48,8 +52,22 @@ public class HighScoreScreen extends ScreenAdapter {
         table2.setFillParent(true);
         table2.add(title).padBottom(30);
 
+        scores = HighScoreManager.loadScores();
+        int count = 0;
+
+        for (Integer score : scores) {
+            count++;
+            final Label newScore = new Label(score.toString(), skin);
+            table2.row();
+            table2.add(newScore).padBottom(10);
+            if (count >= 5) {
+                break;
+            }
+        }
+
         stage.addActor(table);
         stage.addActor(table2);
+
     }
 
     @Override
