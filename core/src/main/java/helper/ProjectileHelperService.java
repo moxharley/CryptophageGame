@@ -3,8 +3,6 @@ package helper;
 import com.badlogic.gdx.physics.box2d.*;
 import objects.projectile.ProjectileShape;
 
-import static helper.GameConstants.PPM;
-
 public class ProjectileHelperService {
 
     // TODO: do i need this????
@@ -14,7 +12,7 @@ public class ProjectileHelperService {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x / PPM, y / PPM);
+        bodyDef.position.set(x, y);
 
         //TODO: should this be changed because of the bullet rotation
         bodyDef.fixedRotation = true; //prevent object from rotating
@@ -41,15 +39,15 @@ public class ProjectileHelperService {
         if (projectileShape == ProjectileShape.BULLET || projectileShape == ProjectileShape.LINE
             || projectileShape == ProjectileShape.PILL || projectileShape == ProjectileShape.RECTANGLE) {
 
-            shape.setAsBox((float) size / 2 / PPM, (float) size / 4 / PPM);  // TODO: make default width changeable
+            shape.setAsBox((float) size / 2, (float) size / 4);  // TODO: make default width changeable
 
         } else if (projectileShape == ProjectileShape.CIRCLE) {
-            shape.setRadius((float) size / 2 / PPM); // TODO could cause issues with the size of projectiles
+            shape.setRadius((float) size / 2); // TODO could cause issues with the size of projectiles
 
         } else if (projectileShape == ProjectileShape.ARC) {
 
             // use width as radius, ignore height.
-            shape.setRadius((float) size / 2 / PPM);
+            shape.setRadius((float) size / 2);
         }
         return shape;
     }

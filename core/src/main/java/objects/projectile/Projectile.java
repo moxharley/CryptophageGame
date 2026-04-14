@@ -8,8 +8,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Hitbox;
 
-import static helper.GameConstants.PPM;
-
 /**
  * Represents a projectile created by a player or enemy.
  *
@@ -124,7 +122,7 @@ public class Projectile {
         sprite.setPosition(getBulletPosition().x, getBulletPosition().y);
 
         this.hitbox = new Hitbox(getBulletPosition().x, getBulletPosition().y,
-            getSize() / PPM, getSize() / PPM);
+            getSize(), getSize());
     }
 
     public boolean checkForCollision(final Hitbox otherHitbox) {

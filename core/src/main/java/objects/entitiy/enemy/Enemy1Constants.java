@@ -25,7 +25,7 @@ public static final float BASE_RESISTANCE = 0f;
  * Base movement speed of rangedEnemy1.
  * The movement gained by pressing a directional key
  */
-public static final float BASE_MOVE_SPEED = 6f;
+public static final float BASE_MOVE_SPEED = 64f;
 
 /**
  * Base movement speed modifier of rangedEnemy1.

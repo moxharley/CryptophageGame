@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
-import static helper.GameConstants.PPM;
-
 public class InputController {
     private int horizontalMovement;
     private int verticalMovement;
@@ -51,13 +49,13 @@ public class InputController {
     public Vector2 getCursorVectorFromPlayer() {
         /*
          get cursor location, modify the location as if the input origin was in the centre of
-         the screen (this is where the player is located). then scale it by PPM (same as our
-          character). Then the Y is inverted as the input Y axis direction is the opposite of
-          the game coordinate Y axis direction.
+         the screen (this is where the player is located).
+         Then the Y is inverted as the input Y axis direction is the opposite of
+         the game coordinate Y axis direction.
          */
         Vector2 relativeCursorLocation = new Vector2(
-            (Gdx.input.getX() - ((float) Gdx.graphics.getWidth() / 2)) / PPM,
-            -((Gdx.input.getY() - ((float) Gdx.graphics.getHeight() / 2)) / PPM));
+            (Gdx.input.getX() - ((float) Gdx.graphics.getWidth() / 2)),
+            -((Gdx.input.getY() - ((float) Gdx.graphics.getHeight() / 2))));
         return relativeCursorLocation.sub(0, 0).nor();
     }
 

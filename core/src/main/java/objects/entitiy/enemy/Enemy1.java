@@ -9,7 +9,6 @@ import objects.projectile.ProjectileTeam;
 
 import java.util.Random;
 
-import static helper.GameConstants.PPM;
 import static objects.entitiy.enemy.Enemy1Constants.*;
 
 public class Enemy1 extends Enemy {
@@ -92,8 +91,8 @@ public class Enemy1 extends Enemy {
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
-        x = (body.getPosition().x * PPM) / 2;
-        y = (body.getPosition().y * PPM) / 2;
+        x = (body.getPosition().x) / 2;
+        y = (body.getPosition().y) / 2;
 
         timeSinceLastShot += 1;
         timeSinceLastMove += 1;

@@ -7,6 +7,8 @@ import objects.projectile.ProjectileTeam;
 
 import java.util.ArrayList;
 
+import static helper.GameConstants.PROJECTILE_LIFESPAN;
+
 public class CollisionManager {
 
     private ArrayList<Projectile> projectileArrayList;
@@ -23,8 +25,25 @@ public class CollisionManager {
         this.player = player;
     }
 
+    private void increaseAge(Hitbox hitbox) {
+        hitbox.setAge(hitbox.getAge() + 1);
+    }
+
+    private boolean checkOlderThanLifespan(Hitbox hitbox) {
+        return hitbox.getAge() > PROJECTILE_LIFESPAN;
+    }
+
     public void checkForCollisions() {
         for (Projectile projectile : projectileArrayList) {
+
+            // increase projectile age and set remove flag if above lifespan
+            increaseAge(projectile.getHitbox());
+            if (checkOlderThanLifespan(projectile.getHitbox())) {
+                projectile.setRemove(true);
+                continue;
+            }
+
+
             ProjectileTeam projectileTeam = projectile.getProjectileTeam();
             if (projectileTeam == ProjectileTeam.PLAYER) {
                 for (Enemy enemy : enemyArrayList) {
@@ -33,7 +52,7 @@ public class CollisionManager {
                         projectile.setRemove(true);
                     };
                 }
-            } else { // ENEMY team
+            } else { // ENEMY team projectile
                 if (projectile.checkForCollision(player.getHitbox())) {
                     player.takeDamage(projectile.getDamage());
                     projectile.setRemove(true);

@@ -9,7 +9,6 @@ import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
 import static helper.GameConstants.GRAVITY;
-import static helper.GameConstants.PPM;
 import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
 
 public class Enemy extends GameEntity {
@@ -54,8 +53,8 @@ public class Enemy extends GameEntity {
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
-        x = body.getPosition().x * PPM;
-        y = body.getPosition().y * PPM;
+        x = body.getPosition().x;
+        y = body.getPosition().y;
 
         timeSinceLastShot += 1;
     }

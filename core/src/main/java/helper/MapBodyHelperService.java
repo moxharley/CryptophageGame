@@ -2,8 +2,6 @@ package helper;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-import static helper.GameConstants.PPM;
-
 public class MapBodyHelperService {
 
     public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
@@ -14,12 +12,12 @@ public class MapBodyHelperService {
             bodyDef.type = BodyDef.BodyType.DynamicBody;
         }
 
-        bodyDef.position.set(x / PPM, y / PPM);
+        bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true; //prevent object from rotating
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        shape.setAsBox(width / 2, height / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

@@ -17,8 +17,6 @@ import com.harlanfinn.cryptophage.GameScene;
 import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 
-import static helper.GameConstants.PPM;
-
 public class TileMapHelper {
     private TiledMap tiledMap;
     private GameScene gameScreen;
@@ -86,10 +84,9 @@ public class TileMapHelper {
         Vector2[] worldVertices = new Vector2[vertices.length / 2]; // each V2 obj has 1 point which is 2 vertex coordinates in above array
 
         for (int i = 0; i < vertices.length / 2; ++i) { // always take pairs of vertex coordinate as a tuple so only iterate over half
-            // do this PPM transformation so it matches our Box2D world
             Vector2 current = new Vector2(
-                vertices[i * 2] / PPM,
-                vertices[i * 2 + 1] / PPM);
+                vertices[i * 2],
+                vertices[i * 2 + 1]);
             worldVertices[i] = current;
         }
 
