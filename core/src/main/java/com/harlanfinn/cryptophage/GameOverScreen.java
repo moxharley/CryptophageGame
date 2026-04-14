@@ -42,6 +42,7 @@ public class GameOverScreen extends ScreenAdapter {
         final Table table = new Table();
         table.setFillParent(true);
         table.add(title).padBottom(30);
+        table.row();
         table.add(backButton).width(200).pad(10);
 
         stage.addActor(table);
