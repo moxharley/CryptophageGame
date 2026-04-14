@@ -1,17 +1,12 @@
 package objects.entitiy.enemy;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import objects.entitiy.GameEntity;
 import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
-
-import static helper.GameConstants.GRAVITY;
-import static objects.entitiy.player.TechknightPlayerEntityConstants.*;
 
 public class Enemy extends GameEntity {
 
@@ -49,23 +44,7 @@ public class Enemy extends GameEntity {
         timeSinceLastShot = 0;
     }
 
-    public void update() {
-//        // move x & y to the current body position
-//        // x & y will be in the centre of our body
-//        x = body.getPosition().x;
-//        y = body.getPosition().y;
-//
-//        moveHitbox();
-//        moveSprite();
-//
-//        timeSinceLastShot += 1;
-    }
-
-    public void move(final Vector2 playerPosition) {
-//        velX = 0;
-//        velX = horizontalMovement;
-//        getBody().applyLinearImpulse(scaleMovement(movement), body.getPosition(), true);
-    }
+    public void move(final Vector2 playerPosition) {}
 
     protected Vector2 scaleMovement(final Vector2 unscaledMovement) {
         return new Vector2(unscaledMovement.x * getMoveSpeed() * getMoveSpeedModifier(),

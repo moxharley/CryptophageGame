@@ -130,20 +130,24 @@ public class GameScene extends ScreenAdapter {
         // we want to render map before rendering batch (game objects)
         orthogonalTiledMapRenderer.render();
 
-
         batch.begin();
+
         // render objects
-
-//        batch.draw(img, 0, y, img.getWidth(), img.getHeight(), 0, 0, img.getWidth(), img.getHeight(), false, true);
-
         projectileManager.render();
+        enemyManager.render();
+        player.render(getBatch());
 
         batch.end();
-        box2DDebugRenderer.render(world, camera.combined.scl(1));
+
+        box2DDebugRenderer.render(world, camera.combined.scl(1)); // shows box2d objects
     }
 
     public World getWorld() {
         return world;
+    }
+
+    public SpriteBatch getBatch() {
+        return batch;
     }
 
     public void setPlayer(Player player) {

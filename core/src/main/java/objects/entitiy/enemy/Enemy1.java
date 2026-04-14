@@ -1,6 +1,5 @@
 package objects.entitiy.enemy;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -102,9 +101,11 @@ public class Enemy1 extends Enemy {
         timeSinceLastMove += 1;
     }
 
-    // TODO this is incomplete
-    public void render(SpriteBatch batch) { }
-
+    @Override
+    public void render(final SpriteBatch batch) {
+        batch.draw(sprite, getX() - (getWidth() / 2),
+            getY() - (getHeight() / 2), getWidth(), getHeight());
+    }
 
     @Override
     public void move(final Vector2 playerPosition) {

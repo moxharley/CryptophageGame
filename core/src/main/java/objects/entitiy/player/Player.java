@@ -107,8 +107,11 @@ public class Player extends GameEntity {
         timeSinceLastShot += 1;
     }
 
-    // TODO this is incomplete
-    public void render(SpriteBatch batch) { }
+    @Override
+    public void render(final SpriteBatch batch) {
+        batch.draw(sprite, getX() - (getWidth() / 2),
+            getY() - (getHeight() / 2), getWidth(), getHeight());
+    }
 
     public void move(final int horizontalMovement, final int verticalMovement) {
         velX = horizontalMovement;

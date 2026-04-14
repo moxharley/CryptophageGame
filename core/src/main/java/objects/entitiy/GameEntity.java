@@ -45,7 +45,7 @@ public class GameEntity {
 
     public void update() { }
 
-    public void render(SpriteBatch batch) { }
+    public void render(final SpriteBatch batch) { }
 
     public Texture getTexture() {
         return texture;
@@ -74,7 +74,7 @@ public class GameEntity {
         return width;
     }
 
-    private float getHeight() {
+    public float getHeight() {
         return height;
     }
 
