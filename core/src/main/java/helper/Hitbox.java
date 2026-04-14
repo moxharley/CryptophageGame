@@ -8,6 +8,8 @@ public class Hitbox {
     private float width;
     private float height;
 
+    private int age;
+
     /**
      * Creates a new rectangular hitbox with the origin in the bottom left corner.
      *
@@ -21,6 +23,7 @@ public class Hitbox {
         this.originY = originY;
         this.width = width;
         this.height = height;
+        this.age = 0;
     }
 
     public void move(final float x, final float y) {
@@ -65,5 +68,13 @@ public class Hitbox {
 
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
