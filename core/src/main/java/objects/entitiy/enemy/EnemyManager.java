@@ -27,7 +27,7 @@ public class EnemyManager {
                 enemyList.add(new Enemy1(width, height, body));
                 break;
             default:
-                enemyList.add(new Enemy(width, height, body));
+                enemyList.add(new Enemy1(width, height, body));
                 break;
         }
 

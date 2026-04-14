@@ -202,7 +202,7 @@ public class GameScene extends ScreenAdapter {
         float damage = enemy.getDamage() * enemy.getDamageModifier();
         float speed = enemy.getBulletSpeed() * enemy.getBulletSpeedModifier();
         int lifespan = enemy.getBulletLifespan();
-        Vector2 bulletPosition = new Vector2(enemy.getX() * 2, enemy.getY() * 2);
+        Vector2 bulletPosition = new Vector2(enemy.getX(), enemy.getY());
         int size = enemy.getProjectileSize();
 
         Vector2 bulletDirection = getVectorFromEnemyToPlayer(enemy, getPlayer());
@@ -216,8 +216,8 @@ public class GameScene extends ScreenAdapter {
 
     private Vector2 getVectorFromEnemyToPlayer(final Enemy enemy, final Player player) {
         Vector2 enemyToPlayerVector = new Vector2(
-            -((enemy.getVectorFromOrigin().x * 2) - player.getX()),
-            -(((enemy.getVectorFromOrigin().y * 2) - player.getY())));
+            -((enemy.getVectorFromOrigin().x) - player.getX()),
+            -(((enemy.getVectorFromOrigin().y) - player.getY())));
         return enemyToPlayerVector.sub(0, 0).nor();
     }
 

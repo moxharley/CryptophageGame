@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import helper.Hitbox;
 
 /**
@@ -119,10 +117,12 @@ public class Projectile {
         }
 
         this.sprite = new Sprite(texture);
-        sprite.setPosition(getBulletPosition().x, getBulletPosition().y);
+        sprite.setPosition(getBulletPosition().x - ((float) getSize() / 2),
+                           getBulletPosition().y - ((float) getSize() / 2));
 
-        this.hitbox = new Hitbox(getBulletPosition().x, getBulletPosition().y,
-            getSize(), getSize());
+        this.hitbox = new Hitbox(getBulletPosition().x - ((float) getSize() / 2),
+                                 getBulletPosition().y - ((float) getSize() / 2),
+                                 getSize(), getSize());
     }
 
     public boolean checkForCollision(final Hitbox otherHitbox) {
@@ -132,11 +132,13 @@ public class Projectile {
     public void update() {
         bulletPosition.add(new Vector2(getBulletDirection().x * speed,
                                        getBulletDirection().y * speed));
-        hitbox.move(getBulletPosition().x, getBulletPosition().y);
+        hitbox.move(getBulletPosition().x - ((float) getSize() / 2), // adjust by 1/2 of size to compensate for differing origin points
+                    getBulletPosition().y - ((float) getSize() / 2));
     }
 
     public void render(final SpriteBatch batch) {
-        batch.draw(texture, getBulletPosition().x, getBulletPosition().y, getSize(), getSize());
+        batch.draw(texture, getBulletPosition().x - ((float) getSize() / 2),
+                            getBulletPosition().y - ((float) getSize() / 2), getSize(), getSize());
     }
 
     public Vector2 getBulletPosition() {

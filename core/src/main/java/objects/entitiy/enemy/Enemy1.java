@@ -1,5 +1,6 @@
 package objects.entitiy.enemy;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -44,8 +45,8 @@ public class Enemy1 extends Enemy {
     private int timeBetweenMoves;
     private float timeBetweenMovesModifier;
 
-    public Enemy1(float width, float height, Body body) {
-        super(width, height, body);
+    public Enemy1(final float width, final float height, final Body body) {
+        super(width, height, body, ENEMY_1_TEXTURE);
 
         // TODO: all constants are currently player constants, change to enemy ones
 
@@ -91,10 +92,11 @@ public class Enemy1 extends Enemy {
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
-        x = (body.getPosition().x) / 2;
-        y = (body.getPosition().y) / 2;
+        x = (body.getPosition().x);
+        y = (body.getPosition().y);
 
         moveHitbox();
+        moveSprite();
 
         timeSinceLastShot += 1;
         timeSinceLastMove += 1;

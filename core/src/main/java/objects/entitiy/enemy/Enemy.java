@@ -1,5 +1,7 @@
 package objects.entitiy.enemy;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -41,24 +43,22 @@ public class Enemy extends GameEntity {
 
     private int timeSinceLastShot;
 
-    public Enemy(float width, float height, Body body) {
-        super(width, height, body);
+    public Enemy(final float width, final float height, final Body body, final Texture texture) {
+        super(width, height, body, texture);
 
         timeSinceLastShot = 0;
     }
 
     public void update() {
-        // makes the body fall
-        body.setLinearVelocity(velX * speed, Math.min(body.getLinearVelocity().y, GRAVITY));
-
-        // move x & y to the current body position
-        // x & y will be in the centre of our body
-        x = body.getPosition().x;
-        y = body.getPosition().y;
-
-        moveHitbox();
-
-        timeSinceLastShot += 1;
+//        // move x & y to the current body position
+//        // x & y will be in the centre of our body
+//        x = body.getPosition().x;
+//        y = body.getPosition().y;
+//
+//        moveHitbox();
+//        moveSprite();
+//
+//        timeSinceLastShot += 1;
     }
 
     public void move(final Vector2 playerPosition) {
@@ -74,16 +74,6 @@ public class Enemy extends GameEntity {
 
     public boolean attackIfAllowed() {
         return false;
-    }
-
-    public void jump() {
-        float force = body.getMass()  * BASE_JUMP_VELOCITY * BASE_JUMP_VELOCITY_MODIFIER;
-
-        // for double jump
-        body.setLinearVelocity(body.getLinearVelocity().x, 0); // set the fall speed to 0 so we can jump again
-
-        // apply force to body in y direction (0 in x)
-        body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
     }
 
     public int getProjectileSize() {
