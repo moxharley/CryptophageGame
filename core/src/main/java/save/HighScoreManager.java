@@ -19,9 +19,9 @@ public class HighScoreManager {
      *
      * @return a sorted array list of scores read from the file
      */
-    public static ArrayList<Integer> loadScores() {
+    public static ArrayList<ScoreEntry> loadScores() {
         FileHandle file = Gdx.files.local(FILE_NAME);
-        ArrayList<Integer> scores = new ArrayList<>();
+        ArrayList<ScoreEntry> scores = new ArrayList<>();
 
         if (!file.exists()) {
             return scores;
@@ -31,7 +31,10 @@ public class HighScoreManager {
 
         for (String line : lines) {
             if (!line.isEmpty()) {
-                scores.add(Integer.parseInt(line.trim()));
+                String[] elements = line.split(",");
+                String name = elements[0];
+                int score = Integer.parseInt(elements[1]);
+                scores.add(new ScoreEntry(score, name));
             }
         }
 
@@ -44,8 +47,8 @@ public class HighScoreManager {
      *
      * @param score the score to be added
      */
-    public static void addScore(final int score) {
-        ArrayList<Integer> scores = loadScores();
+    public static void addScore(final ScoreEntry score) {
+        ArrayList<ScoreEntry> scores = loadScores();
         scores.add(score);
         scores.sort(Collections.reverseOrder());
 
@@ -61,11 +64,14 @@ public class HighScoreManager {
      *
      * @param scores the array list of scores to be written
      */
-    private static void saveScores(final ArrayList<Integer> scores) {
+    private static void saveScores(final ArrayList<ScoreEntry> scores) {
         StringBuilder sb = new StringBuilder();
 
-        for (int score : scores) {
-            sb.append(score).append("\n");
+        for (ScoreEntry score : scores) {
+            sb.append(score.getName());
+            sb.append(",");
+            sb.append(score.getScore());
+            sb.append("\n");
         }
 
         FileHandle file = Gdx.files.local(FILE_NAME);
