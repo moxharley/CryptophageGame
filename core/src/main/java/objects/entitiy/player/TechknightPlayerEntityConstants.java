@@ -30,7 +30,7 @@ public class TechknightPlayerEntityConstants {
     /**
      * The techknight player texture.
      */
-    public static final Texture PLAYER_TEXTURE = new Texture("../assets/entities/techknight.png");
+    public static final Texture PLAYER_TEXTURE = new Texture("../assets/entities/hero.png");
 
     /**
      * Default max health of the player.

@@ -4,37 +4,62 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Represents an InputController for managing user input.
+ * @author FinnWylie
+ * @version 2026
+ */
 public class InputController {
     private int horizontalMovement;
     private int verticalMovement;
     private boolean pressedShoot;
-    private boolean pressedSkill;
 
-
+    /**
+     * Represents the key used to input left.
+     */
     private static final int LEFT = Input.Keys.A;
-    private static final int RIGHT = Input.Keys.D;
-    private static final int UP = Input.Keys.W;
-    private static final int DOWN = Input.Keys.S;
-    private static final int SHOOT = Input.Buttons.LEFT;
-    private static final int SKILL = Input.Buttons.RIGHT;
 
+    /**
+     * Represents the key used to input right.
+     */
+    private static final int RIGHT = Input.Keys.D;
+
+    /**
+     * Represents the key used to input up.
+     */
+    private static final int UP = Input.Keys.W;
+
+    /**
+     * Represents the key used to input down.
+     */
+    private static final int DOWN = Input.Keys.S;
+
+    /**
+     * Represents the key used to input shoot.
+     */
+    private static final int SHOOT = Input.Buttons.LEFT;
+
+
+    /**
+     * Creates a new InputController with the values that will cause the game to preform no actions.
+     */
     public InputController() {
         this.horizontalMovement = 0;
         this.verticalMovement = 0;
         this.pressedShoot = false;
-        this.pressedSkill = false;
     }
 
+    /**
+     * Updates this InputController to default values, or to use the new inputs the player provides.
+     */
     public void sync() {
-        horizontalMovement = 0;
-        verticalMovement = 0;
-        pressedShoot = false;
-        pressedSkill = false;
+        setHorizontalMovement(0);
+        setVerticalMovement(0);
+        setPressedShoot(false);
 
-        horizontalMovement = checkHorizontalMovement();
-        verticalMovement = checkVerticalMovement();
-        pressedShoot = checkPressedShoot();
-        pressedSkill = checkPressedSkill();
+        setHorizontalMovement(checkHorizontalMovement());
+        setVerticalMovement(checkVerticalMovement());
+        setPressedShoot(checkPressedShoot());
     }
 
 
@@ -86,25 +111,39 @@ public class InputController {
         return Gdx.input.isButtonPressed(SHOOT);
     }
 
-    /*
-    Used by sync to check for specified input.
+    /**
+     * Returns the horizontal movement input of the user.
+     * @return horizontalMovement as an int
      */
-    private boolean checkPressedSkill() {
-        return Gdx.input.isButtonJustPressed(SKILL);
-    }
-
     public int getHorizontalMovement() {
         return horizontalMovement;
     }
+
+    /**
+     * Returns the vertical movement input of the user.
+     * @return verticalMovement as an int
+     */
     public int getVerticalMovement() {
         return verticalMovement;
     }
 
+    /**
+     * Returns if the user pressed shoot this tick.
+     * @return if the user pressed shoot this tick as a boolean
+     */
     public boolean getPressedShoot() {
         return pressedShoot;
     }
 
-    public boolean getPressedSkill() {
-        return pressedSkill;
+    private void setHorizontalMovement(int horizontalMovement) {
+        this.horizontalMovement = horizontalMovement;
+    }
+
+    private void setVerticalMovement(int verticalMovement) {
+        this.verticalMovement = verticalMovement;
+    }
+
+    private void setPressedShoot(boolean pressedShoot) {
+        this.pressedShoot = pressedShoot;
     }
 }
