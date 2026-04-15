@@ -1,8 +1,8 @@
 package save;
 
 public class ScoreEntry implements Comparable<ScoreEntry>{
-    private int score;
-    private String name;
+    private final int score;
+    private final String name;
 
     /**
      * Instantiates a score entry object.
