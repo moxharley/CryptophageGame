@@ -168,7 +168,7 @@ public class DungeonGenerator {
 
     }
 
-    /**
+    /*
      * Clears generator state before creating a new dungeon.
      */
     private void clearState() {
@@ -182,7 +182,7 @@ public class DungeonGenerator {
         placedRooms.clear();
     }
 
-    /**
+    /*
      * Creates an empty tiled map that the dungeon will be drawn into.
      */
     private void createEmptyMap() {
@@ -204,6 +204,9 @@ public class DungeonGenerator {
         copyTileSetsFromTemplate();
     }
 
+    /*
+     * Places the dungeon tiles into the parent map.
+     */
     private void bakeRoomsToMap() {
         final TiledMapTileLayer baseLayer = (TiledMapTileLayer) dungeonMap.getLayers().get("base");
         final TiledMapTileLayer accessoriesLayer = (TiledMapTileLayer) dungeonMap.getLayers().get("accessories");
@@ -218,6 +221,9 @@ public class DungeonGenerator {
         }
     }
 
+    /*
+     * Fills layer with a specified tile.
+     */
     private void fillLayerWithTile(final TiledMapTileLayer layer, final int tileId) {
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
@@ -228,6 +234,9 @@ public class DungeonGenerator {
         }
     }
 
+    /*
+     * Finds tile by id.
+     */
     private TiledMapTile findTileById(final int tileId) {
         for (TiledMapTileSet tileSet : dungeonMap.getTileSets()) {
             TiledMapTile tile = tileSet.getTile(tileId);
@@ -238,6 +247,9 @@ public class DungeonGenerator {
         throw new IllegalArgumentException("Tile id not found: " + tileId);
     }
 
+    /*
+     * Stamps of the tiles on the specified layer.
+     */
     private void stampLayer(final PlacedRoom placedRoom, final String layerName, final TiledMapTileLayer targetLayer) {
         final TiledMap roomMap = placedRoom.getTemplate().getRoom();
         final TiledMapTileLayer sourceLayer = (TiledMapTileLayer) roomMap.getLayers().get(layerName);
@@ -263,6 +275,9 @@ public class DungeonGenerator {
         }
     }
 
+    /*
+     * Gets the tileset from the loaded templates.
+     */
     private void copyTileSetsFromTemplate() {
         DungeonRoomTemplate sourceTemplate = null;
 
@@ -285,7 +300,7 @@ public class DungeonGenerator {
         );
     }
 
-    /**
+    /*
      * Creates the root BSP leaf covering the whole dungeon area.
      */
     private void createRootLeaf() {
@@ -293,6 +308,9 @@ public class DungeonGenerator {
         allLeaves.add(rootLeaf);
     }
 
+    /*
+     * Splits BSP tree leaves.
+     */
     private void splitLeaves() {
         boolean splitOccurred = true;
         while (countCurrentLeaves() < getRoomCount() && splitOccurred) {
@@ -312,6 +330,9 @@ public class DungeonGenerator {
         collectFinalLeaves();
     }
 
+    /*
+     * Counts the current amount of leaves.
+     */
     private int countCurrentLeaves() {
         int count = 0;
         for (DungeonLeaf leaf : allLeaves) {
@@ -322,6 +343,9 @@ public class DungeonGenerator {
         return count;
     }
 
+    /*
+     * Adds all final leaves to the array list.
+     */
     private void collectFinalLeaves() {
         finalLeaves.clear();
         for (DungeonLeaf leaf : allLeaves) {
@@ -367,20 +391,20 @@ public class DungeonGenerator {
             // Top and bottom borders
             for (int x = startX; x <= endX; x++) {
                 if (isInBounds(x, startY)) {
-                    grid[startY][x] = '#';
+                    grid[startY][x] = '-';
                 }
                 if (isInBounds(x, endY)) {
-                    grid[endY][x] = '#';
+                    grid[endY][x] = '-';
                 }
             }
 
             // Left and right borders
             for (int y = startY; y <= endY; y++) {
                 if (isInBounds(startX, y)) {
-                    grid[y][startX] = '#';
+                    grid[y][startX] = '|';
                 }
                 if (isInBounds(endX, y)) {
-                    grid[y][endX] = '#';
+                    grid[y][endX] = '|';
                 }
             }
         }
@@ -397,18 +421,14 @@ public class DungeonGenerator {
         return output.toString();
     }
 
-    /**
+    /*
      * Checks whether a coordinate is inside the map bounds.
-     *
-     * @param x the x-coordinate
-     * @param y the y-coordinate
-     * @return true if the coordinate is valid, false otherwise
      */
     private boolean isInBounds(final int x, final int y) {
         return x >= 0 && x < mapWidth && y >= 0 && y < mapHeight;
     }
 
-    /**
+    /*
      * Places actual rooms inside the final BSP leaves.
      */
     private void placeRoomsInLeaves() {
@@ -432,11 +452,8 @@ public class DungeonGenerator {
         }
     }
 
-    /**
+    /*
      * Chooses a random template based on leaf size.
-     *
-     * @param leaf the leaf container
-     * @return the room template chosen or null
      */
     private DungeonRoomTemplate chooseTemplateForLeaf(DungeonLeaf leaf) {
         if (canFitAny(ROOMS_L, leaf)) {
@@ -454,6 +471,9 @@ public class DungeonGenerator {
         return null;
     }
 
+    /*
+     * Checks if leaf is big enough to fit any template.
+     */
     private boolean canFitAny(final Array<DungeonRoomTemplate> templates,
                               final DungeonLeaf leaf) {
         if (templates == null || templates.size == 0) {
@@ -468,11 +488,8 @@ public class DungeonGenerator {
         return false;
     }
 
-    /**
+    /*
      * Randomly selects a template from a list of templates.
-     *
-     * @param templates list of templates
-     * @return the randomly selected template, or null
      */
     private DungeonRoomTemplate randomTemplateFrom(final Array<DungeonRoomTemplate> templates) {
         if (templates == null || templates.size == 0) {
@@ -481,12 +498,8 @@ public class DungeonGenerator {
         return templates.get(randomizer.nextInt(templates.size));
     }
 
-    /**
+    /*
      * Randomly chooses room x placement within the leaf.
-     *
-     * @param leaf the leaf container
-     * @param template the room template
-     * @return the x placement
      */
     private int randomPlacementX(final DungeonLeaf leaf, final DungeonRoomTemplate template) {
         int minX = leaf.getX();
@@ -499,12 +512,8 @@ public class DungeonGenerator {
         return randomizer.nextInt(minX, maxX + 1);
     }
 
-    /**
+    /*
      * Randomly chooses room y placement within the leaf.
-     *
-     * @param leaf the leaf container
-     * @param template the room template
-     * @return the y placement
      */
     private int randomPlacementY(final DungeonLeaf leaf, final DungeonRoomTemplate template) {
         int minY = leaf.getY();
@@ -517,21 +526,12 @@ public class DungeonGenerator {
         return randomizer.nextInt(minY, maxY + 1);
     }
 
-    /**
+    /*
      * Connects rooms with corridors.
      */
     private void connectRooms() {
         // TODO:
         // Later:
         // Use BSP relationships or room centers to carve corridors.
-    }
-
-    /**
-     * Assigns special room types such as start, boss, or treasure.
-     */
-    private void assignSpecialRooms() {
-        // TODO:
-        // Later:
-        // decide which final leaves become special rooms
     }
 }

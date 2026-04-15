@@ -160,19 +160,15 @@ public class DungeonLeaf {
         return true;
     }
 
-    /**
+    /*
      * Determines if the leaf is large enough to split further or not.
-     *
-     * @return true if it is large enough to split, false otherwise
      */
     private boolean isLargeEnoughToSplit() {
         return this.width >= 2 * MINIMUM_CHILD_MEASUREMENT || this.height >= 2 * MINIMUM_CHILD_MEASUREMENT;
     }
 
-    /**
-     * Determines the direction this leaf will split
-     *
-     * @return true if vertical, false if horizontal
+    /*
+     * Determines the direction this leaf will split.
      */
     private boolean splitDirection() {
         if (this.width < 2 * MINIMUM_CHILD_MEASUREMENT) {
@@ -185,11 +181,8 @@ public class DungeonLeaf {
         }
     }
 
-    /**
-     * Determines the position where the leaf is going to be split
-     *
-     * @param splitDirection true if vertical, false if horizontal
-     * @return the position at which the leaf will split
+    /*
+     * Determines the position where the leaf is going to be split.
      */
     private int splitPosition(final boolean splitDirection) {
         Random randomizer = new Random();
