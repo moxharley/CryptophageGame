@@ -17,10 +17,8 @@ import helper.CollisionManager;
 import helper.TileMapHelper;
 import objects.entitiy.enemy.Enemy;
 import objects.entitiy.enemy.EnemyManager;
-import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 import objects.projectile.*;
-import save.ScoreEntry;
 
 import java.util.ArrayList;
 
@@ -201,7 +199,7 @@ public class GameScene extends ScreenAdapter {
     }
 
     private boolean checkIfPlayerDead() {
-        return getPlayer().getIsDead();
+        return getPlayer().isDead();
     }
 
     private void createPlayerProjectile() {

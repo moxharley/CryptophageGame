@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.harlanfinn.cryptophage.GameScene;
-import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 
 import java.util.Random;

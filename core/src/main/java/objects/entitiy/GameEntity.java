@@ -6,23 +6,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import helper.Hitbox;
 
+/**
+ * Represents a GameEntity.
+ * @author FinnWylie
+ * @version 2026
+ */
 public class GameEntity {
 
-    protected float x;
-    protected float y;
-    protected float velX;
-    protected float velY;
-    protected float speed;
+    private float x;
+    private float y;
+    private float velX;
+    private float velY;
+    private float speed;
 
-    protected float width;
-    protected float height;
+    private float width;
+    private float height;
 
-    protected boolean isDead;
+    private boolean isDead;
 
-    protected Body body;
-    protected Hitbox hitbox;
-    protected Texture texture;
-    protected Sprite sprite;
+    private Body body;
+    private Hitbox hitbox;
+    private Texture texture;
+    private Sprite sprite;
 
     // will take x & y from body so no need to pass the info twice
     public GameEntity(final float width, final float height, final Body body, final Texture texture) {
@@ -92,5 +97,65 @@ public class GameEntity {
 
     public void moveSprite() {
         sprite.setPosition(getX() - (getWidth() / 2), getY() - (getHeight() / 2));
+    }
+
+    public float getVelX() {
+        return velX;
+    }
+
+    public void setVelX(float velX) {
+        this.velX = velX;
+    }
+
+    public float getVelY() {
+        return velY;
+    }
+
+    public void setVelY(float velY) {
+        this.velY = velY;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
+
+    public void setHitbox(Hitbox hitbox) {
+        this.hitbox = hitbox;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 }

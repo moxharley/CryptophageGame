@@ -49,7 +49,7 @@ public class Player extends GameEntity {
     public Player(final float width, final float height, final Body body) {
         super(width, height, body, PLAYER_TEXTURE);
 
-        this.speed = BASE_MOVE_SPEED;
+        setSpeed(BASE_MOVE_SPEED);
 
         this.currentHealthPoints = DEFAULT_MAX_HEALTH_POINTS;
 
@@ -72,12 +72,12 @@ public class Player extends GameEntity {
 
     public void update() {
         // makes the body move based on velocity and speed
-        body.setLinearVelocity(velX * speed, velY * speed);
+        getBody().setLinearVelocity(getVelX() * getSpeed(), getVelY() * getSpeed());
 
         // move x & y to the current body position
         // x & y will be in the centre of our body
-        x = body.getPosition().x;
-        y = body.getPosition().y;
+        setX(getBody().getPosition().x);
+        setY(getBody().getPosition().y);
 
         moveHitbox();
         moveSprite();
@@ -86,24 +86,24 @@ public class Player extends GameEntity {
 //        setTimeSinceLastSkill(getTimeSinceLastSkill() + 1);
 
         if (getCurrentHealthPoints() <= 0) {
-            setIsDead(true);
+            setDead(true);
         }
     }
 
     @Override
     public void render(final SpriteBatch batch) {
-        batch.draw(sprite, getX() - (getWidth() / 2),
+        batch.draw(getSprite(), getX() - (getWidth() / 2),
             getY() - (getHeight() / 2), getWidth(), getHeight());
     }
 
     public void move(final int horizontalMovement, final int verticalMovement) {
-        velX = horizontalMovement;
-        velY = verticalMovement;
+        setVelX(horizontalMovement);
+        setVelY(verticalMovement);
     }
 
     public boolean attackIfAllowed() {
-        if (timeSinceLastShot >= getAttackSpeed() * getAttackSpeedModifier()) {
-            timeSinceLastShot = 0;
+        if (getTimeSinceLastShot() >= getAttackSpeed() * getAttackSpeedModifier()) {
+            setTimeSinceLastShot(0);
             return true;
         } else {
             return false;
@@ -116,14 +116,6 @@ public class Player extends GameEntity {
 
     public void setTimeSinceLastShot(int timeSinceLastShot) {
         this.timeSinceLastShot = timeSinceLastShot;
-    }
-
-    private void setIsDead(final Boolean isDead) {
-        this.isDead = isDead;
-    }
-
-    public boolean getIsDead() {
-        return isDead;
     }
 
     public int getProjectileSize() {
@@ -187,6 +179,6 @@ public class Player extends GameEntity {
     }
 
     public Vector2 getPosition() {
-        return body.getPosition();
+        return getBody().getPosition();
     }
 }

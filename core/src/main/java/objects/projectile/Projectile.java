@@ -87,18 +87,16 @@ public class Projectile {
         this.size = size;
 
         // texture
-        switch (projectileShape) {
-            case CIRCLE:
-                if (projectileColour == ProjectileColour.RED) {
-                    this.texture = new Texture("../assets/projectiles/circle_bullet_red.png");
-                } else if (projectileColour == ProjectileColour.BLUE) {
-                    this.texture = new Texture("../assets/projectiles/circle_bullet_blue.png");
-                } else {
-                    this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
-                }
-                break;
-            default:
+        if (projectileShape == ProjectileShape.CIRCLE) {
+            if (projectileColour == ProjectileColour.RED) {
+                this.texture = new Texture("../assets/projectiles/circle_bullet_red.png");
+            } else if (projectileColour == ProjectileColour.BLUE) {
+                this.texture = new Texture("../assets/projectiles/circle_bullet_blue.png");
+            } else {
                 this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
+            }
+        } else {
+            this.texture = new Texture("../assets/projectiles/rectangleRadians_bullet.png");
 //            case LINE:
 //                texture = b;
 //                break;

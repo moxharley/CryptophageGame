@@ -39,7 +39,7 @@ public class EnemyManager {
      * @param body the body of the enemy to add as a Body
      */
     public void addEnemy(final float width, final float height, final Body body) {
-        enemyList.add(new Enemy1(width, height, body));
+        enemyList.add(new Enemy(width, height, body));
 
     }
 
@@ -56,7 +56,7 @@ public class EnemyManager {
         for (Enemy enemy : enemyList) {
             enemy.move(playerPosition);
             enemy.update();
-            if (enemy.getIsDead()) {
+            if (enemy.isDead()) {
                 enemiesToRemove.add(enemy);
                 setEnemyDeathTotal(getEnemyDeathTotal() + 1);
                 getWorld().destroyBody(enemy.getBody());

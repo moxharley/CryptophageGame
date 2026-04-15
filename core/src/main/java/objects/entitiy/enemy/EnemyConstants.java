@@ -5,9 +5,9 @@ import objects.projectile.ProjectileColour;
 import objects.projectile.ProjectileShape;
 import objects.projectile.ProjectileTeam;
 
-public class Enemy1Constants {
+public class EnemyConstants {
 
-    private Enemy1Constants() { }
+    private EnemyConstants() { }
 
     /**
      * The enemy1 texture.
@@ -85,19 +85,6 @@ public class Enemy1Constants {
     public static final int BASE_BULLET_LIFESPAN = 200;
 
     //----------------------------------------------------------------------------------------------
-
-    /**
-     * The percent chance of dealing a critical hit, dealing bonus damage
-     */
-    public static final float BASE_CRIT_CHANCE = 0f;
-
-    /**
-     * On crit, bonus damage dealt is increased by this percent.
-     */
-    public static final float BASE_CRIT_DAMAGE = 0f;
-
-    //----------------------------------------------------------------------------------------------
-
     /**
      * Size of the projectile, determined by the longest in the length or width in pixels.
      */
