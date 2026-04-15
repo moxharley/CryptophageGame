@@ -1,3 +1,3 @@
+Finn,49
 Finn,26
-Finn,10
-Example,1
+Finn,25

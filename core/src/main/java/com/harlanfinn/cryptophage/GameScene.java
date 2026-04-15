@@ -97,9 +97,9 @@ public class GameScene extends ScreenAdapter {
 
         updateCollisions(getProjectileManager(), getEnemyManager(), getPlayer());
 
-        // Closes game if ESC is pressed
+        // Return to menu if ESC is pressed
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+            game.setScreen(new GameScene(game));
         }
     }
 
