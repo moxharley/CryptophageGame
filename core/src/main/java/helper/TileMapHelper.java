@@ -54,7 +54,7 @@ public class TileMapHelper {
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
                 }
 
-                if (rectangleName.equals("flyingEnemy1")) {
+                if (rectangleName.equals("enemy1")) {
                     Body body = MapBodyHelperService.createBody(
                         rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
                         rectangle.getY() + rectangle.getHeight() / 2f,
