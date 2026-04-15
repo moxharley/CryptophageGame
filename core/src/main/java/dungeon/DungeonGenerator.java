@@ -367,20 +367,20 @@ public class DungeonGenerator {
             // Top and bottom borders
             for (int x = startX; x <= endX; x++) {
                 if (isInBounds(x, startY)) {
-                    grid[startY][x] = '#';
+                    grid[startY][x] = '-';
                 }
                 if (isInBounds(x, endY)) {
-                    grid[endY][x] = '#';
+                    grid[endY][x] = '-';
                 }
             }
 
             // Left and right borders
             for (int y = startY; y <= endY; y++) {
                 if (isInBounds(startX, y)) {
-                    grid[y][startX] = '#';
+                    grid[y][startX] = '|';
                 }
                 if (isInBounds(endX, y)) {
-                    grid[y][endX] = '#';
+                    grid[y][endX] = '|';
                 }
             }
         }
