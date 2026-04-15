@@ -9,6 +9,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a template for a dungeon room.
+ *
+ * @author Harlan Bullock
+ * @version 2026
+ */
 public class DungeonRoomTemplate {
     private final TiledMap room;
     private final int width;
@@ -19,6 +25,11 @@ public class DungeonRoomTemplate {
     private final ArrayList<EntranceSpan> upEntrances;
     private final ArrayList<EntranceSpan> downEntrances;
 
+    /**
+     * Instantiates a dungeon room template & loads layers.
+     *
+     * @param room the tilemap room
+     */
     public DungeonRoomTemplate(final TiledMap room) {
         this.room = room;
         TiledMapTileLayer layer = (TiledMapTileLayer) room.getLayers().get(0);
@@ -48,39 +59,71 @@ public class DungeonRoomTemplate {
             + "}";
     }
 
+    /**
+     * Returns the room of the dungeon room template.
+     *
+     * @return the tile map of the room
+     */
     public TiledMap getRoom() {
         return room;
     }
 
+    /**
+     * Returns the width of the dungeon room template.
+     *
+     * @return the width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height of the dungeon room template.
+     *
+     * @return the height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Returns the left entrance spans of the dungeon room template.
+     *
+     * @return an array list of the left entrance spans
+     */
     public ArrayList<EntranceSpan> getLeftEntrances() {
         return leftEntrances;
     }
 
+    /**
+     * Returns the right entrance spans of the dungeon room template.
+     *
+     * @return an array list of the right entrance spans
+     */
     public ArrayList<EntranceSpan> getRightEntrances() {
         return rightEntrances;
     }
 
+    /**
+     * Returns the down entrance spans of the dungeon room template.
+     *
+     * @return an array list of the down entrance spans
+     */
     public ArrayList<EntranceSpan> getDownEntrances() {
         return downEntrances;
     }
 
+    /**
+     * Returns the upper entrance spans of the dungeon room template.
+     *
+     * @return an array list of the upper entrance spans
+     */
     public ArrayList<EntranceSpan> getUpEntrances() {
         return upEntrances;
     }
 
-    /**
+    /*
      * Loads all entrance spans from the named object layer.
-     *
-     * @param layerName the name of the entrance layer
-     * @return the entrance spans found in that layer
      */
     private ArrayList<EntranceSpan> loadEntranceLayer(final String layerName) {
         final ArrayList<EntranceSpan> spans = new ArrayList<>();
@@ -100,11 +143,8 @@ public class DungeonRoomTemplate {
         return spans;
     }
 
-    /**
+    /*
      * Converts a rectangle map object into a tile-based entrance span.
-     *
-     * @param object the rectangle object
-     * @return the equivalent entrance span
      */
     private EntranceSpan parseRectangleObject(final RectangleMapObject object) {
         final float x = object.getRectangle().x;
@@ -120,11 +160,8 @@ public class DungeonRoomTemplate {
         return new EntranceSpan(minX, minY, maxX, maxY);
     }
 
-    /**
+    /*
      * Converts a pixel coordinate into a tile coordinate.
-     *
-     * @param pixels the pixel value
-     * @return the corresponding tile index
      */
     private int pixelsToTiles(final float pixels) {
         return (int) (pixels / DungeonGenerator.TILE_SIZE);

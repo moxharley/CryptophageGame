@@ -1,11 +1,25 @@
 package dungeon;
 
+/**
+ * Represents the area in a room template where entrances to the room can spawn.
+ *
+ * @author Harlan Bullock
+ * @version 2026
+ */
 public class EntranceSpan {
     private final int minX;
     private final int minY;
     private final int maxX;
     private final int maxY;
 
+    /**
+     * Instantiates an entrance span with the given parameters.
+     *
+     * @param minX minimum x coordinate
+     * @param minY minimum y coordinate
+     * @param maxX maximum x coordinate
+     * @param maxY maximum y coordinate
+     */
     public EntranceSpan(final int minX, final int minY, final int maxX, final int maxY) {
         this.minX = minX;
         this.minY = minY;
