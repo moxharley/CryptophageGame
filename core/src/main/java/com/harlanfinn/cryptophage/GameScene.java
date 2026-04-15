@@ -20,6 +20,7 @@ import objects.entitiy.enemy.EnemyManager;
 import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 import objects.projectile.*;
+import save.ScoreEntry;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,11 @@ public class GameScene extends ScreenAdapter {
 
     private InputController inputController;
 
-    public GameScene() {
+    private MyGameRoot game;
+
+//    private final static ScoreEntry scoreEntry;
+
+    public GameScene(final MyGameRoot game) {
         this.batch = new SpriteBatch();
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -66,6 +71,8 @@ public class GameScene extends ScreenAdapter {
 
         this.camera = new OrthographicCamera();
         camera.zoom -= 0.6f;
+
+        this.game = game;
     }
 
     private void update() {
@@ -183,6 +190,14 @@ public class GameScene extends ScreenAdapter {
         player.move(inputController.getHorizontalMovement(), inputController.getVerticalMovement());
 
         player.update();
+
+        if (checkIfPlayerDead()) {
+            gameOver(getPlayer().getKills());
+        }
+    }
+
+    private boolean checkIfPlayerDead() {
+        return getPlayer().getIsDead();
     }
 
     private void createPlayerProjectile() {
@@ -259,5 +274,9 @@ public class GameScene extends ScreenAdapter {
 
     public void addEnemy(final float width, final float height, final Body body, final EnemyType enemyType) {
         getEnemyManager().addEnemy(width, height, body, enemyType);
+    }
+
+    public void gameOver(final int score) {
+        game.setScreen(new GameOverScreen(game, score));
     }
 }
