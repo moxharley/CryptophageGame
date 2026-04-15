@@ -110,7 +110,7 @@ public class TechknightPlayerEntityConstants {
     public static final float BASE_CRIT_CHANCE = 0f;
 
     /**
-     * On crit, bonus damage dealt is increased by this percent.
+     * On crit, bonus damage dealt is increased by this per cent.
      */
     public static final float BASE_CRIT_DAMAGE = 0f;
 
@@ -126,4 +126,6 @@ public class TechknightPlayerEntityConstants {
     public final static ProjectileShape DEFAULT_PROJECTILE_SHAPE = ProjectileShape.CIRCLE;
     public static final ProjectileColour DEFAULT_PROJECTILE_COLOUR = ProjectileColour.BLUE;
     public static final ProjectileTeam DEFAULT_PROJECTILE_TEAM = ProjectileTeam.PLAYER;
+
+    public static final int DEFAULT_SKILL_COOLDOWN = 300; // 5 seconds at 60 tps = 300
 }

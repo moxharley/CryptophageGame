@@ -51,6 +51,10 @@ public class Enemy extends GameEntity {
                            unscaledMovement.y * getMoveSpeed() * getMoveSpeedModifier());
     }
 
+    public boolean getIsDead() {
+        return isDead;
+    }
+
     public boolean attackIfAllowed() {
         return false;
     }
@@ -210,6 +214,8 @@ public class Enemy extends GameEntity {
     public void setCritDamage(float critDamage) {
         this.critDamage = critDamage;
     }
+
+
 
     public void takeDamage(final float damage) {
         if (damage >= 0) {

@@ -17,6 +17,8 @@ public class GameEntity {
     protected float width;
     protected float height;
 
+    protected boolean isDead;
+
     protected Body body;
     protected Hitbox hitbox;
     protected Texture texture;
@@ -30,6 +32,8 @@ public class GameEntity {
         this.width = width;
         this.height = height;
         this.body = body;
+
+        this.isDead = false;
 
         this.velX = 0;
         this.velY = 0;

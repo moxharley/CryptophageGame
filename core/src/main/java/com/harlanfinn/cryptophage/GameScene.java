@@ -167,12 +167,15 @@ public class GameScene extends ScreenAdapter {
         inputController.sync();
 
         //Check for inputs
-        if (inputController.getPressedSkill()) {
-            // trigger skill
-        }
+//        if (inputController.getPressedSkill()) {
+//            if (getPlayer().skillIfAllowed()) {
+//                getPlayer().triggerPlayerSkill();
+//            }
+//            // trigger skill
+//        }
         if (inputController.getPressedShoot()) {
             // trigger shot
-            if (player.attackIfAllowed()) {
+            if (getPlayer().attackIfAllowed()) {
                 createPlayerProjectile();
             }
         }

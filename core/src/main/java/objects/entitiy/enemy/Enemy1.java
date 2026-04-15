@@ -99,6 +99,10 @@ public class Enemy1 extends Enemy {
 
         timeSinceLastShot += 1;
         timeSinceLastMove += 1;
+
+        if (getCurrentHealthPoints() <= 0) {
+            setIsDead(true);
+        }
     }
 
     @Override
@@ -149,6 +153,10 @@ public class Enemy1 extends Enemy {
 
     public float getTimeBetweenMovesModifier() {
         return timeBetweenMovesModifier;
+    }
+
+    private void setIsDead(final Boolean isDead) {
+        this.isDead = isDead;
     }
 
     /**

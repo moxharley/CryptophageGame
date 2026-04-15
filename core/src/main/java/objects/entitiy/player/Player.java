@@ -28,34 +28,37 @@ import static objects.entitiy.player.TechknightPlayerEntityConstants.DEFAULT_MAX
 
 public class Player extends GameEntity {
 
-    protected int maxHealthPoints;
-    protected int currentHealthPoints;
-    protected float resistance;
+    private int maxHealthPoints;
+    private int currentHealthPoints;
+    private float resistance;
 
-    protected float moveSpeed;
-    protected float moveSpeedModifier;
+    private float moveSpeed;
+    private float moveSpeedModifier;
 
-    protected float jumpVelocity;
-    protected float jumpVelocityModifier;
-    public int kills;
+    private float jumpVelocity;
+    private float jumpVelocityModifier;
+    private int kills;
 
     // TODO: ATTACK speed modifier is better low as opposed to others, fix logic
-    protected int attackSpeed;
-    protected float attackSpeedModifier;
-    protected float damage;
-    protected float damageModifier;
-    protected float bulletSpeed;
-    protected float bulletSpeedModifier;
-    protected int bulletLifespan;
-    protected float critChance;
-    protected float critDamage;
-    protected int projectileSize;
+    private int attackSpeed;
+    private float attackSpeedModifier;
+    private float damage;
+    private float damageModifier;
+    private float bulletSpeed;
+    private float bulletSpeedModifier;
+    private int bulletLifespan;
+    private float critChance;
+    private float critDamage;
+    private int projectileSize;
 
-    protected ProjectileShape projectileShape;
-    protected ProjectileColour projectileColour;
-    protected ProjectileTeam projectileTeam;
+    private ProjectileShape projectileShape;
+    private ProjectileColour projectileColour;
+    private ProjectileTeam projectileTeam;
 
     private int timeSinceLastShot;
+    private int timeSinceLastSkill;
+
+    private int skillCooldown;
 
     public Player(final float width, final float height, final Body body) {
         super(width, height, body, PLAYER_TEXTURE);
@@ -104,7 +107,12 @@ public class Player extends GameEntity {
         moveHitbox();
         moveSprite();
 
-        timeSinceLastShot += 1;
+        setTimeSinceLastShot(getTimeSinceLastShot() + 1);
+//        setTimeSinceLastSkill(getTimeSinceLastSkill() + 1);
+
+        if (getCurrentHealthPoints() <= 0) {
+            setIsDead(true);
+        }
     }
 
     @Override
@@ -127,10 +135,53 @@ public class Player extends GameEntity {
         }
     }
 
+//    public boolean skillIfAllowed() {
+//        if (timeSinceLastSkill >= getSkillCooldown()) {
+//            timeSinceLastSkill = 0;
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//    public void triggerPlayerSkill() {
+//        body.applyLinearImpulse(new Vector2(velX * 10, velY * 10), body.getPosition(), true);
+//    }
+//
+//    public int getSkillCooldown() {
+//        return skillCooldown;
+//    }
+//
+//    public int getTimeSinceLastSkill() {
+//        return timeSinceLastSkill;
+//    }
+//
+//    public void setTimeSinceLastSkill(int timeSinceLastSkill) {
+//        this.timeSinceLastSkill = timeSinceLastSkill;
+//    }
+
+    public int getTimeSinceLastShot() {
+        return timeSinceLastShot;
+    }
+
+    public void setTimeSinceLastShot(int timeSinceLastShot) {
+        this.timeSinceLastShot = timeSinceLastShot;
+    }
+
     public boolean isCrit() {
         Random random = new Random();
         return random.nextFloat(0f, 100f) >= getCritChance();
     }
+
+    private void setIsDead(final Boolean isDead) {
+        this.isDead = isDead;
+    }
+
+    public boolean getIsDead() {
+        return isDead;
+    }
+
+
 
 
     /**
