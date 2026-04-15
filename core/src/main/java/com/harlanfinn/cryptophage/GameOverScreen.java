@@ -16,7 +16,7 @@ public class GameOverScreen extends ScreenAdapter {
     private final MyGameRoot game;
     private Stage stage;
     private Skin skin;
-    private int score;
+    private final int score;
 
     public GameOverScreen(final MyGameRoot game, final int score) {
         this.game = game;
