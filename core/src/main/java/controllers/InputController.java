@@ -83,7 +83,7 @@ public class InputController {
     Used by sync to check for specified input.
      */
     private boolean checkPressedShoot() {
-        return Gdx.input.isButtonJustPressed(SHOOT);
+        return Gdx.input.isButtonPressed(SHOOT);
     }
 
     /*
