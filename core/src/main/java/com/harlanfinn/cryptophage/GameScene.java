@@ -96,11 +96,6 @@ public class GameScene extends ScreenAdapter {
         projectileManager.update();
 
         updateCollisions(getProjectileManager(), getEnemyManager(), getPlayer());
-
-        // Return to menu if ESC is pressed
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new GameScene(game));
-        }
     }
 
     private void updateCollisions(ProjectileManager projectileManager, EnemyManager enemyManager,
