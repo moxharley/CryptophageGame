@@ -17,21 +17,26 @@ import com.harlanfinn.cryptophage.GameScene;
 import objects.entitiy.enemy.EnemyType;
 import objects.entitiy.player.Player;
 
+import java.util.Random;
+
 public class TileMapHelper {
     private TiledMap tiledMap;
     private GameScene gameScreen;
+    private boolean firstRound = true;
 
     public TileMapHelper(GameScene gameScreen) {
         this.gameScreen = gameScreen;
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
+    public OrthogonalTiledMapRenderer setupMap(final int difficulty) {
         tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/demo.tmx");
-        parseMapObjects(tiledMap.getLayers().get("objects").getObjects()); // "objects" is the name of the objects layer in the map in tiled
+        parseMapObjects(tiledMap.getLayers().get("objects").getObjects(), difficulty, firstRound); // "objects" is the name of the objects layer in the map in tiled
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
-    private void parseMapObjects(MapObjects mapObjects) {
+    private void parseMapObjects(MapObjects mapObjects, final int difficulty, final boolean firstRound) {
+        int enemyCount = 0;
+        Random random = new Random();
         for (MapObject mapObject : mapObjects) {
 
             if (mapObject instanceof PolygonMapObject) {
@@ -43,7 +48,7 @@ public class TileMapHelper {
                 // set a name so we can select the correct one
                 String rectangleName = mapObject.getName();
 
-                if (rectangleName.equals("player")) {
+                if (rectangleName.equals("player") && firstRound) {
                     Body body = MapBodyHelperService.createBody(
                         rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
                         rectangle.getY() + rectangle.getHeight() / 2f,
@@ -52,9 +57,10 @@ public class TileMapHelper {
                     );
 
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                    this.firstRound = false;
                 }
 
-                if (rectangleName.equals("enemy1")) {
+                if (rectangleName.equals("enemy1") && random.nextBoolean() && enemyCount < difficulty) {
                     Body body = MapBodyHelperService.createBody(
                         rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
                         rectangle.getY() + rectangle.getHeight() / 2f,
@@ -64,7 +70,8 @@ public class TileMapHelper {
 
                     body.setGravityScale(0.0f); // make fly
 
-                    gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body, EnemyType.FLYING_1);
+                    gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body);
+                    enemyCount ++;
                 }
             }
         }

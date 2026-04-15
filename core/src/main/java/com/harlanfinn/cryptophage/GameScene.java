@@ -50,6 +50,8 @@ public class GameScene extends ScreenAdapter {
 
     private MyGameRoot game;
 
+    private int difficulty;
+
 //    private final static ScoreEntry scoreEntry;
 
     public GameScene(final MyGameRoot game) {
@@ -66,8 +68,9 @@ public class GameScene extends ScreenAdapter {
         projectileManager = new ProjectileManager(batch);
         enemyManager = new EnemyManager(world, batch);
 
+        this.difficulty = 1;
         this.tileMapHelper = new TileMapHelper(this);
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(getDifficulty());
 
         this.camera = new OrthographicCamera();
         camera.zoom -= 0.6f;
@@ -76,16 +79,17 @@ public class GameScene extends ScreenAdapter {
     }
 
     private void update() {
+        spawnWaveIfAllEnemiesDead();
         int a;
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             a = 0; // used to trigger breakpoint on key press
         };
 
         // TODO understand why 6 and 2 are used by tutorial
-        world.step((float) 1 / FPS, 6, 2);
+        getWorld().step((float) 1 / FPS, 6, 2);
         cameraUpdate();
 
-        batch.setProjectionMatrix(camera.combined);
+        getBatch().setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
 
         // update the player
@@ -118,8 +122,8 @@ public class GameScene extends ScreenAdapter {
 
 //        // get player position, then multiply by 10,
 //        // then round and then divide by 10. The camera movement is now smoother
-        position.x = Math.round(player.getBody().getPosition().x* 10) / 10f;
-        position.y = Math.round(player.getBody().getPosition().y* 10) / 10f;
+        position.x = Math.round(getPlayer().getBody().getPosition().x* 10) / 10f;
+        position.y = Math.round(getPlayer().getBody().getPosition().y* 10) / 10f;
 
 //        position.x = 0f;
 //        position.y = 0f;
@@ -137,14 +141,14 @@ public class GameScene extends ScreenAdapter {
         // we want to render map before rendering batch (game objects)
         orthogonalTiledMapRenderer.render();
 
-        batch.begin();
+        getBatch().begin();
 
         // render objects
         projectileManager.render();
         enemyManager.render();
-        player.render(getBatch());
+        getPlayer().render(getBatch());
 
-        batch.end();
+        getBatch().end();
 
         box2DDebugRenderer.render(world, camera.combined.scl(1)); // shows box2d objects
     }
@@ -187,9 +191,9 @@ public class GameScene extends ScreenAdapter {
             }
         }
         //Movement stuff
-        player.move(inputController.getHorizontalMovement(), inputController.getVerticalMovement());
+        getPlayer().move(inputController.getHorizontalMovement(), inputController.getVerticalMovement());
 
-        player.update();
+        getPlayer().update();
 
         if (checkIfPlayerDead()) {
             gameOver(getPlayer().getKills());
@@ -201,15 +205,15 @@ public class GameScene extends ScreenAdapter {
     }
 
     private void createPlayerProjectile() {
-        ProjectileShape projectileShape = player.getProjectileShape();
-        ProjectileColour projectileColour = player.getProjectileColour();
-        ProjectileTeam projectileTeam = player.getProjectileTeam();
-        float damage = player.getDamage() * player.getDamageModifier();
-        float speed = player.getBulletSpeed() * player.getBulletSpeedModifier();
-        int lifespan = player.getBulletLifespan();
-        Vector2 bulletPosition = new Vector2(player.getX(), player.getY());
+        ProjectileShape projectileShape = getPlayer().getProjectileShape();
+        ProjectileColour projectileColour = getPlayer().getProjectileColour();
+        ProjectileTeam projectileTeam = getPlayer().getProjectileTeam();
+        float damage = getPlayer().getDamage() * getPlayer().getDamageModifier();
+        float speed = getPlayer().getBulletSpeed() * getPlayer().getBulletSpeedModifier();
+        int lifespan = getPlayer().getBulletLifespan();
+        Vector2 bulletPosition = new Vector2(getPlayer().getX(), getPlayer().getY());
         Vector2 bulletDirection = inputController.getCursorVectorFromPlayer();
-        int size = player.getProjectileSize();
+        int size = getPlayer().getProjectileSize();
 
         projectileManager.addProjectile(projectileShape, projectileColour,
                                         projectileTeam, damage, speed, lifespan,
@@ -238,8 +242,8 @@ public class GameScene extends ScreenAdapter {
 
     private Vector2 getVectorFromEnemyToPlayer(final Enemy enemy, final Player player) {
         Vector2 enemyToPlayerVector = new Vector2(
-            -((enemy.getVectorFromOrigin().x) - player.getX()),
-            -(((enemy.getVectorFromOrigin().y) - player.getY())));
+            -((enemy.getVectorFromOrigin().x) - getPlayer().getX()),
+            -(((enemy.getVectorFromOrigin().y) - getPlayer().getY())));
         return enemyToPlayerVector.sub(0, 0).nor();
     }
 
@@ -260,23 +264,42 @@ public class GameScene extends ScreenAdapter {
         }
     }
 
-    public Player getPlayer() {
+    private Player getPlayer() {
         return player;
     }
 
-    public EnemyManager getEnemyManager() {
+    private EnemyManager getEnemyManager() {
         return enemyManager;
     }
 
-    public ProjectileManager getProjectileManager() {
+    private ProjectileManager getProjectileManager() {
         return projectileManager;
     }
 
-    public void addEnemy(final float width, final float height, final Body body, final EnemyType enemyType) {
-        getEnemyManager().addEnemy(width, height, body, enemyType);
+    public void addEnemy(final float width, final float height, final Body body) {
+        getEnemyManager().addEnemy(width, height, body);
     }
 
-    public void gameOver(final int score) {
+    private void gameOver(final int score) {
         game.setScreen(new GameOverScreen(game, score));
+    }
+
+    private void spawnWaveIfAllEnemiesDead() {
+        if (getEnemyManager().isEmpty()) {
+            spawnNextWave();
+        }
+    }
+
+    private void spawnNextWave() {
+        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(getDifficulty());
+        setDifficulty(getDifficulty() + 1);
+    }
+
+    private int getDifficulty() {
+        return difficulty;
+    }
+
+    private void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 }
