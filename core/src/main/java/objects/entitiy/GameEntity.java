@@ -29,7 +29,13 @@ public class GameEntity {
     private Texture texture;
     private Sprite sprite;
 
-    // will take x & y from body so no need to pass the info twice
+    /**
+     * Creates a new gameEntity. The X and Y coordinates will come from the body's X and Y values
+     * @param width the width of the entity as a float
+     * @param height the height of the entity as a float
+     * @param body the body of the entity as a body
+     * @param texture the texture of the entity as a texture
+     */
     public GameEntity(final float width, final float height, final Body body, final Texture texture) {
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
@@ -46,17 +52,23 @@ public class GameEntity {
 
         this.texture = texture;
         this.sprite = new Sprite(getTexture());
-        moveSprite();
 
         this.hitbox = new Hitbox(getX(), getY(), getWidth(), getHeight());
         moveHitbox();
     }
 
+    /**
+     * Updates this GameEntity.
+     */
     public void update() { }
 
+    /**
+     * Renders this GameEntity.
+     * @param batch the batch to render this GameEntity in as a SpriteBatch
+     */
     public void render(final SpriteBatch batch) { }
 
-    public Texture getTexture() {
+    private Texture getTexture() {
         return texture;
     }
 
@@ -91,12 +103,11 @@ public class GameEntity {
         return hitbox;
     }
 
+    /**
+     * Moves this GameEntity's hitbox to it's body's location.
+     */
     public void moveHitbox() {
         hitbox.move(getX() - (getWidth() / 2), getY() - (getHeight() / 2));
-    }
-
-    public void moveSprite() {
-        sprite.setPosition(getX() - (getWidth() / 2), getY() - (getHeight() / 2));
     }
 
     public float getVelX() {
@@ -119,16 +130,12 @@ public class GameEntity {
         return speed;
     }
 
+    /**
+     * Sets the max speed of this GameEntity.
+     * @param speed the max speed of this game entity as a float.
+     */
     public void setSpeed(float speed) {
         this.speed = speed;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 
     public boolean isDead() {
@@ -139,23 +146,7 @@ public class GameEntity {
         isDead = dead;
     }
 
-    public void setBody(Body body) {
-        this.body = body;
-    }
-
-    public void setHitbox(Hitbox hitbox) {
-        this.hitbox = hitbox;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
     public Sprite getSprite() {
         return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
     }
 }

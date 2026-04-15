@@ -96,7 +96,6 @@ public class Enemy extends GameEntity {
         setY(getBody().getPosition().y);
 
         moveHitbox();
-        moveSprite();
 
         timeSinceLastShot += 1;
         timeSinceLastMove += 1;

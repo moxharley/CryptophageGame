@@ -80,7 +80,6 @@ public class Player extends GameEntity {
         setY(getBody().getPosition().y);
 
         moveHitbox();
-        moveSprite();
 
         setTimeSinceLastShot(getTimeSinceLastShot() + 1);
 //        setTimeSinceLastSkill(getTimeSinceLastSkill() + 1);

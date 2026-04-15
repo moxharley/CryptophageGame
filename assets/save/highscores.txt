@@ -1,4 +1,3 @@
+Finn,26
 Finn,10
 Example,1
-Finn,0
-Player,0
