@@ -29,7 +29,6 @@ import static objects.entitiy.player.TechknightPlayerEntityConstants.DEFAULT_MAX
 public class Player extends GameEntity {
 
     private int currentHealthPoints;
-    private int kills;
 
     // TODO: ATTACK speed modifier is better low as opposed to others, fix logic
     private int attackSpeed;
@@ -39,8 +38,6 @@ public class Player extends GameEntity {
     private float bulletSpeed;
     private float bulletSpeedModifier;
     private int bulletLifespan;
-    private float critChance;
-    private float critDamage;
     private int projectileSize;
 
     private ProjectileShape projectileShape;
@@ -64,9 +61,6 @@ public class Player extends GameEntity {
         this.bulletSpeedModifier = BASE_BULLET_SPEED_MODIFIER;
         this.bulletLifespan = BASE_BULLET_LIFESPAN;
 
-        this.critChance = BASE_CRIT_CHANCE;
-        this.critDamage = BASE_CRIT_DAMAGE;
-
         this.projectileSize = DEFAULT_PROJECTILE_SIZE;
 
         this.projectileColour = DEFAULT_PROJECTILE_COLOUR;
@@ -74,7 +68,6 @@ public class Player extends GameEntity {
         this.projectileTeam = DEFAULT_PROJECTILE_TEAM;
 
         timeSinceLastShot = 0;
-        this.kills = 0;
     }
 
     public void update() {
@@ -195,9 +188,5 @@ public class Player extends GameEntity {
 
     public Vector2 getPosition() {
         return body.getPosition();
-    }
-
-    public int getKills() {
-        return kills;
     }
 }

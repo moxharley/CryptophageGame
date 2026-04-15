@@ -196,7 +196,7 @@ public class GameScene extends ScreenAdapter {
         getPlayer().update();
 
         if (checkIfPlayerDead()) {
-            gameOver(getPlayer().getKills());
+            gameOver(getEnemyManager().getEnemyDeathTotal());
         }
     }
 
