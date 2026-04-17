@@ -36,6 +36,8 @@ more waves. On death, you will be shown your run's score \(number of kills you g
 | Aim        | Mouse Cursor |
 | Shoot      | Left Click   |
 
+<img height="321" src="./assets/readmeAssets/gameplay.png" width="458"/>
+
 ## Future Improvements
 
 #### Game design improvements
