@@ -1,5 +1,10 @@
 package helper;
 
+/**
+ * Represents the game constants of this game.
+ * @author finnwylie
+ * @version 2026
+ */
 public class GameConstants {
 
     private GameConstants() { }
@@ -10,9 +15,13 @@ public class GameConstants {
     public static final int FPS = 60;
 
     /**
-     * Represents the global Gravity in meters per second as a float
+     * Represents the global Gravity as a float
      */
-    public static final float GRAVITY = 0f; // Unit is m/s. May need to be the negative for certain functions
+    public static final float GRAVITY = 0f;
 
-    public static final int PROJECTILE_LIFESPAN = 900; //900 ticks @ 60tps is 15s lifespan
+    /**
+     * The lifespan of the projectiles in this game as an int.
+     * 900 ticks @ 60tps is 15s lifespan.
+     */
+    public static final int PROJECTILE_LIFESPAN = 900;
 }

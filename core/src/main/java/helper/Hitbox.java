@@ -1,12 +1,17 @@
 package helper;
 
+/**
+ * Represents a hitbox used in this game.
+ * @author finnwylie
+ * @version 2026
+ */
 public class Hitbox {
 
     private float originX;
     private float originY;
 
-    private float width;
-    private float height;
+    private final float width;
+    private final float height;
 
     private int age;
 
@@ -26,55 +31,82 @@ public class Hitbox {
         this.age = 0;
     }
 
+    /**
+     * Moves the hitbox to a new location.
+     * @param x the X coordinate to move this hitbox to as a float.
+     * @param y the Y coordinate to move this hitbox to as a float.
+     */
     public void move(final float x, final float y) {
         setOriginX(x);
         setOriginY(y);
     }
 
-    public boolean checkForCollision (Hitbox other) {
+    /**
+     * Compares two hitboxes locations and dimensions to see if they have overlap.
+     * @param other the other hitbox to compare to as a Hitbox
+     * @return if the hitbox overlaps this Hitbox as a boolean
+     */
+    public boolean checkForCollision(final Hitbox other) {
         return getOriginX() < other.getOriginX() + other.getWidth()
             && getOriginY() < other.getOriginY() + other.getHeight()
             && getOriginX() + getWidth() > other.getOriginX()
             && getOriginY() + getHeight() > other.getOriginY();
     }
 
+
+    /**
+     * Gets this hitbox's X origin coordinate.
+     * @return the X origin coordinate of this hitbox as a float
+     */
     public float getOriginX() {
         return originX;
     }
 
-    public void setOriginX(float originX) {
-        this.originX = originX;
-    }
-
+    /**
+     * Gets this hitbox's Y origin coordinate.
+     * @return the Y origin coordinate of this hitbox as a float
+     */
     public float getOriginY() {
         return originY;
     }
 
-    public void setOriginY(float originY) {
-        this.originY = originY;
-    }
-
+    /**
+     * Gets this hitbox's width.
+     * @return the width of this hitbox as a float
+     */
     public float getWidth() {
         return width;
     }
 
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
+    /**
+     * Gets this hitbox's height.
+     * @return the height of this hitbox as a float
+     */
     public float getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
+    /**
+     * Gets this hitbox's age.
+     * @return the age of this hitbox as an int
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Sets this Hitbox's age to a new age.
+     * @param age the new age of this hitbox as an int
+     */
     public void setAge(int age) {
         this.age = age;
+    }
+
+    private void setOriginX(float originX) {
+        this.originX = originX;
+    }
+
+    private void setOriginY(float originY) {
+        this.originY = originY;
     }
 }
