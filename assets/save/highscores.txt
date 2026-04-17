@@ -1,5 +1,2 @@
 Finn,81
 Finn,51
-Finn,50
-Finn,49
-Finn,37
