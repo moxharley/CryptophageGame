@@ -72,33 +72,66 @@ public class GameEntity {
         return texture;
     }
 
+    /**
+     * Returns this GameEntity's X coordinate.
+     * @return this GameEntity's X coordinate as a float
+     */
     public float getX() {
         return x;
     }
 
+    /**
+     * Sets this GameEntity's X Coordinate to a new X Coordinate.
+     * @param x the new X coordinate as a float
+     */
     public void setX(float x) {
         this.x = x;
     }
+
+    /**
+     * Returns this GameEntity's Y coordinate.
+     * @return this GameEntity's Y coordinate as a float
+     */
     public float getY() {
         return y;
     }
 
+    /**
+     * Sets this GameEntity's Y Coordinate to a new Y Coordinate.
+     * @param y the new Y coordinate as a float
+     */
     public void setY(float y) {
         this.y = y;
     }
 
+    /**
+     * Returns this GameEntity's Body.
+     * @return this GameEntity's Body as a Body
+     */
     public Body getBody() {
         return body;
     }
 
+    /**
+     * Returns this GameEntity's width.
+     * @return this GameEntity's width as a float
+     */
     public float getWidth() {
         return width;
     }
 
+    /**
+     * Returns this GameEntity's height.
+     * @return this GameEntity's height as a float
+     */
     public float getHeight() {
         return height;
     }
 
+    /**
+     * Returns this GameEntity's hitbox.
+     * @return this GameEntity's hitbox as a Hitbox
+     */
     public Hitbox getHitbox() {
         return hitbox;
     }
@@ -110,22 +143,42 @@ public class GameEntity {
         hitbox.move(getX() - (getWidth() / 2), getY() - (getHeight() / 2));
     }
 
+    /**
+     * Returns this GameEntity's X velocity.
+     * @return this GameEntity's X velocity as a float
+     */
     public float getVelX() {
         return velX;
     }
 
+    /**
+     * Sets this GameEntity's X velocity to a new X velocity.
+     * @param velX the new X velocity as a float
+     */
     public void setVelX(float velX) {
         this.velX = velX;
     }
 
+    /**
+     * Returns this GameEntity's Y velocity.
+     * @return this GameEntity's Y velocity as a float
+     */
     public float getVelY() {
         return velY;
     }
 
+    /**
+     * Sets this GameEntity's Y velocity to a new Y velocity.
+     * @param velY the new Y velocity as a float
+     */
     public void setVelY(float velY) {
         this.velY = velY;
     }
 
+    /**
+     * Returns this GameEntity's speed.
+     * @return this GameEntity's speed as a float
+     */
     public float getSpeed() {
         return speed;
     }
@@ -138,14 +191,26 @@ public class GameEntity {
         this.speed = speed;
     }
 
+    /**
+     * Returns if this entity is dead.
+     * @return if this entity is dead as a boolean
+     */
     public boolean isDead() {
         return isDead;
     }
 
+    /**
+     * Sets this GameEntity's death state to a new death state.
+     * @param dead if this GameEntity is dead or not as a boolean
+     */
     public void setDead(boolean dead) {
         isDead = dead;
     }
 
+    /**
+     * Returns this GameEntity's sprite.
+     * @return this GameEntity's sprite as a Sprite
+     */
     public Sprite getSprite() {
         return sprite;
     }
