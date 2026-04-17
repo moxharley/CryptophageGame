@@ -84,7 +84,7 @@ public class GameEntity {
      * Sets this GameEntity's X Coordinate to a new X Coordinate.
      * @param x the new X coordinate as a float
      */
-    public void setX(float x) {
+    public void setX(final float x) {
         this.x = x;
     }
 
@@ -100,7 +100,7 @@ public class GameEntity {
      * Sets this GameEntity's Y Coordinate to a new Y Coordinate.
      * @param y the new Y coordinate as a float
      */
-    public void setY(float y) {
+    public void setY(final float y) {
         this.y = y;
     }
 
@@ -155,7 +155,7 @@ public class GameEntity {
      * Sets this GameEntity's X velocity to a new X velocity.
      * @param velX the new X velocity as a float
      */
-    public void setVelX(float velX) {
+    public void setVelX(final float velX) {
         this.velX = velX;
     }
 
@@ -171,7 +171,7 @@ public class GameEntity {
      * Sets this GameEntity's Y velocity to a new Y velocity.
      * @param velY the new Y velocity as a float
      */
-    public void setVelY(float velY) {
+    public void setVelY(final float velY) {
         this.velY = velY;
     }
 
@@ -187,7 +187,7 @@ public class GameEntity {
      * Sets the max speed of this GameEntity.
      * @param speed the max speed of this game entity as a float.
      */
-    public void setSpeed(float speed) {
+    public void setSpeed(final float speed) {
         this.speed = speed;
     }
 
@@ -203,7 +203,7 @@ public class GameEntity {
      * Sets this GameEntity's death state to a new death state.
      * @param dead if this GameEntity is dead or not as a boolean
      */
-    public void setDead(boolean dead) {
+    public void setDead(final boolean dead) {
         isDead = dead;
     }
 

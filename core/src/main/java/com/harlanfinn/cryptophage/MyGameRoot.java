@@ -1,20 +1,29 @@
 package com.harlanfinn.cryptophage;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.Array;
-import dungeon.DungeonGenerator;
-import dungeon.DungeonRoomTemplate;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/**
+ * The game root of this game.
+ *
+ * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
+ *
+ * @author Harlan Bullock, FinnWylie
+ * @version 2026
+ */
 public class MyGameRoot extends Game {
 
-    public static MyGameRoot INSTANCE; // ????
+    private static MyGameRoot instance;
 
+    /**
+     * Creates a new myGameRoot.
+     */
     public MyGameRoot() {
-        INSTANCE = this;
+        instance = this;
     }
 
+    /**
+     * Sets the screen of this game root to the main menu. Only triggered at launch.
+     */
     @Override
     public void create() {
         setScreen(new MainMenuScreen(this));
