@@ -40,9 +40,9 @@ public class Projectile {
      * @param bulletDirection of the projectile being created as a Vector2
      * @param size of the projectile being created as an int
      */
-    public Projectile(ProjectileShape projectileShape, ProjectileColour projectileColour,
-                      ProjectileTeam projectileTeam, float damage, float speed,
-                      int lifespan, Vector2 bulletPosition, Vector2 bulletDirection,
+    public Projectile(final ProjectileShape projectileShape, final ProjectileColour projectileColour,
+                      final ProjectileTeam projectileTeam, final float damage, final float speed,
+                      final int lifespan, final Vector2 bulletPosition, final Vector2 bulletDirection,
                       final int size) {
 
         // deletion flag
@@ -170,7 +170,7 @@ public class Projectile {
         return bulletDirection;
     }
 
-    private void setBulletPosition(Vector2 bulletPosition) {
+    private void setBulletPosition(final Vector2 bulletPosition) {
         this.bulletPosition = bulletPosition;
     }
 
@@ -206,7 +206,7 @@ public class Projectile {
      * Gets this Projectile's remove flag.
      * @param remove this Projectile's new remove flag as a boolean
      */
-    public void setRemove(boolean remove) {
+    public void setRemove(final boolean remove) {
         this.remove = remove;
     }
 

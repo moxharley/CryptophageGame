@@ -159,15 +159,15 @@ public class Enemy extends GameEntity {
         return getTimeSinceLastMove() >= getTimeBetweenMoves() * getTimeBetweenMovesModifier();
     }
 
-    private void setCurrentHealthPoints(int currentHealthPoints) {
+    private void setCurrentHealthPoints(final int currentHealthPoints) {
         this.currentHealthPoints = currentHealthPoints;
     }
 
-    private void setTimeSinceLastShot(int timeSinceLastShot) {
+    private void setTimeSinceLastShot(final int timeSinceLastShot) {
         this.timeSinceLastShot = timeSinceLastShot;
     }
 
-    private void setTimeSinceLastMove(int timeSinceLastMove) {
+    private void setTimeSinceLastMove(final int timeSinceLastMove) {
         this.timeSinceLastMove = timeSinceLastMove;
     }
 

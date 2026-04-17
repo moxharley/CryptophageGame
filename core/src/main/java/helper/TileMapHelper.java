@@ -24,8 +24,8 @@ import java.util.Random;
  */
 public class TileMapHelper {
     private TiledMap tiledMap;
-    private GameScene gameScreen;
-    private boolean firstRound = true;
+    private final GameScene gameScreen;
+    private boolean firstRound;
 
     /**
      * Creates a new TileMapHelper.
@@ -33,6 +33,7 @@ public class TileMapHelper {
      */
     public TileMapHelper(final GameScene gameScreen) {
         this.gameScreen = gameScreen;
+        setFirstRound(true);
     }
 
     /**
@@ -80,11 +81,11 @@ public class TileMapHelper {
             rectangle.getX() + rectangle.getWidth() / 2f, // we want the centre of the rectangle
             rectangle.getY() + rectangle.getHeight() / 2f,
             rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
-            gameScreen.getWorld()
+            getGameScreen().getWorld()
         );
 
-        gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
-        this.firstRound = false;
+        getGameScreen().setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+        setFirstRound(false);
     }
 
     private void createEnemy(final Rectangle rectangle) {
@@ -92,16 +93,16 @@ public class TileMapHelper {
             rectangle.getX() + rectangle.getWidth() / 2f, // we want the centre of the rectangle
             rectangle.getY() + rectangle.getHeight() / 2f,
             rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
-            gameScreen.getWorld()
+            getGameScreen().getWorld()
         );
 
-        gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body);
+        getGameScreen().addEnemy(rectangle.getWidth(), rectangle.getHeight(), body);
     }
 
     private void createStaticBody(final PolygonMapObject polygonMapObject) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = gameScreen.getWorld().createBody(bodyDef);
+        Body body = getGameScreen().getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
         body.createFixture(shape, 1000);
         shape.dispose();
@@ -121,5 +122,13 @@ public class TileMapHelper {
         PolygonShape shape = new PolygonShape();
         shape.set(worldVertices);
         return shape;
+    }
+
+    private GameScene getGameScreen() {
+        return gameScreen;
+    }
+
+    private void setFirstRound(final boolean firstRound) {
+        this.firstRound = firstRound;
     }
 }

@@ -19,7 +19,8 @@ public class MapBodyHelperService {
      * @param world the Box2D world this body belongs to as a float
      * @return the created Box2D Body as a Body
      */
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
+    public static Body createBody(final float x, final float y, final float width,
+                                  final float height, final boolean isStatic, final World world) {
         BodyDef bodyDef = new BodyDef();
         if (isStatic) {
             bodyDef.type = BodyDef.BodyType.StaticBody;

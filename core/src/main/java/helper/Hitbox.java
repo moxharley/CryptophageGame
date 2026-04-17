@@ -98,15 +98,15 @@ public class Hitbox {
      * Sets this Hitbox's age to a new age.
      * @param age the new age of this hitbox as an int
      */
-    public void setAge(int age) {
+    public void setAge(final int age) {
         this.age = age;
     }
 
-    private void setOriginX(float originX) {
+    private void setOriginX(final float originX) {
         this.originX = originX;
     }
 
-    private void setOriginY(float originY) {
+    private void setOriginY(final float originY) {
         this.originY = originY;
     }
 }

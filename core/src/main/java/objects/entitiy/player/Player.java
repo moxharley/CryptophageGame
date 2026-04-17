@@ -135,7 +135,7 @@ public class Player extends GameEntity {
         return timeSinceLastShot;
     }
 
-    private void setTimeSinceLastShot(int timeSinceLastShot) {
+    private void setTimeSinceLastShot(final int timeSinceLastShot) {
         this.timeSinceLastShot = timeSinceLastShot;
     }
 
@@ -221,14 +221,6 @@ public class Player extends GameEntity {
      */
     public int getBulletLifespan() {
         return bulletLifespan;
-    }
-
-    /**
-     * Gets this player's body position.
-     * @return the body position of this player as a Vector2
-     */
-    public Vector2 getPosition() {
-        return getBody().getPosition();
     }
 
     /**
