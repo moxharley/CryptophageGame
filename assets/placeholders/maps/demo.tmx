@@ -123,34 +123,34 @@
    <polygon points="0,0 0,16 112,16 112,0"/>
   </object>
   <object id="5" name="player" x="288" y="64" width="16" height="16"/>
-  <object id="9" name="enemy1" x="48" y="48" width="16" height="16"/>
-  <object id="18" name="enemy1" x="240" y="128" width="16" height="16"/>
-  <object id="19" name="enemy1" x="304" y="112" width="16" height="16"/>
-  <object id="20" name="enemy1" x="320" y="208" width="16" height="16"/>
-  <object id="21" name="enemy1" x="320" y="272" width="16" height="16"/>
-  <object id="22" name="enemy1" x="320" y="320" width="16" height="16"/>
-  <object id="23" name="enemy1" x="288" y="336" width="16" height="16"/>
-  <object id="24" name="enemy1" x="336" y="160" width="16" height="16"/>
-  <object id="25" name="enemy1" x="224" y="80" width="16" height="16"/>
-  <object id="26" name="enemy1" x="192" y="32" width="16" height="16"/>
-  <object id="27" name="enemy1" x="144" y="48" width="16" height="16"/>
-  <object id="28" name="enemy1" x="96.139" y="48.8407" width="15.861" height="15.1593"/>
-  <object id="29" name="enemy1" x="32" y="80" width="16" height="16"/>
-  <object id="30" name="enemy1" x="48" y="144" width="16" height="16"/>
-  <object id="31" name="enemy1" x="64" y="176" width="16" height="16"/>
-  <object id="32" name="enemy1" x="32" y="224" width="16" height="16"/>
-  <object id="33" name="enemy1" x="80" y="240" width="16" height="16"/>
-  <object id="34" name="enemy1" x="128" y="240" width="16" height="16"/>
-  <object id="35" name="enemy1" x="128" y="304" width="16" height="16"/>
-  <object id="36" name="enemy1" x="96" y="288" width="16" height="16"/>
-  <object id="37" name="enemy1" x="48" y="272" width="16" height="16"/>
-  <object id="38" name="enemy1" x="64" y="320" width="16" height="16"/>
-  <object id="39" name="enemy1" x="176" y="336" width="16" height="16"/>
-  <object id="40" name="enemy1" x="224" y="320" width="16" height="16"/>
-  <object id="41" name="enemy1" x="64" y="112" width="16" height="16"/>
-  <object id="42" name="enemy1" x="336" y="32" width="16" height="16"/>
-  <object id="43" name="enemy1" x="256" y="32" width="16" height="16"/>
+  <object id="9" name="enemy" x="48" y="48" width="16" height="16"/>
+  <object id="18" name="enemy" x="240" y="128" width="16" height="16"/>
+  <object id="19" name="enemy" x="304" y="112" width="16" height="16"/>
+  <object id="20" name="enemy" x="320" y="208" width="16" height="16"/>
+  <object id="21" name="enemy" x="320" y="272" width="16" height="16"/>
+  <object id="22" name="enemy" x="320" y="320" width="16" height="16"/>
+  <object id="23" name="enemy" x="288" y="336" width="16" height="16"/>
+  <object id="24" name="enemy" x="336" y="160" width="16" height="16"/>
+  <object id="25" name="enemy" x="224" y="80" width="16" height="16"/>
+  <object id="26" name="enemy" x="192" y="32" width="16" height="16"/>
+  <object id="27" name="enemy" x="144" y="48" width="16" height="16"/>
+  <object id="28" name="enemy" x="96.139" y="48.8407" width="15.861" height="15.1593"/>
+  <object id="29" name="enemy" x="32" y="80" width="16" height="16"/>
+  <object id="30" name="enemy" x="48" y="144" width="16" height="16"/>
+  <object id="31" name="enemy" x="64" y="176" width="16" height="16"/>
+  <object id="32" name="enemy" x="32" y="224" width="16" height="16"/>
+  <object id="33" name="enemy" x="80" y="240" width="16" height="16"/>
+  <object id="34" name="enemy" x="128" y="240" width="16" height="16"/>
+  <object id="35" name="enemy" x="128" y="304" width="16" height="16"/>
+  <object id="36" name="enemy" x="96" y="288" width="16" height="16"/>
+  <object id="37" name="enemy" x="48" y="272" width="16" height="16"/>
+  <object id="38" name="enemy" x="64" y="320" width="16" height="16"/>
+  <object id="39" name="enemy" x="176" y="336" width="16" height="16"/>
+  <object id="40" name="enemy" x="224" y="320" width="16" height="16"/>
+  <object id="41" name="enemy" x="64" y="112" width="16" height="16"/>
+  <object id="42" name="enemy" x="336" y="32" width="16" height="16"/>
+  <object id="43" name="enemy" x="256" y="32" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="5" name="player"/>
- <objectgroup id="6" name="flyingEnemy1"/>
+ <objectgroup id="6" name="flyingenemy"/>
 </map>
