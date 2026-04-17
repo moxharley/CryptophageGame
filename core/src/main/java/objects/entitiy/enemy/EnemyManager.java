@@ -49,12 +49,11 @@ public class EnemyManager {
 
     /**
      * Updates all enemies in this EnemyManager.
-     * @param playerPosition the player's position to be used as a target as a Vector2
      */
-    public void update(final Vector2 playerPosition) {
+    public void update() {
         ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy enemy : enemyList) {
-            enemy.move(playerPosition);
+            enemy.move();
             enemy.update();
             if (enemy.isDead()) {
                 enemiesToRemove.add(enemy);
@@ -77,7 +76,6 @@ public class EnemyManager {
     /**
      * Returns an arrayList of all enemies.
      * @return an arrayList containing all enemies
-     * TODO: FIX THIS BAD PRACTICE
      */
     public ArrayList<Enemy> getEnemyList() {
         return enemyList;
