@@ -64,11 +64,11 @@ public class TileMapHelper {
                 // set a name so we can select the correct one
                 String rectangleName = mapObject.getName();
 
-                if (rectangleName.equals("player") && firstRound) {
+                if (firstRound && rectangleName.equals("player")) {
                     createPlayer(rectangle);
                 }
 
-                if (rectangleName.equals("enemy") && random.nextBoolean() && enemyCount < difficulty) {
+                if (enemyCount < difficulty && rectangleName.equals("enemy") && random.nextBoolean()) {
                     createEnemy(rectangle);
                     enemyCount ++;
                 }
