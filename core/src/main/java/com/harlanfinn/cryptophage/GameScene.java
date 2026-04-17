@@ -88,7 +88,6 @@ public class GameScene extends ScreenAdapter {
             int a = 0; // used to trigger breakpoint on key press for debugging
         };
 
-        // TODO understand why 6 and 2 are used by tutorial
         getWorld().step((float) 1 / FPS, 6, 2);
         cameraUpdate();
 
