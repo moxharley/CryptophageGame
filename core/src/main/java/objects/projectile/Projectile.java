@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import helper.Hitbox;
 
+import static helper.GameConstants.PROJECTILE_LIFESPAN;
+
 /**
  * Represents a projectile created by a player or enemy.
  *
@@ -151,6 +153,10 @@ public class Projectile {
 
         hitbox.move(getBulletPosition().x - ((float) getSize() / 2), // adjust by 1/2 of size to compensate for differing origin points
                        getBulletPosition().y - ((float) getSize() / 2));
+
+        if (lifespan > PROJECTILE_LIFESPAN) {
+            setRemove(true);
+        }
     }
 
     /**
