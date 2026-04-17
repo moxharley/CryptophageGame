@@ -1,5 +1,4 @@
 package helper;
-
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -18,22 +17,38 @@ import objects.entitiy.player.Player;
 
 import java.util.Random;
 
+/**
+ * Represents a TileMapHelper for this game.
+ * @author finnwylie
+ * @version 2026
+ */
 public class TileMapHelper {
     private TiledMap tiledMap;
     private GameScene gameScreen;
     private boolean firstRound = true;
 
-    public TileMapHelper(GameScene gameScreen) {
+    /**
+     * Creates a new TileMapHelper.
+     * @param gameScreen the game screen that this tileMapHelper will create the map for.
+     */
+    public TileMapHelper(final GameScene gameScreen) {
         this.gameScreen = gameScreen;
     }
 
+    /**
+     * Sets up this TileMapHelper from a .tmx file.
+     * @param difficulty the difficulty of this game as an int
+     * @return the OrthogonalTiledMapRenderer that is created after parsing all map objects
+     */
     public OrthogonalTiledMapRenderer setupMap(final int difficulty) {
         tiledMap = new TmxMapLoader().load("../assets/placeholders/maps/demo.tmx");
-        parseMapObjects(tiledMap.getLayers().get("objects").getObjects(), difficulty, firstRound); // "objects" is the name of the objects layer in the map in tiled
+
+        // "objects" is the name of the objects layer in the map in tiled
+        parseMapObjects(tiledMap.getLayers().get("objects").getObjects(), difficulty, firstRound);
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
-    private void parseMapObjects(MapObjects mapObjects, final int difficulty, final boolean firstRound) {
+    private void parseMapObjects(final MapObjects mapObjects, final int difficulty, final boolean firstRound) {
         int enemyCount = 0;
         Random random = new Random();
         for (MapObject mapObject : mapObjects) {
@@ -44,39 +59,46 @@ public class TileMapHelper {
 
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+
                 // set a name so we can select the correct one
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName.equals("player") && firstRound) {
-                    Body body = MapBodyHelperService.createBody(
-                        rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
-                        rectangle.getY() + rectangle.getHeight() / 2f,
-                        rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
-                        gameScreen.getWorld()
-                    );
-
-                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
-                    this.firstRound = false;
+                    createPlayer(rectangle);
                 }
 
-                if (rectangleName.equals("enemy1") && random.nextBoolean() && enemyCount < difficulty) {
-                    Body body = MapBodyHelperService.createBody(
-                        rectangle.getX() + rectangle.getWidth() / 2f, // we want the center of the rectangle
-                        rectangle.getY() + rectangle.getHeight() / 2f,
-                        rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
-                        gameScreen.getWorld()
-                    );
-
-                    body.setGravityScale(0.0f); // make fly
-
-                    gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body);
+                if (rectangleName.equals("enemy") && random.nextBoolean() && enemyCount < difficulty) {
+                    createEnemy(rectangle);
                     enemyCount ++;
                 }
             }
         }
     }
 
-    private void createStaticBody(PolygonMapObject polygonMapObject) {
+    private void createPlayer(final Rectangle rectangle) {
+        Body body = MapBodyHelperService.createBody(
+            rectangle.getX() + rectangle.getWidth() / 2f, // we want the centre of the rectangle
+            rectangle.getY() + rectangle.getHeight() / 2f,
+            rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
+            gameScreen.getWorld()
+        );
+
+        gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+        this.firstRound = false;
+    }
+
+    private void createEnemy(final Rectangle rectangle) {
+        Body body = MapBodyHelperService.createBody(
+            rectangle.getX() + rectangle.getWidth() / 2f, // we want the centre of the rectangle
+            rectangle.getY() + rectangle.getHeight() / 2f,
+            rectangle.getWidth(), rectangle.getHeight(), false, // non-static object (can move)
+            gameScreen.getWorld()
+        );
+
+        gameScreen.addEnemy(rectangle.getWidth(), rectangle.getHeight(), body);
+    }
+
+    private void createStaticBody(final PolygonMapObject polygonMapObject) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
@@ -85,7 +107,7 @@ public class TileMapHelper {
         shape.dispose();
     }
 
-    private Shape createPolygonShape(PolygonMapObject polygonMapObject) {
+    private Shape createPolygonShape(final PolygonMapObject polygonMapObject) {
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices(); // each point has 2 vertex coordinates
         Vector2[] worldVertices = new Vector2[vertices.length / 2]; // each V2 obj has 1 point which is 2 vertex coordinates in above array
 
